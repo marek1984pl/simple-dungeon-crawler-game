@@ -2,8 +2,6 @@
 
 #include <curses.h>
 
-enum class WINDOW_TYPE { MAIN, UI, TEXT};
-
 class UserInterface
 {
 public:
@@ -11,12 +9,7 @@ public:
 	~UserInterface();
 
 	void showMainMenu();
-	void createGameInterface();
-
-	WINDOW * getWindow(WINDOW_TYPE window);
-
-	WINDOW * mainWindow;
-	WINDOW * uiWindow;
-	WINDOW * textWindow;
+	void createGameInterface(WINDOW * main, WINDOW * ui, WINDOW * text);
+	void refreshGameInterface(WINDOW * main, WINDOW * ui, WINDOW * text) const;
 };
 

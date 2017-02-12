@@ -1,13 +1,11 @@
 #include "stdafx.h"
 #include "Level.h"
 
-#include <curses.h>
 
 Level::Level()
 {
 	file.open(".\\data\\levels\\level_1.txt");
 }
-
 
 Level::~Level()
 {

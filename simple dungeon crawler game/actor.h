@@ -7,12 +7,6 @@
 class Actor
 {
 public:
-	struct Position
-	{
-		int x;
-		int y;
-	};
-
 	Actor();
 	virtual ~Actor() = 0;
 
@@ -24,17 +18,27 @@ public:
 	void setLevel(int _level);
 	void setHealth(int _health);
 
-	void setPosition(Position pos);
-	void setPosition(int pos_x, int pos_y);
-	Position getPosition() const;
+	void SetCurrentPosition(int pos_x, int pos_y);
+	int GetCurrentPositionX() const;
+	int GetCurrentPositionY() const;
 
-	bool move(Position new_position);
+	void SetOldPosition(int pos_x, int pos_y);
+	int GetOldPositionX() const;
+	int GetOldPositionY() const;
+
+	void setChanged(bool change);
+	bool isChanged() const;
 
 private:
 	std::string name;
 	int level;
 	int health;
-	Position current_position;
+	int current_position_x;
+	int current_position_y;
 
+	int old_position_x;
+	int old_position_y;
+
+	bool position_changed;
 };
 

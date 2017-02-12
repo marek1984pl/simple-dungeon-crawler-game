@@ -1,23 +1,21 @@
 #pragma once
 
 #include "Level.h"
-#include "Player.h"
-#include "GameEngine.h"
-#include "UserInterface.h"
+#include "monster.h"
+#include "player.h"
 
 #include <array>
+#include <vector>
 
 class Game
 {
 public:
 	Game();
 	~Game();
-	void ShowLevel();
 
-private:
-	UserInterface * ui;
-	GameEngine * engine;
-	Player * player;
+	Player player;
 	std::array<Level, 5> levels;
+	std::vector<Monster> monsters;
+private:
 };
 
