@@ -1,7 +1,7 @@
 #pragma once
 
 #include <fstream>
-#include <vector>
+#include <array>
 #include <iostream>
 #include <string>
 
@@ -12,13 +12,10 @@ public:
 	Level();
 	~Level();
 
-	void LoadLevelFromFile();
-	int getLevelWidth() const;
-	int getLevelHeight() const;
+	void LoadLevelFromFile(int width, int height);
+	std::array<std::array<char, 148>, 48> level_data;
+
 private:
 	std::ifstream file;
-
-	int level_width = 200;
-	int level_height = 50;
 };
 

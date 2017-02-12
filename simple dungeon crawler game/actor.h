@@ -25,6 +25,7 @@ public:
 	void setHealth(int _health);
 
 	void setPosition(Position pos);
+	void setPosition(int pos_x, int pos_y);
 	Position getPosition() const;
 
 	bool move(Position new_position);

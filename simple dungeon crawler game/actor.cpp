@@ -46,6 +46,12 @@ void Actor::setPosition(Position pos)
 	current_position.y = pos.y;
 }
 
+void Actor::setPosition(int pos_x, int pos_y)
+{
+	current_position.x = pos_x;
+	current_position.y = pos_y;
+}
+
 Actor::Position Actor::getPosition() const
 {
 	return current_position;
