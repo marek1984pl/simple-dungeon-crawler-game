@@ -6,48 +6,48 @@ GameEngine::GameEngine()
 	InitializeGraphics(200, 50);
 
 	mainWindow = newwin(50, 150, 0, 0);
-	uiWindow = newwin(40, 50, 0, 150);
+	playerWindow = newwin(40, 50, 0, 150);
 	textWindow = newwin(10, 50, 40, 150);
 }
 
 GameEngine::GameEngine(const GameEngine & engine)
 {
 	delwin(mainWindow);
-	delwin(uiWindow);
+	delwin(playerWindow);
 	delwin(textWindow);
 
 	old_tile = engine.old_tile;
 	next_tile = engine.next_tile;
 
 	mainWindow = engine.mainWindow;
-	uiWindow = engine.uiWindow;
+	playerWindow = engine.playerWindow;
 	textWindow = engine.textWindow;
 }
 
 GameEngine::GameEngine(GameEngine && engine) noexcept
 {
 	delwin(mainWindow);
-	delwin(uiWindow);
+	delwin(playerWindow);
 	delwin(textWindow);
 
 	old_tile = engine.old_tile;
 	next_tile = engine.next_tile;
 
 	mainWindow = engine.mainWindow;
-	uiWindow = engine.uiWindow;
+	playerWindow = engine.playerWindow;
 	textWindow = engine.textWindow;
 
 	old_tile = 0;
 	next_tile = 0;
 	delwin(engine.mainWindow);
-	delwin(engine.uiWindow);
+	delwin(engine.playerWindow);
 	delwin(engine.textWindow);
 }
 
 GameEngine::~GameEngine()
 {
 	delwin(mainWindow);
-	delwin(uiWindow);
+	delwin(playerWindow);
 	delwin(textWindow);
 	endwin();
 }
@@ -58,14 +58,14 @@ GameEngine & GameEngine::operator=(const GameEngine & engine)
 		return *this;
 
 	delwin(mainWindow);
-	delwin(uiWindow);
+	delwin(playerWindow);
 	delwin(textWindow);
 
 	old_tile = engine.old_tile;
 	next_tile = engine.next_tile;
 
 	mainWindow = engine.mainWindow;
-	uiWindow = engine.uiWindow;
+	playerWindow = engine.playerWindow;
 	textWindow = engine.textWindow;
 
 	return *this;
@@ -77,20 +77,20 @@ GameEngine & GameEngine::operator=(GameEngine && engine) noexcept
 		return *this;
 
 	delwin(mainWindow);
-	delwin(uiWindow);
+	delwin(playerWindow);
 	delwin(textWindow);
 
 	old_tile = engine.old_tile;
 	next_tile = engine.next_tile;
 
 	mainWindow = engine.mainWindow;
-	uiWindow = engine.uiWindow;
+	playerWindow = engine.playerWindow;
 	textWindow = engine.textWindow;
 
 	old_tile = 0;
 	next_tile = 0;
 	delwin(engine.mainWindow);
-	delwin(engine.uiWindow);
+	delwin(engine.playerWindow);
 	delwin(engine.textWindow);
 
 	return *this;
@@ -129,6 +129,17 @@ void GameEngine::InitializeGraphics(int window_width, int window_height)
 	init_pair(13, 4, COLOR_BLACK);
 	init_pair(14, 5, COLOR_BLACK);
 	init_pair(15, 6, COLOR_BLACK);
+}
+
+void GameEngine::uiPrintPlayerInformations(Player & p)
+{
+	uiPrint(p.GetCurrentPosX(), UI::CORD_X);
+	uiPrint(p.GetCurrentPosY(), UI::CORD_Y);
+	uiPrint(p.getName().c_str(), UI::PLAYER_NAME);
+	uiPrint(p.getLevel(), UI::PLAYER_LEVEL);
+	uiPrint(p.getHealth(), UI::PLAYER_HP);
+	uiPrint(p.GetGold(), UI::PLAYER_GOLD);
+	uiPrint(p.GetXP(), UI::PLAYER_XP);
 }
 
 void GameEngine::setColor(COLOR color, WINDOW * window)
@@ -219,8 +230,14 @@ void GameEngine::DisplayLevel(Level & lvl)
 			case '#':
 				printChar(tile, j + 1, i + 1, COLOR::GRAY, mainWindow);
 				break;
+			case '~':
+				printChar(tile, j + 1, i + 1, COLOR::BLUE, mainWindow);
+				break;
+			case 'T':
+				printChar(tile, j + 1, i + 1, COLOR::GREEN, mainWindow);
+				break;
 			case '.':
-				printChar(tile, j + 1, i + 1, COLOR::DARK_GREEN, mainWindow);
+				printChar(tile, j + 1, i + 1, COLOR::BLACK, mainWindow);
 				break;
 			default:
 				printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
@@ -263,18 +280,31 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 
 	next_tile = GetNextTile(actor.GetCurrentPosX(), actor.GetCurrentPosY(), game);
 
-	if (next_tile != '#')
+	switch (next_tile)
 	{
+	case '#':
+		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
+		uiPrint("You run into a wall!", UI::INFO);
+		actor.setChanged(false);
+		break;
+	case '~':
+		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
+		uiPrint("You cannot go into water!", UI::INFO);
+		actor.setChanged(false);
+		break;
+	case 'T':
+		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
+		uiPrint("You run into a tree!", UI::INFO);
+		actor.setChanged(false);
+		break;
+	default:
 		game.levels[0].lvl_data[actor.GetCurrentPosY()][actor.GetCurrentPosX()] = '@';
 		game.levels[0].lvl_data[actor.GetOldPosY()][actor.GetOldPosX()] = old_tile;
 		actor.setChanged(true);
+		break;
 	}
-	else
-	{
-		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
-		printString("You run into a wall!", 1, 5, COLOR::WHITE, textWindow);
-		actor.setChanged(false);
-	}
+	uiPrint(game.player.GetCurrentPosX(), UI::CORD_X);
+	uiPrint(game.player.GetCurrentPosY(), UI::CORD_Y);
 	return true;
 }
 
@@ -290,7 +320,7 @@ WINDOW * GameEngine::GetMainWindow()
 
 WINDOW * GameEngine::GetUiWindow()
 {
-	return uiWindow;;
+	return playerWindow;;
 }
 
 WINDOW * GameEngine::GetTextWindow()
@@ -301,13 +331,14 @@ WINDOW * GameEngine::GetTextWindow()
 void GameEngine::createGameInterface()
 {
 	box(mainWindow, 0, 0);
-	box(uiWindow, 0, 0);
+	box(playerWindow, 0, 0);
 	box(textWindow, 0, 0);
 }
 
 void GameEngine::refreshGameInterface() const
 {
 	wrefresh(mainWindow);
-	wrefresh(uiWindow);
+	wrefresh(playerWindow);
 	wrefresh(textWindow);
 }
+

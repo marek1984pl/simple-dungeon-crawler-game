@@ -11,14 +11,18 @@ int main()
 	GameEngine * engine = new GameEngine;
 	Game * game = new Game;
 
+	game->createPlayer("Zodgar");
+
 	engine->createGameInterface();
 
 	engine->placeActor(game->player, *game, 1, 1);
 	
+	char key_pressed;
+
+	engine->uiPrintPlayerInformations(game->player);
+
 	engine->DisplayLevel(game->levels[0]);
 	engine->refreshGameInterface();
-
-	char key_pressed;
 
 	while (1)
 	{
@@ -28,11 +32,9 @@ int main()
 
 		engine->createGameInterface();
 
+		engine->uiPrintPlayerInformations(game->player);
+
 		key_pressed = getch();
-		engine->printChar(key_pressed, 1, 1, COLOR::RED, engine->GetTextWindow());
-		engine->printString(game->player.getName().c_str(), 1, 1, COLOR::CYAN, engine->GetUiWindow());
-		engine->printString("LEVEL: ", 1, 2, COLOR::GRAY, engine->GetUiWindow());
-		engine->printString(game->player.getLevel(), 8, 2, COLOR::CYAN, engine->GetUiWindow());
 
 		if (key_pressed == 's')
 		{
@@ -54,11 +56,6 @@ int main()
 		{
 			return 0;
 		}
-		
-		engine->printString("POS X: ", 1, 2, COLOR::YELLOW, engine->GetTextWindow());
-		engine->printString(game->player.GetCurrentPosX(), 8, 2, COLOR::YELLOW, engine->GetTextWindow());
-		engine->printString("POS Y: ", 1, 3, COLOR::YELLOW, engine->GetTextWindow());
-		engine->printString(game->player.GetCurrentPosY(), 8, 3, COLOR::YELLOW, engine->GetTextWindow());
 
 		engine->DisplayLevel(game->levels[0]);
 		engine->refreshGameInterface();
