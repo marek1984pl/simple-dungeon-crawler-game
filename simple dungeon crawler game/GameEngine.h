@@ -1,6 +1,7 @@
 #pragma once
 
 #include <curses.h>
+#include <ctime>
 
 #include "Level.h"
 #include "actor.h"
@@ -9,7 +10,7 @@
 
 enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, DARK_RED, DARK_GREEN, DARK_YELLOW, DARK_BLUE, DARK_MAGENTA, DARK_CYAN, DARK_GRAY };
 
-enum class DIR { UP, DOWN, LEFT, RIGHT };
+enum class DIR { UP, DOWN, LEFT, RIGHT, RAND };
 
 enum class UI { CORD_X, CORD_Y, INFO, PLAYER_NAME, PLAYER_LEVEL, PLAYER_XP, PLAYER_GOLD, PLAYER_HP};
 
@@ -23,7 +24,6 @@ public:
 
 	GameEngine & operator=(const GameEngine & engine);
 	GameEngine & operator=(GameEngine && engine) noexcept;
-
 
 	void InitializeGraphics(int window_width, int window_height);
 

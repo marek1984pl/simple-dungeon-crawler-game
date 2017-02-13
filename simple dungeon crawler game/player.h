@@ -17,6 +17,8 @@ public:
 	void SetGold(int g);
 	void SetExp(int xp);
 
+	void LevelUp();
+
 private:
 	int gold = 0;
 	int exp = 0;

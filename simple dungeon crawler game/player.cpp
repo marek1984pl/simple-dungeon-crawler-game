@@ -30,3 +30,11 @@ void Player::SetExp(int xp)
 {
 	exp = xp;
 }
+
+void Player::LevelUp()
+{
+	setLevel(getLevel() + 1);
+	setMaxHealth(10 * getLevel());
+	setHealth(getMaxHealth());
+	SetExp(0);
+}

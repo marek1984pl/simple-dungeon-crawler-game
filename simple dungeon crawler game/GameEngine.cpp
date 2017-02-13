@@ -3,6 +3,8 @@
 
 GameEngine::GameEngine()
 {
+	srand(static_cast<int>(time(nullptr)));
+
 	InitializeGraphics(200, 50);
 
 	mainWindow = newwin(50, 150, 0, 0);
@@ -239,6 +241,13 @@ void GameEngine::DisplayLevel(Level & lvl)
 			case '.':
 				printChar(tile, j + 1, i + 1, COLOR::BLACK, mainWindow);
 				break;
+			case 'g':
+			case 'w':
+			case 'b':
+			case 's':
+			case 't':
+				printChar(tile, j + 1, i + 1, COLOR::RED, mainWindow);
+				break;
 			default:
 				printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
 				break;
@@ -252,13 +261,18 @@ bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y)
 	actor.SetCurrentPos(pos_x, pos_y);
 	actor.SetOldPos(pos_x, pos_y);
 	actor.setChanged(false);
-	game.levels[0].lvl_data[pos_x][pos_y] = '@';
 	return true;
 }
 
 bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 {
 	actor.SetOldPos(actor.GetCurrentPosX(), actor.GetCurrentPosY());
+
+	if (direction == DIR::RAND)
+	{
+		int rand_dir = rand() % 4;
+		direction = static_cast<DIR>(rand_dir);
+	}
 
 	switch (direction)
 	{
@@ -284,27 +298,29 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	{
 	case '#':
 		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
-		uiPrint("You run into a wall!", UI::INFO);
+		if(typeid(actor) == typeid(Player))
+			uiPrint("You run into a wall!", UI::INFO);
 		actor.setChanged(false);
 		break;
 	case '~':
 		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
-		uiPrint("You cannot go into water!", UI::INFO);
+		if(typeid(actor) == typeid(Player))
+			uiPrint("You cannot go into water!", UI::INFO);
 		actor.setChanged(false);
 		break;
 	case 'T':
 		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
-		uiPrint("You run into a tree!", UI::INFO);
+		if(typeid(actor) == typeid(Player))
+			uiPrint("You run into a tree!", UI::INFO);
 		actor.setChanged(false);
 		break;
 	default:
-		game.levels[0].lvl_data[actor.GetCurrentPosY()][actor.GetCurrentPosX()] = '@';
+		game.levels[0].lvl_data[actor.GetCurrentPosY()][actor.GetCurrentPosX()] = actor.getGraphicTile();
 		game.levels[0].lvl_data[actor.GetOldPosY()][actor.GetOldPosX()] = old_tile;
 		actor.setChanged(true);
 		break;
 	}
-	uiPrint(game.player.GetCurrentPosX(), UI::CORD_X);
-	uiPrint(game.player.GetCurrentPosY(), UI::CORD_Y);
+	uiPrintPlayerInformations(game.player);
 	return true;
 }
 

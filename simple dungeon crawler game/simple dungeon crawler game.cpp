@@ -13,10 +13,17 @@ int main()
 
 	game->createPlayer("Zodgar");
 
-	engine->createGameInterface();
+	game->createRandomMonsters(30);
 
+	engine->createGameInterface();
 	engine->placeActor(game->player, *game, 1, 1);
+
+	for (auto& i : game->monsters)
+		engine->placeActor(i, *game, i.GetCurrentPosX(), i.GetCurrentPosY());
 	
+	for (auto& i : game->monsters)
+		engine->MoveActor(i, *game, DIR::RAND);
+
 	char key_pressed;
 
 	engine->uiPrintPlayerInformations(game->player);
@@ -35,6 +42,9 @@ int main()
 		engine->uiPrintPlayerInformations(game->player);
 
 		key_pressed = getch();
+
+		for (auto& i : game->monsters)
+			engine->MoveActor(i, *game, DIR::RAND);
 
 		if (key_pressed == 's')
 		{
@@ -63,7 +73,7 @@ int main()
 
 	delete engine;
 	delete game;
-
+	
     return 0;
 }
 

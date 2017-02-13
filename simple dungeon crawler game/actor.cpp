@@ -25,6 +25,11 @@ int Actor::getHealth() const
 	return health;
 }
 
+int Actor::getMaxHealth() const
+{
+	return max_health;
+}
+
 void Actor::setName(std::string _name)
 {
 	name = _name;
@@ -38,6 +43,11 @@ void Actor::setLevel(int _level)
 void Actor::setHealth(int _health)
 {
 	health = _health;
+}
+
+void Actor::setMaxHealth(int _health)
+{
+	max_health = _health;
 }
 
 void Actor::SetCurrentPos(int pos_x, int pos_y)
@@ -80,4 +90,14 @@ void Actor::setChanged(bool change)
 bool Actor::isChanged() const
 {
 	return (position_changed ? true : false);
+}
+
+void Actor::setGraphicTile(char tile)
+{
+	graphic_tile = tile;
+}
+
+char Actor::getGraphicTile()
+{
+	return graphic_tile;
 }
