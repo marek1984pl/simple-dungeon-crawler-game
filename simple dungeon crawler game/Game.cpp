@@ -54,3 +54,13 @@ void Game::createRandomMonsters(int quantity)
 	}
 }
 
+void Game::nextMove()
+{
+	++number_of_moves;
+}
+
+int Game::getNumberOfMoves() const
+{
+	return number_of_moves;
+}
+

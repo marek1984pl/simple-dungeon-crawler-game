@@ -15,7 +15,7 @@ int main()
 
 	game->createRandomMonsters(30);
 
-	engine->createGameInterface();
+	engine->clearScreen();
 	engine->placeActor(game->player, *game, 1, 1);
 
 	for (auto& i : game->monsters)
@@ -27,48 +27,46 @@ int main()
 	char key_pressed;
 
 	engine->uiPrintPlayerInformations(game->player);
+	engine->uiPrintGameInformation(*game);
 
-	engine->DisplayLevel(game->levels[0]);
-	engine->refreshGameInterface();
+	engine->createScreen(*game);
 
 	while (1)
 	{
-		wclear(engine->GetMainWindow());
-		wclear(engine->GetUiWindow());
-		wclear(engine->GetTextWindow());
-
-		engine->createGameInterface();
-
-		engine->uiPrintPlayerInformations(game->player);
-
+		engine->clearScreen();
 		key_pressed = getch();
 
-		for (auto& i : game->monsters)
-			engine->MoveActor(i, *game, DIR::RAND);
+		if(key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
+		{
+			game->nextMove();
+			if (key_pressed == 's')
+			{
+				engine->MoveActor(game->player, *game, DIR::DOWN);
+			}
+			if (key_pressed == 'w')
+			{
+				engine->MoveActor(game->player, *game, DIR::UP);
+			}
+			if (key_pressed == 'a')
+			{
+				engine->MoveActor(game->player, *game, DIR::LEFT);
+			}
+			if (key_pressed == 'd')
+			{
+				engine->MoveActor(game->player, *game, DIR::RIGHT);
+			}
 
-		if (key_pressed == 's')
-		{
-			engine->MoveActor(game->player, *game, DIR::DOWN);
+			for (auto& i : game->monsters)
+				engine->MoveActor(i, *game, DIR::RAND);
 		}
-		if (key_pressed == 'w')
+		else if (key_pressed == 'Q')
 		{
-			engine->MoveActor(game->player, *game, DIR::UP);
-		}
-		if (key_pressed == 'a')
-		{
-			engine->MoveActor(game->player, *game, DIR::LEFT);
-		}
-		if (key_pressed == 'd')
-		{
-			engine->MoveActor(game->player, *game, DIR::RIGHT);
-		}
-		if (key_pressed == 'Q')
-		{
+			delete engine;
+			delete game;
+
 			return 0;
 		}
-
-		engine->DisplayLevel(game->levels[0]);
-		engine->refreshGameInterface();
+		engine->createScreen(*game);
 	}
 
 	delete engine;

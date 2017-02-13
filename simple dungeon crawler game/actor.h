@@ -48,6 +48,6 @@ private:
 
 	bool position_changed;
 
-	char graphic_tile = 'x';
+	char graphic_tile;
 };
 

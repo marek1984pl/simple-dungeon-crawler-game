@@ -12,7 +12,7 @@ enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, 
 
 enum class DIR { UP, DOWN, LEFT, RIGHT, RAND };
 
-enum class UI { CORD_X, CORD_Y, INFO, PLAYER_NAME, PLAYER_LEVEL, PLAYER_XP, PLAYER_GOLD, PLAYER_HP};
+enum class UI { CORD_X, CORD_Y, INFO, PLAYER_NAME, PLAYER_LEVEL, PLAYER_XP, PLAYER_GOLD, PLAYER_HP, MOVE_NO};
 
 class GameEngine
 {
@@ -27,13 +27,14 @@ public:
 
 	void InitializeGraphics(int window_width, int window_height);
 
-	void createGameInterface();
-	void refreshGameInterface() const;
+	void clearScreen();
+	void refreshScreen() const;
 
 	template <typename T>
 	void uiPrint(T msg, UI ui);
 	
 	void uiPrintPlayerInformations(Player & p);
+	void uiPrintGameInformation(Game & g);
 
 	void setColor(COLOR color, WINDOW * window);
 
@@ -41,7 +42,7 @@ public:
 	void printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window);
 	void printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window);
 
-	void DisplayLevel(Level & lvl);
+	void createScreen(Game & g);
 
 	bool placeActor(Actor & actor, Game & game, int pos_x, int pos_y);
 	bool MoveActor(Actor & actor, Game & game, DIR direction);
@@ -96,6 +97,9 @@ void GameEngine::uiPrint(T msg, UI ui)
 		printString("Gold: ", 1, 3, COLOR::WHITE, playerWindow);
 		printString(msg, 7, 3, COLOR::CYAN, playerWindow);
 		break;
+	case UI::MOVE_NO:
+		printString("Move number: ", 30, 1, COLOR::WHITE, textWindow);
+		printString(msg, 44, 1, COLOR::WHITE, textWindow);
 	default:
 		break;
 	}

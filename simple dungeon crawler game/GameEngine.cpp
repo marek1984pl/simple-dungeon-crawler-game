@@ -144,6 +144,11 @@ void GameEngine::uiPrintPlayerInformations(Player & p)
 	uiPrint(p.GetXP(), UI::PLAYER_XP);
 }
 
+void GameEngine::uiPrintGameInformation(Game & g)
+{
+	uiPrint(g.getNumberOfMoves(), UI::MOVE_NO);
+}
+
 void GameEngine::setColor(COLOR color, WINDOW * window)
 {
 	switch (color)
@@ -216,14 +221,14 @@ void GameEngine::printString(int string_to_print, int pos_x, int pos_y, COLOR co
 	mvwprintw(window, pos_y, pos_x, "%d", string_to_print);
 }
 
-void GameEngine::DisplayLevel(Level & lvl)
+void GameEngine::createScreen(Game & g)
 {
 	char tile;
 	for (auto i = 0; i < 48; i++)
 	{
 		for (auto j = 0; j < 148; j++)
 		{
-			tile = lvl.lvl_data[i][j];
+			tile = g.levels[0].lvl_data[i][j];
 			switch (tile)
 			{
 			case '@':
@@ -248,12 +253,16 @@ void GameEngine::DisplayLevel(Level & lvl)
 			case 't':
 				printChar(tile, j + 1, i + 1, COLOR::RED, mainWindow);
 				break;
+			case '$':
+				//printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
+				break;
 			default:
 				printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
 				break;
 			}
 		}
 	}
+	refreshScreen();
 }
 
 bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y)
@@ -314,18 +323,32 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 			uiPrint("You run into a tree!", UI::INFO);
 		actor.setChanged(false);
 		break;
+	case 'g':
+	case 'w':
+	case 'b':
+	case 's':
+	case 't':
+	//case '@':
+		//uiPrint("Monster attacked!", UI::INFO);
+		break;
+	case '$':
+		//uiPrint("Treasue!", UI::INFO);
+		break;
 	default:
+		// TODO: change this
 		game.levels[0].lvl_data[actor.GetCurrentPosY()][actor.GetCurrentPosX()] = actor.getGraphicTile();
 		game.levels[0].lvl_data[actor.GetOldPosY()][actor.GetOldPosX()] = old_tile;
 		actor.setChanged(true);
 		break;
 	}
 	uiPrintPlayerInformations(game.player);
+	uiPrintGameInformation(game);
 	return true;
 }
 
 char GameEngine::GetNextTile(int pos_x, int pos_y, Game & game)
 {
+	// TODO: change this
 	return game.levels[0].lvl_data[pos_y][pos_x];
 }
 
@@ -344,17 +367,20 @@ WINDOW * GameEngine::GetTextWindow()
 	return textWindow;
 }
 
-void GameEngine::createGameInterface()
+void GameEngine::clearScreen()
 {
+	wclear(GetMainWindow());
+	wclear(GetUiWindow());
+	wclear(GetTextWindow());
+
 	box(mainWindow, 0, 0);
 	box(playerWindow, 0, 0);
 	box(textWindow, 0, 0);
 }
 
-void GameEngine::refreshGameInterface() const
+void GameEngine::refreshScreen() const
 {
 	wrefresh(mainWindow);
 	wrefresh(playerWindow);
 	wrefresh(textWindow);
 }
-

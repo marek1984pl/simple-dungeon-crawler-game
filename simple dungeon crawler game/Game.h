@@ -17,11 +17,15 @@ public:
 
 	void createRandomMonsters(int quantity);
 
-	void enemyMove();
-
 	Player player;
 	std::array<Level, 5> levels;
 	std::vector<Monster> monsters;
+
+	void nextMove();
+	int getNumberOfMoves() const;
+
 private:
+	int current_level;
+	int number_of_moves = 0;
 };
 
