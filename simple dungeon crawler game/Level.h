@@ -13,7 +13,7 @@ public:
 	~Level();
 
 	void LoadLevelFromFile(int width, int height);
-	std::array<std::array<char, 148>, 48> level_data;
+	std::array<std::array<char, 148>, 48> lvl_data;
 
 private:
 	std::ifstream file;

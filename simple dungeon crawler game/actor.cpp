@@ -2,7 +2,7 @@
 #include "Actor.h"
 
 
-Actor::Actor() : current_position_x(2), current_position_y(2)
+Actor::Actor()
 {
 }
 
@@ -40,36 +40,36 @@ void Actor::setHealth(int _health)
 	health = _health;
 }
 
-void Actor::SetCurrentPosition(int pos_x, int pos_y)
+void Actor::SetCurrentPos(int pos_x, int pos_y)
 {
-	current_position_x = pos_x;
-	current_position_y = pos_y;
+	current_pos_x = pos_x;
+	current_pos_y = pos_y;
 }
 
-int Actor::GetCurrentPositionX() const
+int Actor::GetCurrentPosX() const
 {
-	return current_position_x;
+	return current_pos_x;
 }
 
-int Actor::GetCurrentPositionY() const
+int Actor::GetCurrentPosY() const
 {
-	return current_position_y;
+	return current_pos_y;
 }
 
-void Actor::SetOldPosition(int pos_x, int pos_y)
-{
-	old_position_x = pos_x;
-	old_position_x = pos_y;
+int Actor::GetOldPosX() const
+{	
+	return old_pos_x;
 }
 
-int Actor::GetOldPositionX() const
+int Actor::GetOldPosY() const
 {
-	return old_position_x;
+	return old_pos_y;
 }
 
-int Actor::GetOldPositionY() const
+void Actor::SetOldPos(int pos_x, int pos_y)
 {
-	return old_position_y;
+	old_pos_x = pos_x;
+	old_pos_y = pos_y;
 }
 
 void Actor::setChanged(bool change)

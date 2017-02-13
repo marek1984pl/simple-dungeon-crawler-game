@@ -20,7 +20,7 @@ void Level::LoadLevelFromFile(int width, int height)
 		for (auto j = 0; j < width; j++)
 		{			
 			file >> tile;
-			level_data[i][j] = tile;
+			lvl_data[i][j] = tile;
 		}
 	}
 }

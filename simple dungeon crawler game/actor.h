@@ -18,13 +18,14 @@ public:
 	void setLevel(int _level);
 	void setHealth(int _health);
 
-	void SetCurrentPosition(int pos_x, int pos_y);
-	int GetCurrentPositionX() const;
-	int GetCurrentPositionY() const;
+	int GetCurrentPosX() const;
+	int GetCurrentPosY() const;
 
-	void SetOldPosition(int pos_x, int pos_y);
-	int GetOldPositionX() const;
-	int GetOldPositionY() const;
+	int GetOldPosX() const;
+	int GetOldPosY() const;
+
+	void SetCurrentPos(int pos_x, int pos_y);
+	void SetOldPos(int pos_x, int pos_y);
 
 	void setChanged(bool change);
 	bool isChanged() const;
@@ -33,11 +34,11 @@ private:
 	std::string name;
 	int level;
 	int health;
-	int current_position_x;
-	int current_position_y;
+	int current_pos_x;
+	int current_pos_y;
 
-	int old_position_x;
-	int old_position_y;
+	int old_pos_x;
+	int old_pos_y;
 
 	bool position_changed;
 };

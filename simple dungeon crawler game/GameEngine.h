@@ -2,7 +2,6 @@
 
 #include <curses.h>
 
-#include "UserInterface.h"
 #include "Level.h"
 #include "actor.h"
 #include "Game.h"
@@ -16,9 +15,18 @@ class GameEngine
 {
 public:
 	GameEngine();
+	GameEngine(const GameEngine & engine);
+	GameEngine(GameEngine && engine) noexcept;
 	~GameEngine();
 
+	GameEngine & operator=(const GameEngine & engine);
+	GameEngine & operator=(GameEngine && engine) noexcept;
+
+
 	void InitializeGraphics(int window_width, int window_height);
+
+	void createGameInterface();
+	void refreshGameInterface() const;
 
 	void setColor(COLOR color, WINDOW * window);
 
@@ -27,15 +35,22 @@ public:
 	void printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window);
 
 	void DisplayLevel(Level & lvl);
-	void UpdateGame(Game & game);
-	void refreshGameInterface(UserInterface & ui);
 
-	bool MoveActor(Actor & actor, DIR direction);
+	bool placeActor(Actor & actor, Game & game, int pos_x, int pos_y);
+	bool MoveActor(Actor & actor, Game & game, DIR direction);
 
+	char GetNextTile(int pos_x, int pos_y, Game & game);
+
+	WINDOW * GetMainWindow();
+	WINDOW * GetUiWindow();
+	WINDOW * GetTextWindow();
+
+private:
 	WINDOW * mainWindow;
 	WINDOW * uiWindow;
 	WINDOW * textWindow;
 
-private:
+	char old_tile = '.';
+	char next_tile = '.';
 };
 
