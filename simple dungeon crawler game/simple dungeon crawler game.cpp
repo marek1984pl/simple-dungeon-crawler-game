@@ -25,8 +25,7 @@ int main()
 
 	char key_pressed;
 
-	engine->uiPrintPlayerInformations(game->player);
-	engine->uiPrintGameInformation(*game);
+	engine->refreshInterface(*game);
 
 	engine->createScreen(*game);
 

@@ -135,21 +135,45 @@ bool GameEngine::initializeGraphics(int window_width, int window_height) const
 	return false;
 }
 
-void GameEngine::uiPrintPlayerInformations(Player & p)
+void GameEngine::refreshInterface(Game & g) const
 {
-	uiPrint(p.getCurrentPosX(), UI::CORD_X);
-	uiPrint(p.getCurrentPosY(), UI::CORD_Y);
-	uiPrint(p.getName().c_str(), UI::PLAYER_NAME);
-	uiPrint(p.getLevel(), UI::PLAYER_LEVEL);
-	uiPrint(p.getHealth(), UI::PLAYER_HP);
-	uiPrint(p.getGold(), UI::PLAYER_GOLD);
-	uiPrint(p.getXP(), UI::PLAYER_XP);
-	uiPrint(p.getArmor(), UI::PLAYER_STATS);
+	printString(g.player.getName().c_str(), 1, 1, COLOR::CYAN, playerWindow);
+
+	printString("Health: ", 20, 1, COLOR::WHITE, playerWindow);
+	printString(g.player.getHealth(), 30, 1, COLOR::RED, playerWindow);
+
+	printString("Level: ", 1, 2, COLOR::WHITE, playerWindow);
+	printString(g.player.getLevel(), 8, 2, COLOR::CYAN, playerWindow);
+
+	printString("Experience: ", 1, 3, COLOR::WHITE, playerWindow);
+	printString(g.player.getExp(), 13, 3, COLOR::CYAN, playerWindow);
+
+	printString("Attack power : ", 1, 5, COLOR::WHITE, playerWindow);
+	printString(g.player.getAttackPower(), 16, 5, COLOR::WHITE, playerWindow);
+	printString("Armor        : ", 1, 6, COLOR::WHITE, playerWindow);
+	printString(g.player.getArmor(), 16, 6, COLOR::WHITE, playerWindow);
+	printString("Strength     : ", 1, 7, COLOR::WHITE, playerWindow);
+	printString(g.player.getStrength(), 16, 7, COLOR::WHITE, playerWindow);
+	printString("Dexterity    : ", 1, 8, COLOR::WHITE, playerWindow);
+	printString(g.player.getDexterity(), 16, 8, COLOR::WHITE, playerWindow);
+	printString("Stamina      : ", 1, 9, COLOR::WHITE, playerWindow);
+	printString(g.player.getStamina(), 16, 9, COLOR::WHITE, playerWindow);
+
+	printString("Gold: ", 1, 11, COLOR::WHITE, playerWindow);
+	printString(g.player.getGold(), 7, 11, COLOR::YELLOW, playerWindow);
+
+	printString("Player X: ", 1, 1, COLOR::YELLOW, textWindow);
+	printString(g.player.getCurrentPosX(), 11, 1, COLOR::YELLOW, textWindow);
+	printString("Player Y: ", 15, 1, COLOR::YELLOW, textWindow);
+	printString(g.player.getCurrentPosY(), 25, 1, COLOR::YELLOW, textWindow);
+
+	printString("Move number: ", 30, 1, COLOR::WHITE, textWindow);
+	printString(g.getNumberOfMoves(), 44, 1, COLOR::WHITE, textWindow);
 }
 
-void GameEngine::uiPrintGameInformation(Game & g)
+void GameEngine::printInfo(std::string text, int line)
 {
-	uiPrint(g.getNumberOfMoves(), UI::MOVE_NO);
+	printString(text.c_str(), 1, 4 + line, COLOR::WHITE, textWindow);
 }
 
 void GameEngine::setColor(COLOR color, WINDOW * window) const
@@ -313,19 +337,19 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	case '#':
 		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
 		if(typeid(actor) == typeid(Player))
-			uiPrint("You run into a wall!", UI::INFO);
+			printInfo("You run into a wall!");
 		actor.setChanged(false);
 		break;
 	case '~':
 		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
 		if(typeid(actor) == typeid(Player))
-			uiPrint("You cannot go into water!", UI::INFO);
+			printInfo("You cannot go into water!");
 		actor.setChanged(false);
 		break;
 	case 'T':
 		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
 		if(typeid(actor) == typeid(Player))
-			uiPrint("You run into a tree!", UI::INFO);
+			printInfo("You run into a tree!");
 		actor.setChanged(false);
 		break;
 	case 'g':
@@ -336,15 +360,17 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	case '@':
 		if (typeid(actor) == typeid(Player))
 		{
-			uiPrint("Monster attacked!", UI::INFO);	
+			printInfo("Monster attacked!");
 		}
 		break;
 	case '$':
 		if (typeid(actor) == typeid(Player))
 		{
-			uiPrint("Treasue!", UI::INFO);
+			printInfo("You found a treasue!");
+			printInfo("25 gold coins", 1);
 			setTile('.', actor.getNewPosX(), actor.getNewPosY(), game);
 			game.player.addExp(10);
+			game.player.addGold(25);
 		}
 		break;
 	default:
@@ -356,8 +382,9 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 		actor.setChanged(true);
 		break;
 	}
-	uiPrintPlayerInformations(game.player);
-	uiPrintGameInformation(game);
+
+	refreshInterface(game);
+
 	return true;
 }
 

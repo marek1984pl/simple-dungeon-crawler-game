@@ -10,9 +10,10 @@ public:
 	~Player();
 
 	int getGold() const;
-	int getXP() const;
+	int getExp() const;
 
 	void setGold(int g);
+	void addGold(int g);
 	void setExp(int xp);
 	void addExp(int xp);
 

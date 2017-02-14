@@ -19,7 +19,7 @@ int Player::getGold() const
 	return gold;
 }
 
-int Player::getXP() const
+int Player::getExp() const
 {
 	return exp;
 }
@@ -27,6 +27,11 @@ int Player::getXP() const
 void Player::setGold(int g)
 {
 	gold = g;
+}
+
+void Player::addGold(int g)
+{
+	gold += g;
 }
 
 void Player::setExp(int xp)
@@ -48,6 +53,9 @@ void Player::levelUp()
 	setLevel(getLevel() + 1);
 	max_health = getStamina() * getLevel() * 2;
 	setExp(0);
+
+	setAttackPower();
+	setArmor();
 }
 
 void Player::setMaxHealth()
