@@ -6,11 +6,10 @@ Monster::Monster()
 {
 }
 
-Monster::Monster(std::string name, int lvl, char tile)
+Monster::Monster(std::string name, int lvl)
 {
 	setName(name);
 	setLevel(lvl);
-	setGraphicTile(tile);
 	setCurrentPos(rand() % 140 + 5, rand() % 40 + 5);
 }
 

@@ -5,7 +5,7 @@ class Monster : public Actor
 {
 public:
 	Monster();
-	Monster(std::string name, int lvl, char tile);
+	Monster(std::string name, int lvl);
 	~Monster();
 
 	virtual void setMaxHealth() override;

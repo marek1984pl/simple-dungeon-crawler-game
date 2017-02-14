@@ -24,7 +24,7 @@ void Game::createPlayer(std::string name)
 
 	player.setCurrentPos(1, 1);
 	player.setOldPos(1, 1);
-	player.setGraphicTile('@');
+	//player.setGraphicTile('@');
 
 	player.setMaxHealth();
 	player.setArmor();
@@ -35,26 +35,26 @@ void Game::createPlayer(std::string name)
 void Game::createRandomMonsters(int quantity)
 {
 	int random_type;
-
+	
 	for (int i = 0; i < quantity; ++i)
 	{
 		random_type = rand() % 5;
 		switch (random_type)
 		{
 		case 0:
-			monsters.push_back(Monster("Goblin", 1, 'g'));
+			monsters.push_back(Monster("Goblin", 1));
 			break;
 		case 1:
-			monsters.push_back(Monster("Wolf", 1, 'w'));
+			monsters.push_back(Monster("Wolf", 1));
 			break;
 		case 2:
-			monsters.push_back(Monster("Bandit", 1, 'b'));
+			monsters.push_back(Monster("Bandit", 1));
 			break;
 		case 3:
-			monsters.push_back(Monster("Snake", 1, 's'));
+			monsters.push_back(Monster("Snake", 1));
 			break;
 		case 4:
-			monsters.push_back(Monster("Troll", 1, 't'));
+			monsters.push_back(Monster("Troll", 1));
 			break;
 		default:
 			break;

@@ -77,6 +77,5 @@ protected:
 	bool position_changed;
 
 	char graphic_tile;
-
 };
 

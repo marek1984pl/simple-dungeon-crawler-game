@@ -4,34 +4,35 @@
 #include "stdafx.h"
 
 #include "GameEngine.h"
+#include "UserInterface.h"
 
 int main()
 {
 	GameEngine * engine = new GameEngine;
 	Game * game = new Game;
+	UserInterface ui;
 
 	game->createPlayer("Zodgar");
 
-	game->createRandomMonsters(100);
+	game->createRandomMonsters(30);
 
-	engine->clearScreen();
 	engine->placeActor(game->player, *game, 1, 1);
 
 	for (auto& i : game->monsters)
 		engine->placeActor(i, *game, i.getCurrentPosX(), i.getCurrentPosY());
 	
-	for (auto& i : game->monsters)
-		engine->MoveActor(i, *game, DIR::RAND);
+	//for (auto& i : game->monsters)
+	//	engine->MoveActor(i, *game, DIR::RAND);
 
 	char key_pressed;
 
-	engine->refreshInterface(*game);
-
-	engine->createScreen(*game);
+	ui.clearScreen();
+	ui.updateInterface(*game);
+	ui.updateScreen(*game);
 
 	while (true)
 	{
-		engine->clearScreen();
+		ui.clearScreen();
 		key_pressed = getch();
 
 		if(key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
@@ -64,7 +65,8 @@ int main()
 
 			return 0;
 		}
-		engine->createScreen(*game);
+		ui.updateInterface(*game);
+		ui.updateScreen(*game);
 	}
 
 	delete engine;
