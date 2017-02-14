@@ -11,30 +11,30 @@ Player::~Player()
 {
 }
 
-int Player::GetGold() const
+int Player::getGold() const
 {
 	return gold;
 }
 
-int Player::GetXP() const
+int Player::getXP() const
 {
 	return exp;
 }
 
-void Player::SetGold(int g)
+void Player::setGold(int g)
 {
 	gold = g;
 }
 
-void Player::SetExp(int xp)
+void Player::setExp(int xp)
 {
 	exp = xp;
 }
 
-void Player::LevelUp()
+void Player::levelUp()
 {
 	setLevel(getLevel() + 1);
 	setMaxHealth(10 * getLevel());
 	setHealth(getMaxHealth());
-	SetExp(0);
+	setExp(0);
 }

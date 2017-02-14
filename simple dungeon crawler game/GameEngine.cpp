@@ -5,7 +5,7 @@ GameEngine::GameEngine()
 {
 	srand(static_cast<int>(time(nullptr)));
 
-	InitializeGraphics(200, 50);
+	initializeGraphics(200, 50);
 
 	mainWindow = newwin(50, 150, 0, 0);
 	playerWindow = newwin(40, 50, 0, 150);
@@ -98,7 +98,7 @@ GameEngine & GameEngine::operator=(GameEngine && engine) noexcept
 	return *this;
 }
 
-void GameEngine::InitializeGraphics(int window_width, int window_height)
+void GameEngine::initializeGraphics(int window_width, int window_height)
 {
 	initscr();
 	raw();
@@ -135,13 +135,13 @@ void GameEngine::InitializeGraphics(int window_width, int window_height)
 
 void GameEngine::uiPrintPlayerInformations(Player & p)
 {
-	uiPrint(p.GetCurrentPosX(), UI::CORD_X);
-	uiPrint(p.GetCurrentPosY(), UI::CORD_Y);
+	uiPrint(p.getCurrentPosX(), UI::CORD_X);
+	uiPrint(p.getCurrentPosY(), UI::CORD_Y);
 	uiPrint(p.getName().c_str(), UI::PLAYER_NAME);
 	uiPrint(p.getLevel(), UI::PLAYER_LEVEL);
 	uiPrint(p.getHealth(), UI::PLAYER_HP);
-	uiPrint(p.GetGold(), UI::PLAYER_GOLD);
-	uiPrint(p.GetXP(), UI::PLAYER_XP);
+	uiPrint(p.getGold(), UI::PLAYER_GOLD);
+	uiPrint(p.getXP(), UI::PLAYER_XP);
 }
 
 void GameEngine::uiPrintGameInformation(Game & g)
@@ -267,15 +267,15 @@ void GameEngine::createScreen(Game & g)
 
 bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y)
 {
-	actor.SetCurrentPos(pos_x, pos_y);
-	actor.SetOldPos(pos_x, pos_y);
+	actor.setCurrentPos(pos_x, pos_y);
+	actor.setOldPos(pos_x, pos_y);
 	actor.setChanged(false);
 	return true;
 }
 
 bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 {
-	actor.SetOldPos(actor.GetCurrentPosX(), actor.GetCurrentPosY());
+	actor.setOldPos(actor.getCurrentPosX(), actor.getCurrentPosY());
 
 	if (direction == DIR::RAND)
 	{
@@ -286,39 +286,39 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	switch (direction)
 	{
 	case DIR::UP:
-		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY() - 1);
+		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY() - 1);
 		break;
 	case DIR::DOWN:
-		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY() + 1);
+		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY() + 1);
 		break;
 	case DIR::LEFT:
-		actor.SetCurrentPos(actor.GetOldPosX() - 1, actor.GetOldPosY());
+		actor.setCurrentPos(actor.getOldPosX() - 1, actor.getOldPosY());
 		break;
 	case DIR::RIGHT:
-		actor.SetCurrentPos(actor.GetOldPosX() + 1, actor.GetOldPosY());
+		actor.setCurrentPos(actor.getOldPosX() + 1, actor.getOldPosY());
 		break;
 	default:
 		break;
 	}
 
-	next_tile = GetNextTile(actor.GetCurrentPosX(), actor.GetCurrentPosY(), game);
+	next_tile = getNextTile(actor.getCurrentPosX(), actor.getCurrentPosY(), game);
 
 	switch (next_tile)
 	{
 	case '#':
-		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
+		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
 		if(typeid(actor) == typeid(Player))
 			uiPrint("You run into a wall!", UI::INFO);
 		actor.setChanged(false);
 		break;
 	case '~':
-		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
+		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
 		if(typeid(actor) == typeid(Player))
 			uiPrint("You cannot go into water!", UI::INFO);
 		actor.setChanged(false);
 		break;
 	case 'T':
-		actor.SetCurrentPos(actor.GetOldPosX(), actor.GetOldPosY());
+		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
 		if(typeid(actor) == typeid(Player))
 			uiPrint("You run into a tree!", UI::INFO);
 		actor.setChanged(false);
@@ -336,8 +336,8 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 		break;
 	default:
 		// TODO: change this
-		game.levels[0].lvl_data[actor.GetCurrentPosY()][actor.GetCurrentPosX()] = actor.getGraphicTile();
-		game.levels[0].lvl_data[actor.GetOldPosY()][actor.GetOldPosX()] = old_tile;
+		game.levels[0].lvl_data[actor.getCurrentPosY()][actor.getCurrentPosX()] = actor.getGraphicTile();
+		game.levels[0].lvl_data[actor.getOldPosY()][actor.getOldPosX()] = old_tile;
 		actor.setChanged(true);
 		break;
 	}
@@ -346,32 +346,36 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	return true;
 }
 
-char GameEngine::GetNextTile(int pos_x, int pos_y, Game & game)
+char GameEngine::getNextTile(int pos_x, int pos_y, Game & game)
 {
 	// TODO: change this
 	return game.levels[0].lvl_data[pos_y][pos_x];
 }
 
-WINDOW * GameEngine::GetMainWindow()
+WINDOW * GameEngine::getMainWindow()
 {
 	return mainWindow;
 }
 
-WINDOW * GameEngine::GetUiWindow()
+WINDOW * GameEngine::getPlayerWindow()
 {
 	return playerWindow;;
 }
 
-WINDOW * GameEngine::GetTextWindow()
+WINDOW * GameEngine::getTextWindow()
 {
 	return textWindow;
 }
 
 void GameEngine::clearScreen()
 {
-	wclear(GetMainWindow());
-	wclear(GetUiWindow());
-	wclear(GetTextWindow());
+	wclear(getMainWindow());
+	wclear(getPlayerWindow());
+	wclear(getTextWindow());
+
+	setColor(COLOR::WHITE, mainWindow);
+	setColor(COLOR::WHITE, playerWindow);
+	setColor(COLOR::WHITE, textWindow);
 
 	box(mainWindow, 0, 0);
 	box(playerWindow, 0, 0);

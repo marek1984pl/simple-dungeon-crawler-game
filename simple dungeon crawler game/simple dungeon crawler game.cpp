@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include <iostream>
 
 #include "GameEngine.h"
 
@@ -19,7 +18,7 @@ int main()
 	engine->placeActor(game->player, *game, 1, 1);
 
 	for (auto& i : game->monsters)
-		engine->placeActor(i, *game, i.GetCurrentPosX(), i.GetCurrentPosY());
+		engine->placeActor(i, *game, i.getCurrentPosX(), i.getCurrentPosY());
 	
 	for (auto& i : game->monsters)
 		engine->MoveActor(i, *game, DIR::RAND);
@@ -31,7 +30,7 @@ int main()
 
 	engine->createScreen(*game);
 
-	while (1)
+	while (true)
 	{
 		engine->clearScreen();
 		key_pressed = getch();

@@ -11,7 +11,7 @@ Monster::Monster(std::string name, int lvl, char tile)
 	setName(name);
 	setLevel(lvl);
 	setGraphicTile(tile);
-	SetCurrentPos(rand() % 140 + 5, rand() % 40 + 5);
+	setCurrentPos(rand() % 140 + 5, rand() % 40 + 5);
 }
 
 

@@ -4,7 +4,7 @@
 
 Game::Game()
 {	
-	levels[0].LoadLevelFromFile(148, 48);
+	levels[0].loadLevelFromFile(148, 48);
 }
 
 Game::~Game()
@@ -17,10 +17,10 @@ void Game::createPlayer(std::string name)
 	player.setLevel(1);
 	player.setHealth(10);
 	player.setMaxHealth(10);
-	player.SetExp(0);
+	player.setExp(0);
 	player.setChanged(0);
-	player.SetCurrentPos(1, 1);
-	player.SetOldPos(1, 1);
+	player.setCurrentPos(1, 1);
+	player.setOldPos(1, 1);
 	player.setGraphicTile('@');
 }
 

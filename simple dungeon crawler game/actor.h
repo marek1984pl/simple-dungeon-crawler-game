@@ -20,14 +20,14 @@ public:
 	void setHealth(int _health);
 	void setMaxHealth(int _health);
 
-	int GetCurrentPosX() const;
-	int GetCurrentPosY() const;
+	int getCurrentPosX() const;
+	int getCurrentPosY() const;
 
-	int GetOldPosX() const;
-	int GetOldPosY() const;
+	int getOldPosX() const;
+	int getOldPosY() const;
 
-	void SetCurrentPos(int pos_x, int pos_y);
-	void SetOldPos(int pos_x, int pos_y);
+	void setCurrentPos(int pos_x, int pos_y);
+	void setOldPos(int pos_x, int pos_y);
 
 	void setChanged(bool change);
 	bool isChanged() const;

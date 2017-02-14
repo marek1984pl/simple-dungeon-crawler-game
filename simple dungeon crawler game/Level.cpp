@@ -12,7 +12,7 @@ Level::~Level()
 	file.close();
 }
 
-void Level::LoadLevelFromFile(int width, int height)
+void Level::loadLevelFromFile(int width, int height)
 {
 	char tile;
 	for (auto i = 0; i < height; i++)

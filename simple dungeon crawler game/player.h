@@ -1,7 +1,5 @@
 #pragma once
 
-#include <vector>
-
 #include "Actor.h"
 
 
@@ -11,13 +9,13 @@ public:
 	Player();
 	~Player();
 
-	int GetGold() const;
-	int GetXP() const;
+	int getGold() const;
+	int getXP() const;
 
-	void SetGold(int g);
-	void SetExp(int xp);
+	void setGold(int g);
+	void setExp(int xp);
 
-	void LevelUp();
+	void levelUp();
 
 private:
 	int gold = 0;

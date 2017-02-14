@@ -50,33 +50,33 @@ void Actor::setMaxHealth(int _health)
 	max_health = _health;
 }
 
-void Actor::SetCurrentPos(int pos_x, int pos_y)
+void Actor::setCurrentPos(int pos_x, int pos_y)
 {
 	current_pos_x = pos_x;
 	current_pos_y = pos_y;
 }
 
-int Actor::GetCurrentPosX() const
+int Actor::getCurrentPosX() const
 {
 	return current_pos_x;
 }
 
-int Actor::GetCurrentPosY() const
+int Actor::getCurrentPosY() const
 {
 	return current_pos_y;
 }
 
-int Actor::GetOldPosX() const
+int Actor::getOldPosX() const
 {	
 	return old_pos_x;
 }
 
-int Actor::GetOldPosY() const
+int Actor::getOldPosY() const
 {
 	return old_pos_y;
 }
 
-void Actor::SetOldPos(int pos_x, int pos_y)
+void Actor::setOldPos(int pos_x, int pos_y)
 {
 	old_pos_x = pos_x;
 	old_pos_y = pos_y;

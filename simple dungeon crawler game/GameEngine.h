@@ -3,7 +3,6 @@
 #include <curses.h>
 #include <ctime>
 
-#include "Level.h"
 #include "actor.h"
 #include "Game.h"
 
@@ -25,7 +24,7 @@ public:
 	GameEngine & operator=(const GameEngine & engine);
 	GameEngine & operator=(GameEngine && engine) noexcept;
 
-	void InitializeGraphics(int window_width, int window_height);
+	void initializeGraphics(int window_width, int window_height);
 
 	void clearScreen();
 	void refreshScreen() const;
@@ -47,11 +46,11 @@ public:
 	bool placeActor(Actor & actor, Game & game, int pos_x, int pos_y);
 	bool MoveActor(Actor & actor, Game & game, DIR direction);
 
-	char GetNextTile(int pos_x, int pos_y, Game & game);
+	char getNextTile(int pos_x, int pos_y, Game & game);
 
-	WINDOW * GetMainWindow();
-	WINDOW * GetUiWindow();
-	WINDOW * GetTextWindow();
+	WINDOW * getMainWindow();
+	WINDOW * getPlayerWindow();
+	WINDOW * getTextWindow();
 
 private:
 	WINDOW * mainWindow;
