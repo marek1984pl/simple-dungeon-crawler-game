@@ -40,14 +40,49 @@ void Actor::setLevel(int _level)
 	level = _level;
 }
 
-void Actor::setHealth(int _health)
+void Actor::setHealth(int h)
 {
-	health = _health;
+	health = h;
 }
 
-void Actor::setMaxHealth(int _health)
+int Actor::getAttackPower()
 {
-	max_health = _health;
+	return attack_power;
+}
+
+int Actor::getArmor()
+{
+	return armor;
+}
+
+int Actor::getStrength()
+{
+	return strength;
+}
+
+int Actor::getDexterity()
+{
+	return dexterity;
+}
+
+int Actor::getStamina()
+{
+	return stamina;
+}
+
+void Actor::setStrength(int str)
+{
+	strength = str;
+}
+
+void Actor::setDexterity(int dex)
+{
+	dexterity = dex;
+}
+
+void Actor::setStamina(int sta)
+{
+	stamina = sta;
 }
 
 void Actor::setCurrentPos(int pos_x, int pos_y)

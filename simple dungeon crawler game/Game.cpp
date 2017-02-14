@@ -15,13 +15,20 @@ void Game::createPlayer(std::string name)
 {
 	player.setName(name);
 	player.setLevel(1);
-	player.setHealth(10);
-	player.setMaxHealth(10);
+	player.setStrength(3);
+	player.setDexterity(2);
+	player.setStamina(5);
 	player.setExp(0);
 	player.setChanged(0);
+
 	player.setCurrentPos(1, 1);
 	player.setOldPos(1, 1);
 	player.setGraphicTile('@');
+
+	player.setMaxHealth();
+	player.setArmor();
+	player.setAttackPower();
+	player.setHealth(player.getMaxHealth());
 }
 
 void Game::createRandomMonsters(int quantity)

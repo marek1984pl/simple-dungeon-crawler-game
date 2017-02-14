@@ -11,7 +11,7 @@ enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, 
 
 enum class DIR { UP, DOWN, LEFT, RIGHT, RAND };
 
-enum class UI { CORD_X, CORD_Y, INFO, PLAYER_NAME, PLAYER_LEVEL, PLAYER_XP, PLAYER_GOLD, PLAYER_HP, MOVE_NO};
+enum class UI { CORD_X, CORD_Y, INFO, PLAYER_NAME, PLAYER_LEVEL, PLAYER_XP, PLAYER_GOLD, PLAYER_HP, PLAYER_STATS, MOVE_NO};
 
 class GameEngine
 {
@@ -100,6 +100,14 @@ void GameEngine::uiPrint(T msg, UI ui)
 	case UI::MOVE_NO:
 		printString("Move number: ", 30, 1, COLOR::WHITE, textWindow);
 		printString(msg, 44, 1, COLOR::WHITE, textWindow);
+		break;
+	case UI::PLAYER_STATS:
+		printString("Attack power : ", 1, 5, COLOR::WHITE, playerWindow);
+		printString("Armor        : ", 1, 6, COLOR::WHITE, playerWindow);
+		printString("Strength     : ", 1, 7, COLOR::WHITE, playerWindow);
+		printString("Dexterity    : ", 1, 8, COLOR::WHITE, playerWindow);
+		printString("Stamina      : ", 1, 9, COLOR::WHITE, playerWindow);
+		break;
 	default:
 		break;
 	}

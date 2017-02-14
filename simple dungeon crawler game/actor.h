@@ -17,8 +17,21 @@ public:
 
 	void setName(std::string _name);
 	void setLevel(int _level);
-	void setHealth(int _health);
-	void setMaxHealth(int _health);
+
+	void setHealth(int h);
+	virtual void setMaxHealth() = 0;
+
+	int getAttackPower();
+	int getArmor();
+	int getStrength();
+	int getDexterity();
+	int getStamina();
+
+	virtual void setAttackPower() = 0;
+	virtual void setArmor() = 0;
+	void setStrength(int str);
+	void setDexterity(int dex);
+	void setStamina(int sta);
 
 	int getCurrentPosX() const;
 	int getCurrentPosY() const;
@@ -40,11 +53,18 @@ public:
 	void setGraphicTile(char tile);
 	char getGraphicTile() const;
 
-private:
+protected:
 	std::string name;
 	int level;
+
 	int health;
 	int max_health;
+	int attack_power;
+	int armor;
+	int strength;
+	int dexterity;
+	int stamina;
+
 	int current_pos_x;
 	int current_pos_y;
 
@@ -57,5 +77,6 @@ private:
 	bool position_changed;
 
 	char graphic_tile;
+
 };
 

@@ -18,3 +18,19 @@ Monster::Monster(std::string name, int lvl, char tile)
 Monster::~Monster()
 {
 }
+
+void Monster::setMaxHealth()
+{
+	// todo
+}
+
+void Monster::setAttackPower()
+{
+	// todo
+}
+
+void Monster::setArmor()
+{
+	// todo
+}
+

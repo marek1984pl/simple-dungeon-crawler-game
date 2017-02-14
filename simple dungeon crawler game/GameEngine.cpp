@@ -144,6 +144,7 @@ void GameEngine::uiPrintPlayerInformations(Player & p)
 	uiPrint(p.getHealth(), UI::PLAYER_HP);
 	uiPrint(p.getGold(), UI::PLAYER_GOLD);
 	uiPrint(p.getXP(), UI::PLAYER_XP);
+	uiPrint(p.getArmor(), UI::PLAYER_STATS);
 }
 
 void GameEngine::uiPrintGameInformation(Game & g)
@@ -343,6 +344,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 		{
 			uiPrint("Treasue!", UI::INFO);
 			setTile('.', actor.getNewPosX(), actor.getNewPosY(), game);
+			game.player.addExp(10);
 		}
 		break;
 	default:

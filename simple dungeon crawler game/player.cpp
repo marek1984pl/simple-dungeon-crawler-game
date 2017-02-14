@@ -4,6 +4,9 @@
 
 Player::Player()
 {
+	strength = 5;
+	dexterity = 3;
+	stamina = 5;
 }
 
 
@@ -31,10 +34,33 @@ void Player::setExp(int xp)
 	exp = xp;
 }
 
+void Player::addExp(int xp)
+{
+	exp += xp;
+}
+
 void Player::levelUp()
 {
+	setStrength(getStrength() + 1);
+	setDexterity(getDexterity() + 1);
+	setStamina(getStamina() + 1);
+
 	setLevel(getLevel() + 1);
-	setMaxHealth(10 * getLevel());
-	setHealth(getMaxHealth());
+	max_health = getStamina() * getLevel() * 2;
 	setExp(0);
+}
+
+void Player::setMaxHealth()
+{
+	max_health = getStamina() * getLevel() * 2;
+}
+
+void Player::setAttackPower()
+{
+	attack_power = (getStrength() + getLevel()) * 2 + getDexterity();
+}
+
+void Player::setArmor()
+{
+	armor = (getDexterity() + getLevel()) * 2 + getStrength();
 }
