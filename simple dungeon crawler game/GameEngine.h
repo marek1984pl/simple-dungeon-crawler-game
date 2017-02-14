@@ -24,9 +24,9 @@ public:
 	GameEngine & operator=(const GameEngine & engine);
 	GameEngine & operator=(GameEngine && engine) noexcept;
 
-	void initializeGraphics(int window_width, int window_height);
+	bool initializeGraphics(int window_width, int window_height) const;
 
-	void clearScreen();
+	void clearScreen() const;
 	void refreshScreen() const;
 
 	template <typename T>
@@ -35,30 +35,31 @@ public:
 	void uiPrintPlayerInformations(Player & p);
 	void uiPrintGameInformation(Game & g);
 
-	void setColor(COLOR color, WINDOW * window);
+	void setColor(COLOR color, WINDOW * window) const;
 
-	void printChar(char char_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window);
-	void printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window);
-	void printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window);
+	void printChar(char char_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
+	void printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
+	void printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
 
-	void createScreen(Game & g);
+	void createScreen(Game & game) const;
 
-	bool placeActor(Actor & actor, Game & game, int pos_x, int pos_y);
+	bool placeActor(Actor & actor, Game & game, int pos_x, int pos_y) const;
 	bool MoveActor(Actor & actor, Game & game, DIR direction);
 
-	char getNextTile(int pos_x, int pos_y, Game & game);
+	char getTile(int pos_x, int pos_y, Game & game);
+	void setTile(char new_tile, int pos_x, int pos_y, Game & game);
 
-	WINDOW * getMainWindow();
-	WINDOW * getPlayerWindow();
-	WINDOW * getTextWindow();
+	WINDOW * getMainWindow() const;
+	WINDOW * getPlayerWindow() const;
+	WINDOW * getTextWindow() const;
 
 private:
 	WINDOW * mainWindow;
 	WINDOW * playerWindow;
 	WINDOW * textWindow;
 
-	char old_tile = '.';
-	char next_tile = '.';
+	char old_tile;
+	char next_tile;
 };
 
 template <typename T>

@@ -98,7 +98,7 @@ GameEngine & GameEngine::operator=(GameEngine && engine) noexcept
 	return *this;
 }
 
-void GameEngine::initializeGraphics(int window_width, int window_height)
+bool GameEngine::initializeGraphics(int window_width, int window_height) const
 {
 	initscr();
 	raw();
@@ -108,9 +108,9 @@ void GameEngine::initializeGraphics(int window_width, int window_height)
 
 	if (has_colors() != TRUE)
 	{
-		printw("Konsola nie obs³uguje kolorów!");
+		printw("No colors in console!");
 		getch();
-		exit(0);
+		return false;
 	}
 	start_color();
 
@@ -131,6 +131,8 @@ void GameEngine::initializeGraphics(int window_width, int window_height)
 	init_pair(13, 4, COLOR_BLACK);
 	init_pair(14, 5, COLOR_BLACK);
 	init_pair(15, 6, COLOR_BLACK);
+	
+	return false;
 }
 
 void GameEngine::uiPrintPlayerInformations(Player & p)
@@ -149,7 +151,7 @@ void GameEngine::uiPrintGameInformation(Game & g)
 	uiPrint(g.getNumberOfMoves(), UI::MOVE_NO);
 }
 
-void GameEngine::setColor(COLOR color, WINDOW * window)
+void GameEngine::setColor(COLOR color, WINDOW * window) const
 {
 	switch (color)
 	{
@@ -203,32 +205,32 @@ void GameEngine::setColor(COLOR color, WINDOW * window)
 	}
 }
 
-void GameEngine::printChar(char char_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window)
+void GameEngine::printChar(char char_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const
 {
 	setColor(color, window);
 	mvwprintw(window, pos_y, pos_x, "%c", char_to_print);
 }
 
-void GameEngine::printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window)
+void GameEngine::printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const
 {
 	setColor(color, window);
 	mvwprintw(window, pos_y, pos_x, "%s", string_to_print);
 }
 
-void GameEngine::printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window)
+void GameEngine::printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const
 {
 	setColor(color, window);
 	mvwprintw(window, pos_y, pos_x, "%d", string_to_print);
 }
 
-void GameEngine::createScreen(Game & g)
+void GameEngine::createScreen(Game & game) const
 {
 	char tile;
 	for (auto i = 0; i < 48; i++)
 	{
 		for (auto j = 0; j < 148; j++)
 		{
-			tile = g.levels[0].lvl_data[i][j];
+			tile = game.levels[0].lvl_data[i][j];
 			switch (tile)
 			{
 			case '@':
@@ -254,7 +256,7 @@ void GameEngine::createScreen(Game & g)
 				printChar(tile, j + 1, i + 1, COLOR::RED, mainWindow);
 				break;
 			case '$':
-				//printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
+				printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
 				break;
 			default:
 				printChar(tile, j + 1, i + 1, COLOR::YELLOW, mainWindow);
@@ -265,10 +267,11 @@ void GameEngine::createScreen(Game & g)
 	refreshScreen();
 }
 
-bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y)
+bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y) const
 {
 	actor.setCurrentPos(pos_x, pos_y);
 	actor.setOldPos(pos_x, pos_y);
+	actor.setNewPos(pos_x, pos_y);
 	actor.setChanged(false);
 	return true;
 }
@@ -276,6 +279,7 @@ bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y)
 bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 {
 	actor.setOldPos(actor.getCurrentPosX(), actor.getCurrentPosY());
+	old_tile = getTile(actor.getCurrentPosX(), actor.getCurrentPosY(), game);
 
 	if (direction == DIR::RAND)
 	{
@@ -286,22 +290,22 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	switch (direction)
 	{
 	case DIR::UP:
-		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY() - 1);
+		actor.setNewPos(actor.getCurrentPosX(), actor.getCurrentPosY() - 1);
 		break;
 	case DIR::DOWN:
-		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY() + 1);
+		actor.setNewPos(actor.getCurrentPosX(), actor.getCurrentPosY() + 1);
 		break;
 	case DIR::LEFT:
-		actor.setCurrentPos(actor.getOldPosX() - 1, actor.getOldPosY());
+		actor.setNewPos(actor.getCurrentPosX() - 1, actor.getCurrentPosY());
 		break;
 	case DIR::RIGHT:
-		actor.setCurrentPos(actor.getOldPosX() + 1, actor.getOldPosY());
+		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY());
 		break;
 	default:
 		break;
 	}
 
-	next_tile = getNextTile(actor.getCurrentPosX(), actor.getCurrentPosY(), game);
+	next_tile = getTile(actor.getNewPosX(), actor.getNewPosY(), game);
 
 	switch (next_tile)
 	{
@@ -328,16 +332,25 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	case 'b':
 	case 's':
 	case 't':
-	//case '@':
-		//uiPrint("Monster attacked!", UI::INFO);
+	case '@':
+		if (typeid(actor) == typeid(Player))
+		{
+			uiPrint("Monster attacked!", UI::INFO);	
+		}
 		break;
 	case '$':
-		//uiPrint("Treasue!", UI::INFO);
+		if (typeid(actor) == typeid(Player))
+		{
+			uiPrint("Treasue!", UI::INFO);
+			setTile('.', actor.getNewPosX(), actor.getNewPosY(), game);
+		}
 		break;
 	default:
-		// TODO: change this
-		game.levels[0].lvl_data[actor.getCurrentPosY()][actor.getCurrentPosX()] = actor.getGraphicTile();
-		game.levels[0].lvl_data[actor.getOldPosY()][actor.getOldPosX()] = old_tile;
+		actor.setCurrentPos(actor.getNewPosX(), actor.getNewPosY());
+
+		setTile(actor.getGraphicTile(), actor.getCurrentPosX(), actor.getCurrentPosY(), game);
+		setTile(next_tile, actor.getOldPosX(), actor.getOldPosY(), game);
+
 		actor.setChanged(true);
 		break;
 	}
@@ -346,28 +359,33 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	return true;
 }
 
-char GameEngine::getNextTile(int pos_x, int pos_y, Game & game)
+char GameEngine::getTile(int pos_x, int pos_y, Game & game)
 {
 	// TODO: change this
 	return game.levels[0].lvl_data[pos_y][pos_x];
 }
 
-WINDOW * GameEngine::getMainWindow()
+void GameEngine::setTile(char new_tile, int pos_x, int pos_y, Game & game)
+{
+	game.levels[0].lvl_data[pos_y][pos_x] = new_tile;
+}
+
+WINDOW * GameEngine::getMainWindow() const
 {
 	return mainWindow;
 }
 
-WINDOW * GameEngine::getPlayerWindow()
+WINDOW * GameEngine::getPlayerWindow() const
 {
 	return playerWindow;;
 }
 
-WINDOW * GameEngine::getTextWindow()
+WINDOW * GameEngine::getTextWindow() const
 {
 	return textWindow;
 }
 
-void GameEngine::clearScreen()
+void GameEngine::clearScreen() const
 {
 	wclear(getMainWindow());
 	wclear(getPlayerWindow());

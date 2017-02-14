@@ -82,6 +82,22 @@ void Actor::setOldPos(int pos_x, int pos_y)
 	old_pos_y = pos_y;
 }
 
+int Actor::getNewPosX() const
+{
+	return new_pos_x;
+}
+
+int Actor::getNewPosY() const
+{
+	return new_pos_y;
+}
+
+void Actor::setNewPos(int new_x, int new_y)
+{
+	new_pos_x = new_x;
+	new_pos_y = new_y;
+}
+
 void Actor::setChanged(bool change)
 {
 	position_changed = change;
@@ -97,7 +113,7 @@ void Actor::setGraphicTile(char tile)
 	graphic_tile = tile;
 }
 
-char Actor::getGraphicTile()
+char Actor::getGraphicTile() const
 {
 	return graphic_tile;
 }

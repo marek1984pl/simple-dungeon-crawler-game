@@ -12,7 +12,7 @@ int main()
 
 	game->createPlayer("Zodgar");
 
-	game->createRandomMonsters(30);
+	game->createRandomMonsters(100);
 
 	engine->clearScreen();
 	engine->placeActor(game->player, *game, 1, 1);

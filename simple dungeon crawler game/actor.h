@@ -29,11 +29,16 @@ public:
 	void setCurrentPos(int pos_x, int pos_y);
 	void setOldPos(int pos_x, int pos_y);
 
+	int getNewPosX() const;
+	int getNewPosY() const;
+
+	void setNewPos(int new_x, int new_y);
+
 	void setChanged(bool change);
 	bool isChanged() const;
 
 	void setGraphicTile(char tile);
-	char getGraphicTile();
+	char getGraphicTile() const;
 
 private:
 	std::string name;
@@ -45,6 +50,9 @@ private:
 
 	int old_pos_x;
 	int old_pos_y;
+
+	int new_pos_x;
+	int new_pos_y;
 
 	bool position_changed;
 
