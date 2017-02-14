@@ -9,7 +9,6 @@ Player::Player()
 	stamina = 5;
 }
 
-
 Player::~Player()
 {
 }

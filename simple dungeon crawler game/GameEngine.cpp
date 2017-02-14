@@ -12,10 +12,26 @@ GameEngine::~GameEngine()
 
 bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y) const
 {
+	// remove pos_x and pos_y
+	// check if spot is already occupied
+
 	actor.setCurrentPos(pos_x, pos_y);
 	actor.setOldPos(pos_x, pos_y);
 	actor.setNewPos(pos_x, pos_y);
-	actor.setChanged(false);
+
+	Tile * temp;
+
+	if(typeid(actor) == typeid(Player))
+		temp = new Tile(TILE_TYPE::PLAYER);
+	else if(typeid(actor) == typeid(Monster))
+		temp = new Tile(TILE_TYPE::MONSTER);
+	else
+		temp = new Tile(TILE_TYPE::NPC);
+
+	game.levels[0].setLevelData(pos_x, pos_y, *temp);
+
+	delete temp;
+
 	return true;
 }
 

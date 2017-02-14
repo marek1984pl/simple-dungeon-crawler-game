@@ -73,9 +73,5 @@ protected:
 
 	int new_pos_x;
 	int new_pos_y;
-
-	bool position_changed;
-
-	char graphic_tile;
 };
 

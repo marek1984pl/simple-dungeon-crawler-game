@@ -200,7 +200,7 @@ void UserInterface::updateScreen(Game & game) const
 	{
 		for (auto j = 0; j < 148; j++)
 		{
-			current_tile = game.levels[0].getLevelData(i, j);
+			current_tile = game.levels[0].getLevelData(j, i);
 			current_tile_type = current_tile.getType();
 
 			switch (current_tile_type)

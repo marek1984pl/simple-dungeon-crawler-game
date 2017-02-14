@@ -55,10 +55,10 @@ void Level::loadLevelFromFile(int width, int height)
 				lvl_data[i][j].setInteract(true);
 				break;
 			case '$':
-				break;
 				lvl_data[i][j].setType(TILE_TYPE::TREASURE);
 				lvl_data[i][j].setCollide(false);
 				lvl_data[i][j].setInteract(true);
+				break;
 			case '.':
 				lvl_data[i][j].setType(TILE_TYPE::EMPTY);
 				lvl_data[i][j].setCollide(false);
@@ -73,11 +73,11 @@ void Level::loadLevelFromFile(int width, int height)
 
 Tile Level::getLevelData(int x, int y)
 {
-	return lvl_data[x][y];
+	return lvl_data[y][x];
 }
 
 void Level::setLevelData(int x, int y, Tile t)
 {
-	lvl_data[x][y];
+	lvl_data[y][x] = t;
 }
 

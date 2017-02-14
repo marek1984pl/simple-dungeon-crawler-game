@@ -133,22 +133,3 @@ void Actor::setNewPos(int new_x, int new_y)
 	new_pos_y = new_y;
 }
 
-void Actor::setChanged(bool change)
-{
-	position_changed = change;
-}
-
-bool Actor::isChanged() const
-{
-	return (position_changed ? true : false);
-}
-
-void Actor::setGraphicTile(char tile)
-{
-	graphic_tile = tile;
-}
-
-char Actor::getGraphicTile() const
-{
-	return graphic_tile;
-}

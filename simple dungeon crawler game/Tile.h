@@ -6,6 +6,7 @@ class Tile
 {
 public:
 	Tile();
+	Tile(TILE_TYPE t);
 	~Tile();
 
 	bool canInteract();

@@ -6,6 +6,47 @@ Tile::Tile() : can_collide(false), can_interact(false), tile_type(TILE_TYPE::EMP
 {
 }
 
+Tile::Tile(TILE_TYPE t)
+{
+	tile_type = t;
+	switch (t)
+	{
+	case TILE_TYPE::WALL:
+		setCollide(true);
+		setInteract(false);
+		break;
+	case TILE_TYPE::WATER:
+		setCollide(true);
+		setInteract(false);
+		break;
+	case TILE_TYPE::TREE:
+		setCollide(true);
+		setInteract(false);
+		break;
+	case TILE_TYPE::PLAYER:
+		setCollide(false);
+		setInteract(true);
+		break;
+	case TILE_TYPE::MONSTER:
+		setCollide(false);
+		setInteract(true);
+		break;
+	case TILE_TYPE::NPC:
+		setCollide(false);
+		setInteract(true);
+		break;
+	case TILE_TYPE::TREASURE:
+		setCollide(false);
+		setInteract(true);
+		break;
+	case TILE_TYPE::EMPTY:
+		setCollide(false);
+		setInteract(false);
+		break;
+	default:
+		break;
+	}
+}
 
 Tile::~Tile()
 {

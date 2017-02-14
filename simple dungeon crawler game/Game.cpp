@@ -20,11 +20,9 @@ void Game::createPlayer(std::string name)
 	player.setStamina(5);
 	player.setExp(0);
 	player.setGold(0);
-	player.setChanged(0);
 
 	player.setCurrentPos(1, 1);
 	player.setOldPos(1, 1);
-	//player.setGraphicTile('@');
 
 	player.setMaxHealth();
 	player.setArmor();
