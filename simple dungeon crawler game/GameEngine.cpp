@@ -10,14 +10,9 @@ GameEngine::~GameEngine()
 {
 }
 
-bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y) const
+bool GameEngine::placeActor(Actor & actor, Game & game) const
 {
-	// remove pos_x and pos_y
 	// check if spot is already occupied
-
-	actor.setCurrentPos(pos_x, pos_y);
-	actor.setOldPos(pos_x, pos_y);
-	actor.setNewPos(pos_x, pos_y);
 
 	Tile * temp;
 
@@ -28,7 +23,7 @@ bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y) co
 	else
 		temp = new Tile(TILE_TYPE::NPC);
 
-	game.levels[0].setLevelData(pos_x, pos_y, *temp);
+	game.levels[0].setLevelData(actor.getCurrentPosX(), actor.getCurrentPosY(), *temp);
 
 	delete temp;
 
@@ -37,9 +32,12 @@ bool GameEngine::placeActor(Actor & actor, Game & game, int pos_x, int pos_y) co
 
 bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 {
-	/*
+	bool actor_is_player = false;
+	if (typeid(actor) == typeid(Player))
+		actor_is_player = true;
+	
 	actor.setOldPos(actor.getCurrentPosX(), actor.getCurrentPosY());
-	old_tile = getTile(actor.getCurrentPosX(), actor.getCurrentPosY(), game);
+	Tile old_tile = game.levels[0].getLevelData(actor.getCurrentPosX(), actor.getCurrentPosY());
 
 	if (direction == DIR::RAND)
 	{
@@ -64,64 +62,121 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	default:
 		break;
 	}
-
-	next_tile = getTile(actor.getNewPosX(), actor.getNewPosY(), game);
-
-	switch (next_tile)
+	
+	Tile next_tile = game.levels[0].getLevelData(actor.getNewPosX(), actor.getNewPosY());
+	
+	if (next_tile.canCollide() == true && next_tile.canInteract() == false)
 	{
-	case '#':
-		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
-		if(typeid(actor) == typeid(Player))
-			printInfo("You run into a wall!");
-		actor.setChanged(false);
-		break;
-	case '~':
-		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
-		if(typeid(actor) == typeid(Player))
-			printInfo("You cannot go into water!");
-		actor.setChanged(false);
-		break;
-	case 'T':
-		actor.setCurrentPos(actor.getOldPosX(), actor.getOldPosY());
-		if(typeid(actor) == typeid(Player))
-			printInfo("You run into a tree!");
-		actor.setChanged(false);
-		break;
-	case 'g':
-	case 'w':
-	case 'b':
-	case 's':
-	case 't':
-	case '@':
-		if (typeid(actor) == typeid(Player))
+		switch (next_tile.getType())
 		{
-			printInfo("Monster attacked!");
+		case TILE_TYPE::WALL:
+			if (actor_is_player == true)
+				game.setGameMesage("You run into a wall!");
+			break;
+		case TILE_TYPE::TREE:
+			if (actor_is_player == true)
+				game.setGameMesage("You run into a tree!");
+			break;
+		case TILE_TYPE::WATER:
+			if (actor_is_player == true)
+				game.setGameMesage("You cannot go into water!");
+		default:
+			break;
 		}
-		break;
-	case '$':
-		if (typeid(actor) == typeid(Player))
+	}
+	else if(next_tile.canCollide() == false && next_tile.canInteract() == true)
+	{
+		switch (next_tile.getType())
 		{
-			printInfo("You found a treasue!");
-			printInfo("25 gold coins", 1);
-			setTile('.', actor.getNewPosX(), actor.getNewPosY(), game);
-			game.player.addExp(10);
-			game.player.addGold(25);
+		case TILE_TYPE::MONSTER:
+			if (actor_is_player == true)
+			{
+				game.setGameMesage("Monster attacked!");
+				if (attack_monster(game, game.getMonster(actor.getNewPosX(), actor.getNewPosY())) == true)
+				{
+					game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
+				}
+			}
+			break;
+		case TILE_TYPE::PLAYER:
+			game.setGameMesage("You were attacked by a monster!");
+			if (attack_player(game, actor) == true)
+			{
+				return true;
+			}
+			break;
+		case TILE_TYPE::TREASURE:
+			if(actor_is_player == true)
+			{
+				game.setGameMesage("You found a treasure!\n 25 gold coins");
+				game.player.addExp(10);
+				game.player.addGold(25);
+				game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
+			}
+			break;
+		default:
+			break;
 		}
-		break;
-	default:
+	}
+	else if(next_tile.canCollide() == false && next_tile.canInteract() == false)
+	{
 		actor.setCurrentPos(actor.getNewPosX(), actor.getNewPosY());
+		game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), old_tile);
+		game.levels[0].setLevelData(actor.getOldPosX(), actor.getOldPosY(), next_tile);
+	}
+	return false;
+}
 
-		setTile(actor.getGraphicTile(), actor.getCurrentPosX(), actor.getCurrentPosY(), game);
-		setTile(next_tile, actor.getOldPosX(), actor.getOldPosY(), game);
+bool GameEngine::attack_monster(Game & g, Actor & actor)
+{
+	std::string msg = "";
+	// balance of stats needed
+	int dmg = rand() % 6 + g.player.getAttackPower();
+	int current_monster_hp = actor.getHealth() - dmg;
 
-		actor.setChanged(true);
-		break;
+	actor.setHealth(current_monster_hp);
+
+	msg = "Dmg to monster: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
+
+	if (current_monster_hp <= 0)
+	{
+		// add monster delete
+
+		g.setGameFightMesage(msg);
+		g.setGameMesage("Monster is dead!");
+		g.player.addExp(actor.getLevel() * 25);
+
+		if (g.player.getExp() >= g.player.exp_to_lvl_up[g.player.getLevel() + 1])
+		{
+			int exp_to_move = g.player.getExp() - g.player.exp_to_lvl_up[g.player.getLevel() + 1];
+			g.player.levelUp();
+			g.player.addExp(exp_to_move);
+		}
+		return true;
 	}
 
-	updateInterface(game);
+	g.setGameFightMesage(msg);
+	return false;
+}
 
-	return true;
-	*/
+bool GameEngine::attack_player(Game & g, Actor & actor)
+{
+	std::string msg = "";
+
+	int dmg = rand() % 6 + actor.getAttackPower();
+	int current_player_hp = g.player.getHealth() - dmg;
+
+	g.player.setHealth(current_player_hp);
+
+	msg = "Dmg to player: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
+
+	if (current_player_hp <= 0)
+	{
+		g.player.setDead(true);
+		g.setGameMesage("You died!");
+	}
+
+	g.setGameFightMesage(msg);
 	return false;
 }
 

@@ -23,6 +23,7 @@ void Game::createPlayer(std::string name)
 
 	player.setCurrentPos(1, 1);
 	player.setOldPos(1, 1);
+	player.setNewPos(1, 1);
 
 	player.setMaxHealth();
 	player.setArmor();
@@ -60,6 +61,15 @@ void Game::createRandomMonsters(int quantity)
 	}
 }
 
+Monster & Game::getMonster(int pos_x, int pos_y)
+{
+	for (auto & i : monsters)
+	{
+		if (i.getCurrentPosX() == pos_x && i.getCurrentPosY() == pos_y)
+			return i;
+	}
+}
+
 void Game::nextMove()
 {
 	++number_of_moves;
@@ -69,4 +79,25 @@ int Game::getNumberOfMoves() const
 {
 	return number_of_moves;
 }
+
+std::string Game::getGameMessage() const
+{
+	return game_message;
+}
+
+std::string Game::getGameFightMessage() const
+{
+	return game_fight_message;
+}
+
+void Game::setGameMesage(std::string msg)
+{
+	game_message = msg;
+}
+
+void Game::setGameFightMesage(std::string msg)
+{
+	game_fight_message = msg;
+}
+
 

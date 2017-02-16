@@ -14,16 +14,13 @@ int main()
 
 	game->createPlayer("Zodgar");
 
-	game->createRandomMonsters(30);
+	game->createRandomMonsters(100);
 
-	engine->placeActor(game->player, *game, 1, 1);
+	engine->placeActor(game->player, *game);
 
 	for (auto& i : game->monsters)
-		engine->placeActor(i, *game, i.getCurrentPosX(), i.getCurrentPosY());
+		engine->placeActor(i, *game);
 	
-	//for (auto& i : game->monsters)
-	//	engine->MoveActor(i, *game, DIR::RAND);
-
 	char key_pressed;
 
 	ui.clearScreen();
@@ -33,6 +30,7 @@ int main()
 	while (true)
 	{
 		ui.clearScreen();
+		game->setGameMesage("");
 		key_pressed = getch();
 
 		if(key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
@@ -57,6 +55,9 @@ int main()
 
 			for (auto& i : game->monsters)
 				engine->MoveActor(i, *game, DIR::RAND);
+
+			ui.printInfo(game->getGameMessage());
+			ui.printInfo(game->getGameFightMessage(), 2);
 		}
 		else if (key_pressed == 'Q')
 		{

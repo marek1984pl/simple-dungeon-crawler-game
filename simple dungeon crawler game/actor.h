@@ -12,14 +12,14 @@ public:
 
 	std::string getName() const;
 	int getLevel() const;
-	int getHealth() const;
-	int getMaxHealth() const;
 
 	void setName(std::string _name);
 	void setLevel(int _level);
 
-	void setHealth(int h);
+	virtual void setHealth(int h) = 0;
 	virtual void setMaxHealth() = 0;
+	virtual int getHealth() const = 0;
+	virtual int getMaxHealth() const = 0;
 
 	int getAttackPower();
 	int getArmor();
@@ -46,12 +46,6 @@ public:
 	int getNewPosY() const;
 
 	void setNewPos(int new_x, int new_y);
-
-	void setChanged(bool change);
-	bool isChanged() const;
-
-	void setGraphicTile(char tile);
-	char getGraphicTile() const;
 
 protected:
 	std::string name;

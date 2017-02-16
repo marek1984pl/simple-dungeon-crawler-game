@@ -90,6 +90,8 @@ void UserInterface::updateInterface(Game & g) const
 
 	printString("Experience: ", 1, 3, COLOR::WHITE, playerWindow);
 	printString(g.player.getExp(), 13, 3, COLOR::CYAN, playerWindow);
+	printString(" / ", 17, 3, COLOR::WHITE, playerWindow);
+	printString(g.player.exp_to_lvl_up[g.player.getLevel() + 1], 20, 3, COLOR::CYAN, playerWindow);
 
 	printString("Attack power : ", 1, 5, COLOR::WHITE, playerWindow);
 	printString(g.player.getAttackPower(), 16, 5, COLOR::WHITE, playerWindow);

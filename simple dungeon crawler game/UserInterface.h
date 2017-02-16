@@ -28,7 +28,6 @@ public:
 	void printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
 	void printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
 
-
 	WINDOW * getMainWindow() const;
 	WINDOW * getPlayerWindow() const;
 	WINDOW * getTextWindow() const;

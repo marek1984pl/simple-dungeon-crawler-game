@@ -20,16 +20,6 @@ int Actor::getLevel() const
 	return level;
 }
 
-int Actor::getHealth() const
-{
-	return health;
-}
-
-int Actor::getMaxHealth() const
-{
-	return max_health;
-}
-
 void Actor::setName(std::string _name)
 {
 	name = _name;
@@ -38,11 +28,6 @@ void Actor::setName(std::string _name)
 void Actor::setLevel(int _level)
 {
 	level = _level;
-}
-
-void Actor::setHealth(int h)
-{
-	health = h;
 }
 
 int Actor::getAttackPower()
