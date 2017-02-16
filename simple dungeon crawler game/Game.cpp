@@ -41,19 +41,19 @@ void Game::createRandomMonsters(int quantity)
 		switch (random_type)
 		{
 		case 0:
-			monsters.push_back(Monster("Goblin", 1));
+			monsters.push_back(Monster("Goblin", 1, MONSTER_TYPE::GOBLIN));
 			break;
 		case 1:
-			monsters.push_back(Monster("Wolf", 1));
+			monsters.push_back(Monster("Wolf", 1, MONSTER_TYPE::WOLF));
 			break;
 		case 2:
-			monsters.push_back(Monster("Bandit", 1));
+			monsters.push_back(Monster("Bandit", 1, MONSTER_TYPE::BANDIT));
 			break;
 		case 3:
-			monsters.push_back(Monster("Snake", 1));
+			monsters.push_back(Monster("Snake", 1, MONSTER_TYPE::SNAKE));
 			break;
 		case 4:
-			monsters.push_back(Monster("Troll", 1));
+			monsters.push_back(Monster("Troll", 1, MONSTER_TYPE::TROLL));
 			break;
 		default:
 			break;

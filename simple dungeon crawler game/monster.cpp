@@ -9,10 +9,11 @@ Monster::Monster()
 	stamina = 4;
 }
 
-Monster::Monster(std::string name, int lvl)
+Monster::Monster(std::string name, int lvl, MONSTER_TYPE t)
 {
 	setName(name);
 	setLevel(lvl);
+
 	setCurrentPos(rand() % 145 + 2, rand() % 45 + 2);
 
 	setDexterity(4);
@@ -23,6 +24,8 @@ Monster::Monster(std::string name, int lvl)
 	setAttackPower();
 	setMaxHealth();
 	setHealth(getMaxHealth());
+
+	monster_type = t;
 }
 
 Monster::~Monster()
@@ -65,5 +68,10 @@ bool Monster::operator==(const Monster & m1)
 		return true;
 	else 
 		return false;
+}
+
+MONSTER_TYPE Monster::getMonsterType() const
+{
+	return monster_type;
 }
 

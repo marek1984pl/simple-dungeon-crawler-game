@@ -32,6 +32,9 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 
 bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 {
+	std::string msg = "";
+	int gold_found = 0;
+
 	bool actor_is_player = false;
 	if (typeid(actor) == typeid(Player))
 		actor_is_player = true;
@@ -109,12 +112,26 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 		case TILE_TYPE::TREASURE:
 			if(actor_is_player == true)
 			{
-				game.setGameMesage("You found a treasure!\n 25 gold coins");
+				gold_found = rand() % 49 + 1;
+				msg = "You found a treasure: " + std::to_string(gold_found) + " gold coins";
+				game.setGameMesage(msg);
 				game.player.addExp(10);
-				game.player.addGold(25);
+				game.player.addGold(gold_found);
 				game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
 			}
 			break;
+		case TILE_TYPE::CORPSE:
+		{
+			if(actor_is_player == true)
+			{
+				gold_found = rand() % 19 + 1;
+				msg = "You looted corpse and found " + std::to_string(gold_found) + " gold coins";
+				game.player.addGold(gold_found);
+				game.setGameMesage(msg);
+				game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
+			}
+			break;
+		}
 		default:
 			break;
 		}
@@ -130,21 +147,24 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 
 bool GameEngine::attack_monster(Game & g, Actor & actor)
 {
-	std::string msg = "";
+	std::string combat_msg = "";
+	std::string game_msg = "";
+
 	// balance of stats needed
 	int dmg = rand() % 6 + g.player.getAttackPower();
 	int current_monster_hp = actor.getHealth() - dmg;
 
 	actor.setHealth(current_monster_hp);
 
-	msg = "Dmg to monster: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
+	combat_msg = "Dmg to monster: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
 
 	if (current_monster_hp <= 0)
 	{
-		// amonster delete
+		// monster delete
 		g.deleteMonster(dynamic_cast<Monster &>(actor));
-		g.setGameFightMesage(msg);
-		g.setGameMesage("Monster is dead!");
+		g.setGameFightMesage(combat_msg);
+		combat_msg = actor.getName() + " is dead";
+		g.setGameMesage(combat_msg);
 		g.player.addExp(actor.getLevel() * 25);
 
 		if (g.player.getExp() >= g.player.exp_to_lvl_up[g.player.getLevel() + 1])
@@ -156,20 +176,20 @@ bool GameEngine::attack_monster(Game & g, Actor & actor)
 		return true;
 	}
 
-	g.setGameFightMesage(msg);
+	g.setGameFightMesage(combat_msg);
 	return false;
 }
 
 bool GameEngine::attack_player(Game & g, Actor & actor)
 {
-	std::string msg = "";
+	std::string combat_msg = "";
 
 	int dmg = rand() % 2 + actor.getAttackPower();
 	int current_player_hp = g.player.getHealth() - dmg;
 
 	g.player.setHealth(current_player_hp);
 
-	msg = "Dmg to player: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
+	combat_msg = actor.getName() + " hit you : " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
 
 	if (current_player_hp <= 0)
 	{
@@ -178,11 +198,19 @@ bool GameEngine::attack_player(Game & g, Actor & actor)
 		return true;
 	}
 
-	g.setGameFightMesage(msg);
+	g.setGameFightMesage(combat_msg);
 	return false;
 }
 
-void GameEngine::useItem(Actor & actor)
+void GameEngine::useItem(Player & p)
 {
+	if (p.getHealth() < p.getMaxHealth())
+	{
+		int new_health = p.getHealth() + 10;
+		if (new_health > p.getMaxHealth())
+			p.setHealth(p.getMaxHealth());
+		else
+			p.setHealth(p.getHealth() + 10);
+	}
 }
 

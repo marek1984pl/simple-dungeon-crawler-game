@@ -20,5 +20,5 @@ public:
 	bool attack_monster(Game & g, Actor & actor);
 	bool attack_player(Game & g, Actor & actor);
 
-	void useItem(Actor & actor);
+	void useItem(Player & p);
 };

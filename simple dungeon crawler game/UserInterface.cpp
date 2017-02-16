@@ -225,8 +225,32 @@ void UserInterface::updateScreen(Game & game) const
 				printChar('.', j, i, COLOR::BLACK, mainWindow);
 				break;
 			case TILE_TYPE::MONSTER:
-				printChar('m', j, i, COLOR::RED, mainWindow);
+			{
+				char monster_type;
+				switch (game.getMonster(j, i).getMonsterType())
+				{
+				case MONSTER_TYPE::GOBLIN:
+					monster_type = 'G';
+					break;
+				case MONSTER_TYPE::WOLF:
+					monster_type = 'W';
+					break;
+				case MONSTER_TYPE::BANDIT:
+					monster_type = 'B';
+					break;
+				case MONSTER_TYPE::SNAKE:
+					monster_type = 'S';
+					break;
+				case MONSTER_TYPE::TROLL:
+					monster_type = 'R';
+					break;
+				default:
+					monster_type = 'M';
+					break;
+				}
+				printChar(monster_type, j, i, COLOR::RED, mainWindow);
 				break;
+			}
 			case TILE_TYPE::TREASURE:
 				printChar('$', j, i, COLOR::YELLOW, mainWindow);
 				break;

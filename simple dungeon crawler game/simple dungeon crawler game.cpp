@@ -31,30 +31,28 @@ int main()
 	{
 		ui.clearScreen();
 		game->setGameMesage("");
+		game->setGameFightMesage("");
+
 		key_pressed = getch();
 
 		if(key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
 		{
 			game->nextMove();
-			if (key_pressed == 's')
+			if(key_pressed == 's')
 			{
 				engine->MoveActor(game->player, *game, DIR::DOWN);
 			}
-			if (key_pressed == 'w')
+			else if (key_pressed == 'w')
 			{
 				engine->MoveActor(game->player, *game, DIR::UP);
 			}
-			if (key_pressed == 'a')
+			else if (key_pressed == 'a')
 			{
 				engine->MoveActor(game->player, *game, DIR::LEFT);
 			}
-			if (key_pressed == 'd')
+			else if (key_pressed == 'd')
 			{
 				engine->MoveActor(game->player, *game, DIR::RIGHT);
-			}
-			if (key_pressed == 'p')
-			{
-				engine->useItem(game->player);
 			}
 
 			for (auto& i : game->monsters)
@@ -63,6 +61,12 @@ int main()
 			ui.printInfo(game->getGameMessage());
 			ui.printInfo(game->getGameFightMessage(), 2);
 		}
+
+		else if (key_pressed == 'p')
+		{
+			engine->useItem(game->player);
+		}
+		
 		else if (key_pressed == 'Q')
 		{
 			delete engine;
