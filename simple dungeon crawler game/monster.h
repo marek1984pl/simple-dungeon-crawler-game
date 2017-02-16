@@ -16,5 +16,7 @@ public:
 
 	virtual void setAttackPower() override;
 	virtual void setArmor() override;
+
+	bool operator==(const Monster & m1);
 };
 

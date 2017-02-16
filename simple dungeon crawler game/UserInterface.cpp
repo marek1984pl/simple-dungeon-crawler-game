@@ -83,7 +83,9 @@ void UserInterface::updateInterface(Game & g) const
 	printString(g.player.getName().c_str(), 1, 1, COLOR::CYAN, playerWindow);
 
 	printString("Health: ", 20, 1, COLOR::WHITE, playerWindow);
-	printString(g.player.getHealth(), 30, 1, COLOR::RED, playerWindow);
+	printString(g.player.getHealth(), 28, 1, COLOR::RED, playerWindow);
+	printString(" / ", 30, 1, COLOR::WHITE, playerWindow);
+	printString(g.player.getMaxHealth(), 33, 1, COLOR::RED, playerWindow);
 
 	printString("Level: ", 1, 2, COLOR::WHITE, playerWindow);
 	printString(g.player.getLevel(), 8, 2, COLOR::CYAN, playerWindow);
@@ -198,9 +200,9 @@ void UserInterface::updateScreen(Game & game) const
 	TILE_TYPE current_tile_type;
 	Tile current_tile;
 
-	for (auto i = 0; i < 48; i++)
+	for (auto i = 1; i < 48; i++)
 	{
-		for (auto j = 0; j < 148; j++)
+		for (auto j = 1; j < 148; j++)
 		{
 			current_tile = game.levels[0].getLevelData(j, i);
 			current_tile_type = current_tile.getType();
@@ -208,26 +210,28 @@ void UserInterface::updateScreen(Game & game) const
 			switch (current_tile_type)
 			{
 			case TILE_TYPE::PLAYER:
-				printChar('@', j + 1, i + 1, COLOR::CYAN, mainWindow);
+				printChar('@', j, i, COLOR::CYAN, mainWindow);
 				break;
 			case TILE_TYPE::WALL:
-				printChar('#', j + 1, i + 1, COLOR::GRAY, mainWindow);
+				printChar('#', j, i, COLOR::GRAY, mainWindow);
 				break;
 			case TILE_TYPE::WATER:
-				printChar('~', j + 1, i + 1, COLOR::BLUE, mainWindow);
+				printChar('~', j, i, COLOR::BLUE, mainWindow);
 				break;
 			case TILE_TYPE::TREE:
-				printChar('T', j + 1, i + 1, COLOR::GREEN, mainWindow);
+				printChar('T', j, i, COLOR::GREEN, mainWindow);
 				break;
 			case TILE_TYPE::EMPTY:
-				printChar('.', j + 1, i + 1, COLOR::BLACK, mainWindow);
+				printChar('.', j, i, COLOR::BLACK, mainWindow);
 				break;
 			case TILE_TYPE::MONSTER:
-				printChar('m', j + 1, i + 1, COLOR::RED, mainWindow);
+				printChar('m', j, i, COLOR::RED, mainWindow);
 				break;
 			case TILE_TYPE::TREASURE:
-				printChar('$', j + 1, i + 1, COLOR::YELLOW, mainWindow);
+				printChar('$', j, i, COLOR::YELLOW, mainWindow);
 				break;
+			case TILE_TYPE::CORPSE:
+				printChar('x', j, i, COLOR::WHITE, mainWindow);
 			default:
 				break;
 			}

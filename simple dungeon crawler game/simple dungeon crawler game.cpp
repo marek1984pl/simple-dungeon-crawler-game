@@ -52,6 +52,10 @@ int main()
 			{
 				engine->MoveActor(game->player, *game, DIR::RIGHT);
 			}
+			if (key_pressed == 'p')
+			{
+				engine->useItem(game->player);
+			}
 
 			for (auto& i : game->monsters)
 				engine->MoveActor(i, *game, DIR::RAND);
@@ -68,6 +72,11 @@ int main()
 		}
 		ui.updateInterface(*game);
 		ui.updateScreen(*game);
+
+		if (game->player.isDead() == true)
+		{
+			//exit(0);
+		}
 	}
 
 	delete engine;

@@ -43,6 +43,10 @@ Tile::Tile(TILE_TYPE t)
 		setCollide(false);
 		setInteract(false);
 		break;
+	case TILE_TYPE::CORPSE:
+		setCollide(false);
+		setInteract(false);
+		break;
 	default:
 		break;
 	}

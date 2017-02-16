@@ -94,7 +94,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 				game.setGameMesage("Monster attacked!");
 				if (attack_monster(game, game.getMonster(actor.getNewPosX(), actor.getNewPosY())) == true)
 				{
-					game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
+					game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::CORPSE);
 				}
 			}
 			break;
@@ -102,6 +102,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 			game.setGameMesage("You were attacked by a monster!");
 			if (attack_player(game, actor) == true)
 			{
+				// if player is dead
 				return true;
 			}
 			break;
@@ -140,8 +141,8 @@ bool GameEngine::attack_monster(Game & g, Actor & actor)
 
 	if (current_monster_hp <= 0)
 	{
-		// add monster delete
-
+		// amonster delete
+		g.deleteMonster(dynamic_cast<Monster &>(actor));
 		g.setGameFightMesage(msg);
 		g.setGameMesage("Monster is dead!");
 		g.player.addExp(actor.getLevel() * 25);
@@ -163,7 +164,7 @@ bool GameEngine::attack_player(Game & g, Actor & actor)
 {
 	std::string msg = "";
 
-	int dmg = rand() % 6 + actor.getAttackPower();
+	int dmg = rand() % 2 + actor.getAttackPower();
 	int current_player_hp = g.player.getHealth() - dmg;
 
 	g.player.setHealth(current_player_hp);
@@ -174,9 +175,14 @@ bool GameEngine::attack_player(Game & g, Actor & actor)
 	{
 		g.player.setDead(true);
 		g.setGameMesage("You died!");
+		return true;
 	}
 
 	g.setGameFightMesage(msg);
 	return false;
+}
+
+void GameEngine::useItem(Actor & actor)
+{
 }
 

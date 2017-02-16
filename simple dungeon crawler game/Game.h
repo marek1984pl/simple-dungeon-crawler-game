@@ -22,6 +22,7 @@ public:
 	std::vector<Monster> monsters;
 
 	Monster & getMonster(int pos_x, int pos_y);
+	void deleteMonster(Monster & m);
 
 	void nextMove();
 	int getNumberOfMoves() const;

@@ -1,6 +1,6 @@
 #pragma once
 
-enum class TILE_TYPE { WALL, WATER, TREE, PLAYER, MONSTER, NPC, TREASURE, EMPTY};
+enum class TILE_TYPE { WALL, WATER, TREE, PLAYER, MONSTER, NPC, TREASURE, EMPTY, CORPSE};
 
 class Tile
 {

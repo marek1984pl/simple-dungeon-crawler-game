@@ -17,7 +17,7 @@ void Game::createPlayer(std::string name)
 	player.setLevel(1);
 	player.setStrength(3);
 	player.setDexterity(2);
-	player.setStamina(5);
+	player.setStamina(7);
 	player.setExp(0);
 	player.setGold(0);
 
@@ -68,6 +68,12 @@ Monster & Game::getMonster(int pos_x, int pos_y)
 		if (i.getCurrentPosX() == pos_x && i.getCurrentPosY() == pos_y)
 			return i;
 	}
+}
+
+void Game::deleteMonster(Monster & m)
+{
+	auto monster_iter = std::find(monsters.begin(), monsters.end(), m);
+	monsters.erase(monster_iter);
 }
 
 void Game::nextMove()

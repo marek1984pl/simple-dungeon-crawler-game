@@ -17,7 +17,7 @@ Monster::Monster(std::string name, int lvl)
 
 	setDexterity(4);
 	setStamina(3);
-	setStrength(5);
+	setStrength(3);
 
 	setArmor();
 	setAttackPower();
@@ -57,5 +57,13 @@ void Monster::setAttackPower()
 void Monster::setArmor()
 {
 	armor = (getDexterity() + getLevel()) * 2 + getStrength();
+}
+
+bool Monster::operator==(const Monster & m1)
+{
+	if (this->current_pos_x == m1.current_pos_x && this->current_pos_y == m1.current_pos_y)
+		return true;
+	else 
+		return false;
 }
 
