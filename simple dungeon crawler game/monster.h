@@ -19,9 +19,10 @@ public:
 	virtual void setAttackPower() override;
 	virtual void setArmor() override;
 
-	bool operator==(const Monster & m1);
+	bool operator==(const Monster & m);
 
 	MONSTER_TYPE getMonsterType() const;
+
 private:
 	MONSTER_TYPE monster_type;
 };

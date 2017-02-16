@@ -4,9 +4,6 @@
 
 Monster::Monster()
 {
-	strength = 4;
-	dexterity = 2;
-	stamina = 4;
 }
 
 Monster::Monster(std::string name, int lvl, MONSTER_TYPE t)
@@ -14,15 +11,13 @@ Monster::Monster(std::string name, int lvl, MONSTER_TYPE t)
 	setName(name);
 	setLevel(lvl);
 
-	setCurrentPos(rand() % 145 + 2, rand() % 45 + 2);
+	setStrength(4);
+	setDexterity(3);
+	setStamina(5);
 
-	setDexterity(4);
-	setStamina(3);
-	setStrength(3);
-
+	setMaxHealth();
 	setArmor();
 	setAttackPower();
-	setMaxHealth();
 	setHealth(getMaxHealth());
 
 	monster_type = t;
@@ -44,7 +39,7 @@ int Monster::getHealth() const
 
 void Monster::setMaxHealth()
 {
-	max_health = getStamina() * getLevel() * 2;
+	max_health = (getStamina() + getLevel()) * 2;
 }
 
 int Monster::getMaxHealth() const
@@ -54,17 +49,17 @@ int Monster::getMaxHealth() const
 
 void Monster::setAttackPower()
 {
-	attack_power = (getStrength() + getLevel()) * 2 + getDexterity();
+	attack_power = (getStrength() + getLevel()) * 2;
 }
 
 void Monster::setArmor()
 {
-	armor = (getDexterity() + getLevel()) * 2 + getStrength();
+	armor = (getDexterity() + getLevel()) * 2;
 }
 
-bool Monster::operator==(const Monster & m1)
+bool Monster::operator==(const Monster & m)
 {
-	if (this->current_pos_x == m1.current_pos_x && this->current_pos_y == m1.current_pos_y)
+	if (this->current_pos_x == m.current_pos_x && this->current_pos_y == m.current_pos_y)
 		return true;
 	else 
 		return false;

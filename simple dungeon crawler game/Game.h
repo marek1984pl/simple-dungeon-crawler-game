@@ -28,14 +28,14 @@ public:
 	int getNumberOfMoves() const;
 
 	std::string getGameMessage() const;
-	std::string getGameFightMessage() const;
+	std::string getFightMessage() const;
 	void setGameMesage(std::string msg);
-	void setGameFightMesage(std::string msg);
+	void setFightMesage(std::string msg);
 
 private:
 	int current_level;
 	int number_of_moves = 0;
 	std::string game_message;
-	std::string game_fight_message;
+	std::string fight_message;
 };
 

@@ -24,45 +24,53 @@ void Level::loadLevelFromFile(int width, int height)
 			switch (tile)
 			{
 			case '#':
-				lvl_data[i][j].setType(TILE_TYPE::WALL);
-				lvl_data[i][j].setCollide(true);
-				lvl_data[i][j].setInteract(false);
+				map[i][j].setType(TILE_TYPE::WALL);
+				map[i][j].setCollide(true);
+				map[i][j].setInteract(false);
+				map[i][j].setOccupied(true);
 				break;
 			case '~':
-				lvl_data[i][j].setType(TILE_TYPE::WATER);
-				lvl_data[i][j].setCollide(true);
-				lvl_data[i][j].setInteract(false);
+				map[i][j].setType(TILE_TYPE::WATER);
+				map[i][j].setCollide(true);
+				map[i][j].setInteract(false);
+				map[i][j].setOccupied(true);
 				break;
 			case 'T':
-				lvl_data[i][j].setType(TILE_TYPE::TREE);
-				lvl_data[i][j].setCollide(true);
-				lvl_data[i][j].setInteract(false);
+				map[i][j].setType(TILE_TYPE::TREE);
+				map[i][j].setCollide(true);
+				map[i][j].setInteract(false);
+				map[i][j].setOccupied(true);
 				break;
 			case '@':
-				lvl_data[i][j].setType(TILE_TYPE::PLAYER);
-				lvl_data[i][j].setCollide(false);
-				lvl_data[i][j].setInteract(true);
+				map[i][j].setType(TILE_TYPE::PLAYER);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(true);
+				map[i][j].setOccupied(true);
 				break;
 			case 'g':
 			case 's':
-				lvl_data[i][j].setType(TILE_TYPE::MONSTER);
-				lvl_data[i][j].setCollide(false);
-				lvl_data[i][j].setInteract(true);
+				map[i][j].setType(TILE_TYPE::MONSTER);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(true);
+				map[i][j].setOccupied(true);
 				break;
 			case '*':
-				lvl_data[i][j].setType(TILE_TYPE::NPC);
-				lvl_data[i][j].setCollide(false);
-				lvl_data[i][j].setInteract(true);
+				map[i][j].setType(TILE_TYPE::NPC);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(true);
+				map[i][j].setOccupied(true);
 				break;
 			case '$':
-				lvl_data[i][j].setType(TILE_TYPE::TREASURE);
-				lvl_data[i][j].setCollide(false);
-				lvl_data[i][j].setInteract(true);
+				map[i][j].setType(TILE_TYPE::TREASURE);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(true);
+				map[i][j].setOccupied(true);
 				break;
 			case '.':
-				lvl_data[i][j].setType(TILE_TYPE::EMPTY);
-				lvl_data[i][j].setCollide(false);
-				lvl_data[i][j].setInteract(false);
+				map[i][j].setType(TILE_TYPE::EMPTY);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(false);
+				map[i][j].setOccupied(false);
 				break;
 			default:
 				break;
@@ -73,11 +81,11 @@ void Level::loadLevelFromFile(int width, int height)
 
 Tile Level::getLevelData(int x, int y)
 {
-	return lvl_data[y][x];
+	return map[y][x];
 }
 
 void Level::setLevelData(int x, int y, Tile t)
 {
-	lvl_data[y][x] = t;
+	map[y][x] = t;
 }
 

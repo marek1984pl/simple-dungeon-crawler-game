@@ -13,8 +13,8 @@ public:
 	std::string getName() const;
 	int getLevel() const;
 
-	void setName(std::string _name);
-	void setLevel(int _level);
+	void setName(std::string n);
+	void setLevel(int lvl);
 
 	virtual void setHealth(int h) = 0;
 	virtual void setMaxHealth() = 0;

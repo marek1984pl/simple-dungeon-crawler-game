@@ -4,9 +4,6 @@
 
 Player::Player()
 {
-	strength = 5;
-	dexterity = 3;
-	stamina = 5;
 	for (int i = 2; i < 100; ++i)
 	{
 		exp_to_lvl_up[i] = 50 + i * 50;
@@ -54,12 +51,13 @@ void Player::levelUp()
 	setStamina(getStamina() + 1);
 
 	setLevel(getLevel() + 1);
-	max_health = getStamina() * getLevel() * 2;
-	setHealth(max_health);
 	setExp(0);
 
+	setMaxHealth();
 	setAttackPower();
 	setArmor();
+
+	setHealth(max_health);
 }
 
 void Player::setHealth(int h)
@@ -74,7 +72,7 @@ int Player::getHealth() const
 
 void Player::setMaxHealth()
 {
-	max_health = getStamina() * getLevel() * 2;
+	max_health = getStamina() * 2;
 }
 
 int Player::getMaxHealth() const
@@ -84,12 +82,12 @@ int Player::getMaxHealth() const
 
 void Player::setAttackPower()
 {
-	attack_power = (getStrength() + getLevel()) * 2 + getDexterity();
+	attack_power = (getStrength() + getLevel()) * 2;
 }
 
 void Player::setArmor()
 {
-	armor = (getDexterity() + getLevel()) * 2 + getStrength();
+	armor = (getDexterity() + getLevel()) * 2;
 }
 
 void Player::setDead(bool d)

@@ -17,7 +17,7 @@ public:
 	void setLevelData(int x, int y, Tile t);
 
 private:
-	std::array<std::array<Tile, 148>, 48> lvl_data;
+	std::array<std::array<Tile, 148>, 48> map;
 	std::ifstream file;
 };
 

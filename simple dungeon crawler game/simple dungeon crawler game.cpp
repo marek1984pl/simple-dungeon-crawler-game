@@ -14,7 +14,7 @@ int main()
 
 	game->createPlayer("Zodgar");
 
-	game->createRandomMonsters(100);
+	game->createRandomMonsters(30);
 
 	engine->placeActor(game->player, *game);
 
@@ -31,7 +31,7 @@ int main()
 	{
 		ui.clearScreen();
 		game->setGameMesage("");
-		game->setGameFightMesage("");
+		game->setFightMesage("");
 
 		key_pressed = getch();
 
@@ -59,7 +59,7 @@ int main()
 				engine->MoveActor(i, *game, DIR::RAND);
 
 			ui.printInfo(game->getGameMessage());
-			ui.printInfo(game->getGameFightMessage(), 2);
+			ui.printInfo(game->getFightMessage(), 2);
 		}
 
 		else if (key_pressed == 'p')

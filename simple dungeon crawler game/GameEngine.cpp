@@ -162,7 +162,7 @@ bool GameEngine::attack_monster(Game & g, Actor & actor)
 	{
 		// monster delete
 		g.deleteMonster(dynamic_cast<Monster &>(actor));
-		g.setGameFightMesage(combat_msg);
+		g.setFightMesage(combat_msg);
 		combat_msg = actor.getName() + " is dead";
 		g.setGameMesage(combat_msg);
 		g.player.addExp(actor.getLevel() * 25);
@@ -176,7 +176,7 @@ bool GameEngine::attack_monster(Game & g, Actor & actor)
 		return true;
 	}
 
-	g.setGameFightMesage(combat_msg);
+	g.setFightMesage(combat_msg);
 	return false;
 }
 
@@ -198,7 +198,7 @@ bool GameEngine::attack_player(Game & g, Actor & actor)
 		return true;
 	}
 
-	g.setGameFightMesage(combat_msg);
+	g.setFightMesage(combat_msg);
 	return false;
 }
 

@@ -20,14 +20,14 @@ int Actor::getLevel() const
 	return level;
 }
 
-void Actor::setName(std::string _name)
+void Actor::setName(std::string n)
 {
-	name = _name;
+	name = n;
 }
 
-void Actor::setLevel(int _level)
+void Actor::setLevel(int lvl)
 {
-	level = _level;
+	level = lvl;
 }
 
 int Actor::getAttackPower()

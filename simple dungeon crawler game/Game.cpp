@@ -34,10 +34,21 @@ void Game::createPlayer(std::string name)
 void Game::createRandomMonsters(int quantity)
 {
 	int random_type;
+	int pos_x, pos_y;
 	
 	for (int i = 0; i < quantity; ++i)
-	{
+	{		
+		pos_x = rand() % 145 + 2;
+		pos_y = rand() % 45 + 2;
+
+		while (levels[0].getLevelData(pos_x, pos_y).getOccupied() == true)
+		{
+			pos_x = rand() % 145 + 2;
+			pos_y = rand() % 45 + 2;
+		}
+	
 		random_type = rand() % 5;
+
 		switch (random_type)
 		{
 		case 0:
@@ -58,6 +69,7 @@ void Game::createRandomMonsters(int quantity)
 		default:
 			break;
 		}
+		monsters.back().setCurrentPos(pos_x, pos_y);
 	}
 }
 
@@ -91,9 +103,9 @@ std::string Game::getGameMessage() const
 	return game_message;
 }
 
-std::string Game::getGameFightMessage() const
+std::string Game::getFightMessage() const
 {
-	return game_fight_message;
+	return fight_message;
 }
 
 void Game::setGameMesage(std::string msg)
@@ -101,9 +113,9 @@ void Game::setGameMesage(std::string msg)
 	game_message = msg;
 }
 
-void Game::setGameFightMesage(std::string msg)
+void Game::setFightMesage(std::string msg)
 {
-	game_fight_message = msg;
+	fight_message = msg;
 }
 
 
