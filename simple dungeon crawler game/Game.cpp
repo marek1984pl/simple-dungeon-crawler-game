@@ -41,7 +41,7 @@ void Game::createRandomMonsters(int quantity)
 		pos_x = rand() % 145 + 2;
 		pos_y = rand() % 45 + 2;
 
-		while (levels[0].getLevelData(pos_x, pos_y).getOccupied() == true)
+		while (levels[0].getMapTile(pos_x, pos_y).getOccupied() == true)
 		{
 			pos_x = rand() % 145 + 2;
 			pos_y = rand() % 45 + 2;

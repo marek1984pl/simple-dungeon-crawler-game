@@ -79,12 +79,12 @@ void Level::loadLevelFromFile(int width, int height)
 	}
 }
 
-Tile Level::getLevelData(int x, int y)
+Tile Level::getMapTile(int x, int y)
 {
 	return map[y][x];
 }
 
-void Level::setLevelData(int x, int y, Tile t)
+void Level::setMapTile(int x, int y, Tile t)
 {
 	map[y][x] = t;
 }

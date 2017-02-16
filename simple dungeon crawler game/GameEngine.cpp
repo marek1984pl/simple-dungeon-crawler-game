@@ -23,7 +23,7 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 	else
 		temp = new Tile(TILE_TYPE::NPC);
 
-	game.levels[0].setLevelData(actor.getCurrentPosX(), actor.getCurrentPosY(), *temp);
+	game.levels[0].setMapTile(actor.getCurrentPosX(), actor.getCurrentPosY(), *temp);
 
 	delete temp;
 
@@ -40,7 +40,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 		actor_is_player = true;
 	
 	actor.setOldPos(actor.getCurrentPosX(), actor.getCurrentPosY());
-	Tile old_tile = game.levels[0].getLevelData(actor.getCurrentPosX(), actor.getCurrentPosY());
+	Tile old_tile = game.levels[0].getMapTile(actor.getCurrentPosX(), actor.getCurrentPosY());
 
 	if (direction == DIR::RAND)
 	{
@@ -66,7 +66,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 		break;
 	}
 	
-	Tile next_tile = game.levels[0].getLevelData(actor.getNewPosX(), actor.getNewPosY());
+	Tile next_tile = game.levels[0].getMapTile(actor.getNewPosX(), actor.getNewPosY());
 	
 	if (next_tile.canCollide() == true && next_tile.canInteract() == false)
 	{
@@ -97,7 +97,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 				game.setGameMesage("Monster attacked!");
 				if (attack_monster(game, game.getMonster(actor.getNewPosX(), actor.getNewPosY())) == true)
 				{
-					game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::CORPSE);
+					game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::CORPSE);
 				}
 			}
 			break;
@@ -117,7 +117,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 				game.setGameMesage(msg);
 				game.player.addExp(10);
 				game.player.addGold(gold_found);
-				game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
+				game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
 			}
 			break;
 		case TILE_TYPE::CORPSE:
@@ -128,7 +128,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 				msg = "You looted corpse and found " + std::to_string(gold_found) + " gold coins";
 				game.player.addGold(gold_found);
 				game.setGameMesage(msg);
-				game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
+				game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
 			}
 			break;
 		}
@@ -139,8 +139,8 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	else if(next_tile.canCollide() == false && next_tile.canInteract() == false)
 	{
 		actor.setCurrentPos(actor.getNewPosX(), actor.getNewPosY());
-		game.levels[0].setLevelData(actor.getNewPosX(), actor.getNewPosY(), old_tile);
-		game.levels[0].setLevelData(actor.getOldPosX(), actor.getOldPosY(), next_tile);
+		game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), old_tile);
+		game.levels[0].setMapTile(actor.getOldPosX(), actor.getOldPosY(), next_tile);
 	}
 	return false;
 }

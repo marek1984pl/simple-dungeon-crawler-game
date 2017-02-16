@@ -13,8 +13,8 @@ public:
 
 	void loadLevelFromFile(int width, int height);
 
-	Tile getLevelData(int x, int y);
-	void setLevelData(int x, int y, Tile t);
+	Tile getMapTile(int x, int y);
+	void setMapTile(int x, int y, Tile t);
 
 private:
 	std::array<std::array<Tile, 148>, 48> map;

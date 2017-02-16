@@ -200,33 +200,32 @@ void UserInterface::updateScreen(Game & game) const
 	TILE_TYPE current_tile_type;
 	Tile current_tile;
 
-	for (auto i = 1; i < 48; i++)
+	for (auto i = 0; i < 48; i++)
 	{
-		for (auto j = 1; j < 148; j++)
+		for (auto j = 0; j < 148; j++)
 		{
-			current_tile = game.levels[0].getLevelData(j, i);
+			current_tile = game.levels[0].getMapTile(j, i);
 			current_tile_type = current_tile.getType();
+			char monster_type = 'M';
 
 			switch (current_tile_type)
 			{
 			case TILE_TYPE::PLAYER:
-				printChar('@', j, i, COLOR::CYAN, mainWindow);
+				printChar('@', j + 1, i + 1, COLOR::CYAN, mainWindow);
 				break;
 			case TILE_TYPE::WALL:
-				printChar('#', j, i, COLOR::GRAY, mainWindow);
+				printChar('#', j + 1, i + 1, COLOR::GRAY, mainWindow);
 				break;
 			case TILE_TYPE::WATER:
-				printChar('~', j, i, COLOR::BLUE, mainWindow);
+				printChar('~', j + 1, i + 1, COLOR::BLUE, mainWindow);
 				break;
 			case TILE_TYPE::TREE:
-				printChar('T', j, i, COLOR::GREEN, mainWindow);
+				printChar('T', j + 1, i + 1, COLOR::GREEN, mainWindow);
 				break;
 			case TILE_TYPE::EMPTY:
-				printChar('.', j, i, COLOR::BLACK, mainWindow);
+				printChar('.', j + 1, i + 1, COLOR::BLACK, mainWindow);
 				break;
 			case TILE_TYPE::MONSTER:
-			{
-				char monster_type;
 				switch (game.getMonster(j, i).getMonsterType())
 				{
 				case MONSTER_TYPE::GOBLIN:
@@ -248,14 +247,14 @@ void UserInterface::updateScreen(Game & game) const
 					monster_type = 'M';
 					break;
 				}
-				printChar(monster_type, j, i, COLOR::RED, mainWindow);
+				printChar(monster_type, j + 1, i + 1, COLOR::RED, mainWindow);
 				break;
-			}
 			case TILE_TYPE::TREASURE:
-				printChar('$', j, i, COLOR::YELLOW, mainWindow);
+				printChar('$', j + 1, i + 1, COLOR::YELLOW, mainWindow);
 				break;
 			case TILE_TYPE::CORPSE:
-				printChar('x', j, i, COLOR::WHITE, mainWindow);
+				printChar('x', j + 1, i + 1, COLOR::WHITE, mainWindow);
+				break;
 			default:
 				break;
 			}
