@@ -109,13 +109,16 @@ void UserInterface::updateInterface(Game & g) const
 	printString("Gold: ", 1, 11, COLOR::WHITE, playerWindow);
 	printString(g.player.getGold(), 7, 11, COLOR::YELLOW, playerWindow);
 
-	printString("Player X: ", 1, 1, COLOR::YELLOW, textWindow);
-	printString(g.player.getCurrentPosX(), 11, 1, COLOR::YELLOW, textWindow);
-	printString("Player Y: ", 15, 1, COLOR::YELLOW, textWindow);
-	printString(g.player.getCurrentPosY(), 25, 1, COLOR::YELLOW, textWindow);
+	printString("Dungeon level: ", 1, 1, COLOR::WHITE, textWindow);
+	printString(g.getCurrentLevel() + 1, 16, 1, COLOR::WHITE, textWindow);
 
-	printString("Move number: ", 30, 1, COLOR::WHITE, textWindow);
-	printString(g.getNumberOfMoves(), 44, 1, COLOR::WHITE, textWindow);
+	printString("Player X: ", 1, 2, COLOR::YELLOW, textWindow);
+	printString(g.player.getCurrentPosX(), 11, 2, COLOR::YELLOW, textWindow);
+	printString("Player Y: ", 15, 2, COLOR::YELLOW, textWindow);
+	printString(g.player.getCurrentPosY(), 25, 2, COLOR::YELLOW, textWindow);
+
+	printString("Move number: ", 30, 2, COLOR::WHITE, textWindow);
+	printString(g.getNumberOfMoves(), 44, 2, COLOR::WHITE, textWindow);
 }
 
 void UserInterface::printInfo(std::string text, int line) const
@@ -204,7 +207,7 @@ void UserInterface::updateScreen(Game & game) const
 	{
 		for (auto j = 0; j < 148; j++)
 		{
-			current_tile = game.levels[0].getMapTile(j, i);
+			current_tile = game.levels[game.getCurrentLevel()].getMapTile(j, i);
 			current_tile_type = current_tile.getType();
 			char monster_type = 'M';
 

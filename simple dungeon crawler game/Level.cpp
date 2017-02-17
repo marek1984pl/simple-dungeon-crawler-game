@@ -6,14 +6,18 @@ Level::Level()
 {
 }
 
-Level::~Level()
+Level::Level(int width, int height, int lvl_number)
 {
-	file.close();
+	loadLevelFromFile(width, height, lvl_number);
 }
 
-void Level::loadLevelFromFile(int width, int height)
+Level::~Level()
 {
-	file.open(".\\data\\levels\\level_1.txt");
+}
+
+void Level::loadLevelFromFile(int width, int height, int lvl_number)
+{
+	file.open(".\\data\\levels\\level_" + std::to_string(lvl_number) + ".txt");
 
 	char tile;
 	for (auto i = 0; i < height; i++)
@@ -77,6 +81,8 @@ void Level::loadLevelFromFile(int width, int height)
 			}
 		}
 	}
+
+	file.close();
 }
 
 Tile Level::getMapTile(int x, int y) const

@@ -4,7 +4,8 @@
 
 Game::Game()
 {	
-	levels[0].loadLevelFromFile(148, 48);
+	for(int i = 0; i < number_of_levels; ++i)
+		levels[i].loadLevelFromFile(148, 48, i + 1);
 }
 
 Game::~Game()
@@ -41,7 +42,7 @@ void Game::createRandomMonsters(int quantity)
 		pos_x = rand() % 145 + 2;
 		pos_y = rand() % 45 + 2;
 
-		while (levels[0].getMapTile(pos_x, pos_y).getOccupied() == true)
+		while (levels[current_level].getMapTile(pos_x, pos_y).getOccupied() == true)
 		{
 			pos_x = rand() % 145 + 2;
 			pos_y = rand() % 45 + 2;
@@ -96,6 +97,16 @@ void Game::nextMove()
 int Game::getNumberOfMoves() const
 {
 	return number_of_moves;
+}
+
+void Game::setCurrentLevel(int lvl)
+{
+	current_level = lvl;
+}
+
+int Game::getCurrentLevel() const
+{
+	return current_level;
 }
 
 std::string Game::getGameMessage() const
