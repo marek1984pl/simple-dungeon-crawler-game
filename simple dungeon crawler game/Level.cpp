@@ -27,6 +27,8 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 			file >> tile;
 			switch (tile)
 			{
+			// todo
+			// remove unnecessary code, use setType method from tile or tile constructor to set default collide, interact and occupied
 			case '#':
 				map[i][j].setType(TILE_TYPE::WALL);
 				map[i][j].setCollide(true);
@@ -75,6 +77,18 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 				map[i][j].setCollide(false);
 				map[i][j].setInteract(false);
 				map[i][j].setOccupied(false);
+				break;
+			case '\\':
+				map[i][j].setType(TILE_TYPE::LEVEL_DOWN);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(true);
+				map[i][j].setOccupied(true);
+				break;
+			case '/':
+				map[i][j].setType(TILE_TYPE::LEVEL_UP);
+				map[i][j].setCollide(false);
+				map[i][j].setInteract(true);
+				map[i][j].setOccupied(true);
 				break;
 			default:
 				break;

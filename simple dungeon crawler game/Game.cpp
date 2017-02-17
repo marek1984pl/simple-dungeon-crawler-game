@@ -4,7 +4,7 @@
 
 Game::Game()
 {	
-	for(int i = 0; i < number_of_levels; ++i)
+	for (int i = 0; i < number_of_levels; ++i)
 		levels[i].loadLevelFromFile(148, 48, i + 1);
 }
 

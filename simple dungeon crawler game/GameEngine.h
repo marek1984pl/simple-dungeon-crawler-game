@@ -7,7 +7,7 @@
 #include "Game.h"
 
 enum class DIR { UP, DOWN, LEFT, RIGHT, RAND };
-enum RESULT { PLAYER_DEAD, MONSTER_DEAD, NONE };
+enum RESULT { PLAYER_DEAD, MONSTER_DEAD, NONE, LEVEL_DOWN, LEVEL_UP };
 
 class GameEngine
 {
@@ -23,6 +23,8 @@ public:
 
 	void pickUpTreasure(Game & g) const;
 	void lootCorpse(Game & game) const;
+
+	RESULT changeLevel(Game & g, int lvl) const;
 
 	void useItem(Player & p) const;
 };

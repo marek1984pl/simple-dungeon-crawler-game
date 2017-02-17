@@ -258,6 +258,12 @@ void UserInterface::updateScreen(Game & game) const
 			case TILE_TYPE::CORPSE:
 				printChar('x', j + 1, i + 1, COLOR::WHITE, mainWindow);
 				break;
+			case TILE_TYPE::LEVEL_DOWN:
+				printChar('\\', j + 1, i + 1, COLOR::MAGENTA, mainWindow);
+				break;
+			case TILE_TYPE::LEVEL_UP:
+				printChar('/', j + 1, i + 1, COLOR::MAGENTA, mainWindow);
+				break;
 			default:
 				break;
 			}

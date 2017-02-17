@@ -14,9 +14,9 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 {
 	Tile * temp;
 
-	if(typeid(actor) == typeid(Player))
+	if (typeid(actor) == typeid(Player))
 		temp = new Tile(TILE_TYPE::PLAYER);
-	else if(typeid(actor) == typeid(Monster))
+	else if (typeid(actor) == typeid(Monster))
 		temp = new Tile(TILE_TYPE::MONSTER);
 	else
 		temp = new Tile(TILE_TYPE::NPC);
@@ -83,7 +83,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		}
 		return RESULT::NONE;
 	}
-	else if(next_tile.canCollide() == false && next_tile.canInteract() == true)
+	else if (next_tile.canCollide() == false && next_tile.canInteract() == true)
 	{
 		switch (next_tile.getType())
 		{
@@ -108,15 +108,24 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 				pickUpTreasure(game);
 			break;
 		case TILE_TYPE::CORPSE:
-			if(actor_is_player == true)
+			if (actor_is_player == true)
 				lootCorpse(game);
 			break;
 		default:
+		case TILE_TYPE::LEVEL_DOWN:
+			if (actor_is_player == true)
+				changeLevel(game, game.getCurrentLevel() + 1);
+			return RESULT::LEVEL_DOWN;
+			break;
+		case TILE_TYPE::LEVEL_UP:
+			if (actor_is_player == true)
+				changeLevel(game, game.getCurrentLevel() - 1);
+			return RESULT::LEVEL_UP;
 			break;
 		}
 		return RESULT::NONE;
 	}
-	else if(next_tile.canCollide() == false && next_tile.canInteract() == false)
+	else if (next_tile.canCollide() == false && next_tile.canInteract() == false)
 	{
 		actor.setCurrentPos(actor.getNewPosX(), actor.getNewPosY());
 		game.levels[game.getCurrentLevel()].setMapTile(actor.getNewPosX(), actor.getNewPosY(), old_tile);
@@ -197,6 +206,20 @@ void GameEngine::lootCorpse(Game & g) const
 	g.player.addGold(gold_found);
 	g.setGameMesage(msg);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
+}
+
+RESULT GameEngine::changeLevel(Game & g, int lvl) const
+{
+	if (g.getCurrentLevel() < lvl)
+	{
+		g.setCurrentLevel(g.getCurrentLevel() + 1);
+		return RESULT::LEVEL_DOWN;
+	}
+	else
+	{
+		g.setCurrentLevel(g.getCurrentLevel() - 1);
+		return RESULT::LEVEL_UP;
+	}
 }
 
 void GameEngine::useItem(Player & p) const

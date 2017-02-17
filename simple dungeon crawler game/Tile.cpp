@@ -56,6 +56,16 @@ Tile::Tile(TILE_TYPE t)
 		setInteract(true);
 		setOccupied(true);
 		break;
+	case TILE_TYPE::LEVEL_DOWN:
+		setCollide(false);
+		setInteract(true);
+		setOccupied(true);
+		break;
+	case TILE_TYPE::LEVEL_UP:
+		setCollide(false);
+		setInteract(true);
+		setOccupied(true);
+		break;
 	default:
 		break;
 	}

@@ -12,6 +12,8 @@ int main()
 	Game * game = new Game;
 	UserInterface ui;
 
+	RESULT result = RESULT::NONE;
+
 	game->createPlayer("Zodgar");
 
 	game->createRandomMonsters(30);
@@ -35,28 +37,40 @@ int main()
 
 		key_pressed = getch();
 
-		if(key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
+		if (key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
 		{
 			game->nextMove();
-			if(key_pressed == 's')
+			if (key_pressed == 's')
 			{
-				engine->MoveActor(game->player, *game, DIR::DOWN);
+				result = engine->MoveActor(game->player, *game, DIR::DOWN);
 			}
 			else if (key_pressed == 'w')
 			{
-				engine->MoveActor(game->player, *game, DIR::UP);
+				result = engine->MoveActor(game->player, *game, DIR::UP);
 			}
 			else if (key_pressed == 'a')
 			{
-				engine->MoveActor(game->player, *game, DIR::LEFT);
+				result = engine->MoveActor(game->player, *game, DIR::LEFT);
 			}
 			else if (key_pressed == 'd')
 			{
-				engine->MoveActor(game->player, *game, DIR::RIGHT);
+				result = engine->MoveActor(game->player, *game, DIR::RIGHT);
+			}
+
+			if (result == RESULT::LEVEL_DOWN)
+			{
+				engine->placeActor(game->player, *game);
+				for (auto& i : game->monsters)
+					engine->placeActor(i, *game);
+				continue;
+			}
+			if (result == RESULT::LEVEL_UP)
+			{
+				continue;
 			}
 
 			for (auto& i : game->monsters)
-				engine->MoveActor(i, *game, DIR::RAND);
+				result = engine->MoveActor(i, *game, DIR::RAND);
 
 			ui.printInfo(game->getGameMessage());
 			ui.printInfo(game->getFightMessage(), 2);
