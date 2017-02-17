@@ -13,7 +13,7 @@ public:
 
 	void loadLevelFromFile(int width, int height);
 
-	Tile getMapTile(int x, int y);
+	Tile getMapTile(int x, int y) const;
 	void setMapTile(int x, int y, Tile t);
 
 private:

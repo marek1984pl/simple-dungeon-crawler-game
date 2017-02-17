@@ -30,7 +30,7 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 	return true;
 }
 
-bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
+bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 {
 	std::string msg = "";
 	int gold_found = 0;
@@ -145,7 +145,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction)
 	return false;
 }
 
-bool GameEngine::attack_monster(Game & g, Actor & actor)
+bool GameEngine::attack_monster(Game & g, Actor & actor) const
 {
 	std::string combat_msg = "";
 	std::string game_msg = "";
@@ -180,7 +180,7 @@ bool GameEngine::attack_monster(Game & g, Actor & actor)
 	return false;
 }
 
-bool GameEngine::attack_player(Game & g, Actor & actor)
+bool GameEngine::attack_player(Game & g, Actor & actor) const
 {
 	std::string combat_msg = "";
 
@@ -202,7 +202,7 @@ bool GameEngine::attack_player(Game & g, Actor & actor)
 	return false;
 }
 
-void GameEngine::useItem(Player & p)
+void GameEngine::useItem(Player & p) const
 {
 	if (p.getHealth() < p.getMaxHealth())
 	{

@@ -17,10 +17,6 @@ public:
 
 	void createRandomMonsters(int quantity);
 
-	Player player;
-	std::array<Level, 5> levels;
-	std::vector<Monster> monsters;
-
 	Monster & getMonster(int pos_x, int pos_y);
 	void deleteMonster(Monster & m);
 
@@ -32,6 +28,9 @@ public:
 	void setGameMesage(std::string msg);
 	void setFightMesage(std::string msg);
 
+	Player player;
+	std::array<Level, 5> levels;
+	std::vector<Monster> monsters;
 private:
 	int current_level;
 	int number_of_moves = 0;

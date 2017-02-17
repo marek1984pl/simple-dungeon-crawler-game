@@ -31,7 +31,8 @@ public:
 	std::array<int, 100> exp_to_lvl_up;
 
 	void setDead(bool d);
-	bool isDead();
+	bool isDead() const;
+
 private:
 	int gold = 0;
 	int exp = 0;

@@ -30,27 +30,27 @@ void Actor::setLevel(int lvl)
 	level = lvl;
 }
 
-int Actor::getAttackPower()
+int Actor::getAttackPower() const
 {
 	return attack_power;
 }
 
-int Actor::getArmor()
+int Actor::getArmor() const
 {
 	return armor;
 }
 
-int Actor::getStrength()
+int Actor::getStrength() const
 {
 	return strength;
 }
 
-int Actor::getDexterity()
+int Actor::getDexterity() const
 {
 	return dexterity;
 }
 
-int Actor::getStamina()
+int Actor::getStamina() const
 {
 	return stamina;
 }
@@ -112,9 +112,9 @@ int Actor::getNewPosY() const
 	return new_pos_y;
 }
 
-void Actor::setNewPos(int new_x, int new_y)
+void Actor::setNewPos(int pos_x, int pos_y)
 {
-	new_pos_x = new_x;
-	new_pos_y = new_y;
+	new_pos_x = pos_x;
+	new_pos_y = pos_y;
 }
 

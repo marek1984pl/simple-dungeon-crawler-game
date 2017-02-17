@@ -95,7 +95,7 @@ void Player::setDead(bool d)
 	is_dead = d;
 }
 
-bool Player::isDead()
+bool Player::isDead() const
 {
 	return is_dead;
 }

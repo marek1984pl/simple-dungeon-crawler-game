@@ -118,7 +118,7 @@ void UserInterface::updateInterface(Game & g) const
 	printString(g.getNumberOfMoves(), 44, 1, COLOR::WHITE, textWindow);
 }
 
-void UserInterface::printInfo(std::string text, int line)
+void UserInterface::printInfo(std::string text, int line) const
 {
 	printString(text.c_str(), 1, 4 + line, COLOR::WHITE, textWindow);
 }

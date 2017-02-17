@@ -79,7 +79,7 @@ void Level::loadLevelFromFile(int width, int height)
 	}
 }
 
-Tile Level::getMapTile(int x, int y)
+Tile Level::getMapTile(int x, int y) const
 {
 	return map[y][x];
 }

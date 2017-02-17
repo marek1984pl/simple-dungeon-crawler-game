@@ -1,7 +1,6 @@
 #pragma once
 
 #include <curses.h>
-#include <list>
 #include "Game.h"
 
 enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, DARK_RED, DARK_GREEN, DARK_YELLOW, DARK_BLUE, DARK_MAGENTA, DARK_CYAN, DARK_GRAY };
@@ -20,7 +19,7 @@ public:
 
 	void updateInterface(Game & g) const;
 
-	void printInfo(std::string text, int line = 0);
+	void printInfo(std::string text, int line = 0) const;
 
 	void setColor(COLOR color, WINDOW * window) const;
 
@@ -37,6 +36,5 @@ private:
 	WINDOW * playerWindow;
 	WINDOW * textWindow;
 
-	std::list<std::string> combat_log;
 };
 

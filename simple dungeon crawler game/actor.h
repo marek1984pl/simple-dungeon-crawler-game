@@ -21,11 +21,11 @@ public:
 	virtual int getHealth() const = 0;
 	virtual int getMaxHealth() const = 0;
 
-	int getAttackPower();
-	int getArmor();
-	int getStrength();
-	int getDexterity();
-	int getStamina();
+	int getAttackPower() const;
+	int getArmor() const;
+	int getStrength() const;
+	int getDexterity() const;
+	int getStamina() const;
 
 	virtual void setAttackPower() = 0;
 	virtual void setArmor() = 0;
@@ -33,19 +33,18 @@ public:
 	void setDexterity(int dex);
 	void setStamina(int sta);
 
-	int getCurrentPosX() const;
-	int getCurrentPosY() const;
-
 	int getOldPosX() const;
 	int getOldPosY() const;
 
-	void setCurrentPos(int pos_x, int pos_y);
-	void setOldPos(int pos_x, int pos_y);
+	int getCurrentPosX() const;
+	int getCurrentPosY() const;
 
 	int getNewPosX() const;
 	int getNewPosY() const;
 
-	void setNewPos(int new_x, int new_y);
+	void setOldPos(int pos_x, int pos_y);
+	void setCurrentPos(int pos_x, int pos_y);
+	void setNewPos(int pos_x, int pos_y);
 
 protected:
 	std::string name;
