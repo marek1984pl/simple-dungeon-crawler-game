@@ -20,7 +20,7 @@ int main()
 
 	engine->placeActor(game->player, *game);
 
-	for (auto& i : game->monsters)
+	for (auto& i : game->monsters[game->getCurrentLevel()])
 		engine->placeActor(i, *game);
 	
 	char key_pressed;
@@ -59,17 +59,20 @@ int main()
 
 			if (result == RESULT::LEVEL_DOWN)
 			{
+				// todo 
+				// think about placing a monster every time when player is changing a level
 				engine->placeActor(game->player, *game);
-				for (auto& i : game->monsters)
+				for (auto& i : game->monsters[game->getCurrentLevel()])
 					engine->placeActor(i, *game);
 				continue;
 			}
 			if (result == RESULT::LEVEL_UP)
 			{
+				engine->placeActor(game->player, *game);
 				continue;
 			}
 
-			for (auto& i : game->monsters)
+			for (auto& i : game->monsters[game->getCurrentLevel()])
 				result = engine->MoveActor(i, *game, DIR::RAND);
 
 			ui.printInfo(game->getGameMessage());

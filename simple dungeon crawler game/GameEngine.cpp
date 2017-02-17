@@ -111,7 +111,6 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			if (actor_is_player == true)
 				lootCorpse(game);
 			break;
-		default:
 		case TILE_TYPE::LEVEL_DOWN:
 			if (actor_is_player == true)
 				changeLevel(game, game.getCurrentLevel() + 1);
@@ -121,6 +120,8 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			if (actor_is_player == true)
 				changeLevel(game, game.getCurrentLevel() - 1);
 			return RESULT::LEVEL_UP;
+			break;
+		default:
 			break;
 		}
 		return RESULT::NONE;
@@ -210,6 +211,7 @@ void GameEngine::lootCorpse(Game & g) const
 
 RESULT GameEngine::changeLevel(Game & g, int lvl) const
 {
+	g.levels[g.getCurrentLevel()].setMapTile(g.player.getCurrentPosX(), g.player.getCurrentPosY(), TILE_TYPE::EMPTY);
 	if (g.getCurrentLevel() < lvl)
 	{
 		g.setCurrentLevel(g.getCurrentLevel() + 1);

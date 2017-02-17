@@ -33,7 +33,8 @@ public:
 
 	Player player;
 	std::array<Level, 5> levels;
-	std::vector<Monster> monsters;
+	std::array<std::vector<Monster>, 5> monsters;
+	//std::vector<Monster> monsters;
 
 private:
 	int number_of_levels = 5;
