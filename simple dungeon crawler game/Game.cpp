@@ -55,19 +55,19 @@ void Game::createRandomMonsters(int quantity)
 			switch (random_type)
 			{
 			case 0:
-				monsters[i].push_back(Monster("Goblin", 1, MONSTER_TYPE::GOBLIN));
+				monsters[i].push_back(Monster("Goblin", i * 2, MONSTER_TYPE::GOBLIN));
 				break;
 			case 1:
-				monsters[i].push_back(Monster("Wolf", 1, MONSTER_TYPE::WOLF));
+				monsters[i].push_back(Monster("Wolf", i * 2, MONSTER_TYPE::WOLF));
 				break;
 			case 2:
-				monsters[i].push_back(Monster("Bandit", 1, MONSTER_TYPE::BANDIT));
+				monsters[i].push_back(Monster("Bandit", i * 2, MONSTER_TYPE::BANDIT));
 				break;
 			case 3:
-				monsters[i].push_back(Monster("Snake", 1, MONSTER_TYPE::SNAKE));
+				monsters[i].push_back(Monster("Snake", i * 2, MONSTER_TYPE::SNAKE));
 				break;
 			case 4:
-				monsters[i].push_back(Monster("Troll", 1, MONSTER_TYPE::TROLL));
+				monsters[i].push_back(Monster("Troll", i * 2, MONSTER_TYPE::TROLL));
 				break;
 			default:
 				break;
@@ -110,6 +110,11 @@ void Game::setCurrentLevel(int lvl)
 int Game::getCurrentLevel() const
 {
 	return current_level;
+}
+
+int Game::getNumberOfLevels() const
+{
+	return number_of_levels;
 }
 
 std::string Game::getGameMessage() const

@@ -78,13 +78,13 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 				map[i][j].setInteract(false);
 				map[i][j].setOccupied(false);
 				break;
-			case '\\':
+			case '>':
 				map[i][j].setType(TILE_TYPE::LEVEL_DOWN);
 				map[i][j].setCollide(false);
 				map[i][j].setInteract(true);
 				map[i][j].setOccupied(true);
 				break;
-			case '/':
+			case '<':
 				map[i][j].setType(TILE_TYPE::LEVEL_UP);
 				map[i][j].setCollide(false);
 				map[i][j].setInteract(true);

@@ -19,9 +19,9 @@ int main()
 	game->createRandomMonsters(30);
 
 	engine->placeActor(game->player, *game);
-
+	
 	for (auto& i : game->monsters[game->getCurrentLevel()])
-		engine->placeActor(i, *game);
+			engine->placeActor(i, *game);
 	
 	char key_pressed;
 
@@ -37,40 +37,48 @@ int main()
 
 		key_pressed = getch();
 
-		if (key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd')
+		if (key_pressed == 'w' || key_pressed == 's' || key_pressed == 'a' || key_pressed == 'd' || key_pressed == 'q' || key_pressed == 'e' || key_pressed == 'z' || key_pressed == 'c')
 		{
-			game->nextMove();
-			if (key_pressed == 's')
+			switch (key_pressed)
 			{
-				result = engine->MoveActor(game->player, *game, DIR::DOWN);
-			}
-			else if (key_pressed == 'w')
-			{
+			case 'w':
 				result = engine->MoveActor(game->player, *game, DIR::UP);
-			}
-			else if (key_pressed == 'a')
-			{
+				break;
+			case 'a':
 				result = engine->MoveActor(game->player, *game, DIR::LEFT);
-			}
-			else if (key_pressed == 'd')
-			{
+				break;
+			case 's':
+				result = engine->MoveActor(game->player, *game, DIR::DOWN);
+				break;
+			case 'd':
 				result = engine->MoveActor(game->player, *game, DIR::RIGHT);
+				break;
+			case 'q':
+				result = engine->MoveActor(game->player, *game, DIR::L_UP);
+				break;
+			case 'e':
+				result = engine->MoveActor(game->player, *game, DIR::R_UP);
+				break;
+			case 'z':
+				result = engine->MoveActor(game->player, *game, DIR::L_DOWN);
+				break;
+			case 'c':
+				result = engine->MoveActor(game->player, *game, DIR::R_DOWN);
+				break;
+			default:
+				break;
 			}
+
+			game->nextMove();
 
 			if (result == RESULT::LEVEL_DOWN)
 			{
-				// todo 
-				// think about placing a monster every time when player is changing a level
 				engine->placeActor(game->player, *game);
 				for (auto& i : game->monsters[game->getCurrentLevel()])
 					engine->placeActor(i, *game);
-				continue;
 			}
 			if (result == RESULT::LEVEL_UP)
-			{
 				engine->placeActor(game->player, *game);
-				continue;
-			}
 
 			for (auto& i : game->monsters[game->getCurrentLevel()])
 				result = engine->MoveActor(i, *game, DIR::RAND);

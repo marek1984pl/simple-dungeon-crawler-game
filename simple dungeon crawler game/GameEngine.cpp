@@ -39,7 +39,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 
 	if (direction == DIR::RAND)
 	{
-		int rand_dir = rand() % 4;
+		int rand_dir = rand() % 8;
 		direction = static_cast<DIR>(rand_dir);
 	}
 
@@ -56,6 +56,18 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		break;
 	case DIR::RIGHT:
 		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY());
+		break;
+	case DIR::L_UP:
+		actor.setNewPos(actor.getCurrentPosX() - 1, actor.getCurrentPosY() - 1);
+		break;
+	case DIR::L_DOWN:
+		actor.setNewPos(actor.getCurrentPosX() - 1, actor.getCurrentPosY() + 1);
+		break;
+	case DIR::R_UP:
+		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY() - 1);
+		break;
+	case DIR::R_DOWN:
+		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY() + 1);
 		break;
 	default:
 		break;

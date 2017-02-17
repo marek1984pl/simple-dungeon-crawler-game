@@ -26,6 +26,8 @@ public:
 	void setCurrentLevel(int lvl);
 	int getCurrentLevel() const;
 
+	int getNumberOfLevels() const;
+
 	std::string getGameMessage() const;
 	std::string getFightMessage() const;
 	void setGameMesage(std::string msg);

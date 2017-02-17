@@ -6,7 +6,7 @@
 #include "actor.h"
 #include "Game.h"
 
-enum class DIR { UP, DOWN, LEFT, RIGHT, RAND };
+enum class DIR { UP, DOWN, LEFT, RIGHT, L_UP, L_DOWN, R_UP, R_DOWN, RAND };
 enum RESULT { PLAYER_DEAD, MONSTER_DEAD, NONE, LEVEL_DOWN, LEVEL_UP };
 
 class GameEngine
