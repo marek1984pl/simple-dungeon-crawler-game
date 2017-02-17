@@ -72,7 +72,7 @@ int Player::getHealth() const
 
 void Player::setMaxHealth()
 {
-	max_health = getStamina() * 2;
+	max_health = getStamina() * 3;
 }
 
 int Player::getMaxHealth() const
@@ -82,12 +82,12 @@ int Player::getMaxHealth() const
 
 void Player::setAttackPower()
 {
-	attack_power = (getStrength() + getLevel()) * 2;
+	attack_power = getStrength() * 2 + getLevel();
 }
 
 void Player::setArmor()
 {
-	armor = (getDexterity() + getLevel()) * 2;
+	armor = getDexterity() * 2 + getLevel();
 }
 
 void Player::setDead(bool d)

@@ -16,7 +16,7 @@ void Game::createPlayer(std::string name)
 	player.setName(name);
 	player.setLevel(1);
 	player.setStrength(3);
-	player.setDexterity(2);
+	player.setDexterity(4);
 	player.setStamina(7);
 	player.setExp(0);
 	player.setGold(0);

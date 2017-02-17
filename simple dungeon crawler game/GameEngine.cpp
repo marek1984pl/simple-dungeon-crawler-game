@@ -12,8 +12,6 @@ GameEngine::~GameEngine()
 
 bool GameEngine::placeActor(Actor & actor, Game & game) const
 {
-	// check if spot is already occupied
-
 	Tile * temp;
 
 	if(typeid(actor) == typeid(Player))
@@ -30,11 +28,8 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 	return true;
 }
 
-bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
+RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 {
-	std::string msg = "";
-	int gold_found = 0;
-
 	bool actor_is_player = false;
 	if (typeid(actor) == typeid(Player))
 		actor_is_player = true;
@@ -86,6 +81,7 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		default:
 			break;
 		}
+		return RESULT::NONE;
 	}
 	else if(next_tile.canCollide() == false && next_tile.canInteract() == true)
 	{
@@ -95,46 +91,30 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			if (actor_is_player == true)
 			{
 				game.setGameMesage("Monster attacked!");
-				if (attack_monster(game, game.getMonster(actor.getNewPosX(), actor.getNewPosY())) == true)
+				if (attack_monster(game, game.getMonster(actor.getNewPosX(), actor.getNewPosY())) == RESULT::MONSTER_DEAD)
 				{
 					game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::CORPSE);
+					return RESULT::MONSTER_DEAD;
 				}
 			}
 			break;
 		case TILE_TYPE::PLAYER:
 			game.setGameMesage("You were attacked by a monster!");
-			if (attack_player(game, actor) == true)
-			{
-				// if player is dead
-				return true;
-			}
+			if (attack_player(game, actor) == RESULT::PLAYER_DEAD)
+				return RESULT::PLAYER_DEAD;
 			break;
 		case TILE_TYPE::TREASURE:
-			if(actor_is_player == true)
-			{
-				gold_found = rand() % 49 + 1;
-				msg = "You found a treasure: " + std::to_string(gold_found) + " gold coins";
-				game.setGameMesage(msg);
-				game.player.addExp(10);
-				game.player.addGold(gold_found);
-				game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
-			}
+			if (actor_is_player == true)
+				pickUpTreasure(game);
 			break;
 		case TILE_TYPE::CORPSE:
-		{
 			if(actor_is_player == true)
-			{
-				gold_found = rand() % 19 + 1;
-				msg = "You looted corpse and found " + std::to_string(gold_found) + " gold coins";
-				game.player.addGold(gold_found);
-				game.setGameMesage(msg);
-				game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::EMPTY);
-			}
+				lootCorpse(game);
 			break;
-		}
 		default:
 			break;
 		}
+		return RESULT::NONE;
 	}
 	else if(next_tile.canCollide() == false && next_tile.canInteract() == false)
 	{
@@ -142,30 +122,28 @@ bool GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		game.levels[0].setMapTile(actor.getNewPosX(), actor.getNewPosY(), old_tile);
 		game.levels[0].setMapTile(actor.getOldPosX(), actor.getOldPosY(), next_tile);
 	}
-	return false;
+	return RESULT::NONE;
 }
 
-bool GameEngine::attack_monster(Game & g, Actor & actor) const
+RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 {
 	std::string combat_msg = "";
 	std::string game_msg = "";
 
-	// balance of stats needed
-	int dmg = rand() % 6 + g.player.getAttackPower();
-	int current_monster_hp = actor.getHealth() - dmg;
+	int dmg = abs(monster.getArmor() - (rand() % 10 + g.player.getAttackPower()));
+	int current_monster_hp = monster.getHealth() - dmg;
 
-	actor.setHealth(current_monster_hp);
+	monster.setHealth(current_monster_hp);
 
-	combat_msg = "Dmg to monster: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
+	combat_msg = "Dmg to monster: " + std::to_string(dmg) + "   Monster HP: " + std::to_string(monster.getHealth()) + " / " + std::to_string(monster.getMaxHealth());
 
 	if (current_monster_hp <= 0)
 	{
-		// monster delete
-		g.deleteMonster(dynamic_cast<Monster &>(actor));
+		g.deleteMonster(dynamic_cast<Monster &>(monster));
 		g.setFightMesage(combat_msg);
-		combat_msg = actor.getName() + " is dead";
+		combat_msg = monster.getName() + " is dead";
 		g.setGameMesage(combat_msg);
-		g.player.addExp(actor.getLevel() * 25);
+		g.player.addExp(monster.getLevel() * 25);
 
 		if (g.player.getExp() >= g.player.exp_to_lvl_up[g.player.getLevel() + 1])
 		{
@@ -173,33 +151,52 @@ bool GameEngine::attack_monster(Game & g, Actor & actor) const
 			g.player.levelUp();
 			g.player.addExp(exp_to_move);
 		}
-		return true;
+		return RESULT::MONSTER_DEAD;
 	}
 
 	g.setFightMesage(combat_msg);
-	return false;
+	return RESULT::NONE;
 }
 
-bool GameEngine::attack_player(Game & g, Actor & actor) const
+RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 {
 	std::string combat_msg = "";
 
-	int dmg = rand() % 2 + actor.getAttackPower();
+	int dmg = abs(g.player.getArmor() - (rand() % 10 + monster.getAttackPower()));
 	int current_player_hp = g.player.getHealth() - dmg;
 
 	g.player.setHealth(current_player_hp);
 
-	combat_msg = actor.getName() + " hit you : " + std::to_string(dmg) + "   Monster HP: " + std::to_string(actor.getHealth()) + " / " + std::to_string(actor.getMaxHealth());
+	combat_msg = monster.getName() + " hit you : " + std::to_string(dmg) + "   Monster HP: " + std::to_string(monster.getHealth()) + " / " + std::to_string(monster.getMaxHealth());
 
 	if (current_player_hp <= 0)
 	{
 		g.player.setDead(true);
 		g.setGameMesage("You died!");
-		return true;
+		return RESULT::PLAYER_DEAD;
 	}
 
 	g.setFightMesage(combat_msg);
-	return false;
+	return RESULT::NONE;
+}
+
+void GameEngine::pickUpTreasure(Game & g) const
+{
+	int gold_found =  rand() % 49 + 1;
+	std::string msg = "You found a treasure: " + std::to_string(gold_found) + " gold coins";
+	g.setGameMesage(msg);
+	g.player.addExp(10);
+	g.player.addGold(gold_found);
+	g.levels[0].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
+}
+
+void GameEngine::lootCorpse(Game & g) const
+{
+	int gold_found = rand() % 19 + 1;
+	std::string msg = "You looted corpse and found " + std::to_string(gold_found) + " gold coins";
+	g.player.addGold(gold_found);
+	g.setGameMesage(msg);
+	g.levels[0].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
 }
 
 void GameEngine::useItem(Player & p) const
@@ -213,4 +210,3 @@ void GameEngine::useItem(Player & p) const
 			p.setHealth(p.getHealth() + 10);
 	}
 }
-

@@ -39,7 +39,7 @@ int Monster::getHealth() const
 
 void Monster::setMaxHealth()
 {
-	max_health = (getStamina() + getLevel()) * 2;
+	max_health = (getStamina() + getLevel() * 2) * 2;
 }
 
 int Monster::getMaxHealth() const
