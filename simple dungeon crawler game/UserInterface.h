@@ -1,6 +1,9 @@
 #pragma once
 
 #include <curses.h>
+#include <fstream>
+#include <string>
+#include <iostream>
 #include "Game.h"
 
 enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, DARK_RED, DARK_GREEN, DARK_YELLOW, DARK_BLUE, DARK_MAGENTA, DARK_CYAN, DARK_GRAY };
@@ -10,6 +13,9 @@ class UserInterface
 public:
 	UserInterface();
 	~UserInterface();
+
+	int createMainMenu();
+	void createGameInterface();
 
 	bool initializeGraphics(int window_width, int window_height) const;
 
@@ -30,11 +36,12 @@ public:
 	WINDOW * getMainWindow() const;
 	WINDOW * getPlayerWindow() const;
 	WINDOW * getTextWindow() const;
+	WINDOW * getMainMenuWindo() const;
 
 private:
 	WINDOW * mainWindow;
 	WINDOW * playerWindow;
 	WINDOW * textWindow;
-
+	WINDOW * mainMenuWindow;
 };
 

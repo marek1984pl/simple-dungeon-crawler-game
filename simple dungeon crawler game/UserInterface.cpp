@@ -5,10 +5,6 @@
 UserInterface::UserInterface()
 {
 	initializeGraphics(200, 50);
-
-	mainWindow = newwin(50, 150, 0, 0);
-	playerWindow = newwin(40, 50, 0, 150);
-	textWindow = newwin(10, 50, 40, 150);
 }
 
 UserInterface::~UserInterface()
@@ -16,7 +12,60 @@ UserInterface::~UserInterface()
 	delwin(mainWindow);
 	delwin(playerWindow);
 	delwin(textWindow);
+	delwin(mainMenuWindow);
 	endwin();
+}
+
+int UserInterface::createMainMenu()
+{
+	std::string tmp;
+	int next_line = 0;
+	char option;
+
+	mainMenuWindow = newwin(50, 200, 0, 0);
+	setColor(COLOR::DARK_GREEN, mainMenuWindow);
+	box(mainMenuWindow, 0, 0);
+	setColor(COLOR::GREEN, mainMenuWindow);
+
+	std::ifstream fin(".\\data\\logo.txt");
+	while(!fin.eof())
+	{
+		std::getline(fin, tmp);
+		printString(tmp.c_str(), (200 - tmp.size()) / 2, 7 + next_line++, COLOR::GREEN, mainMenuWindow);
+	}
+
+	std::string opt1 = "1) New game";
+	std::string opt2 = "2) Quit game";
+
+	printString(opt1.c_str(), (200 - opt1.size()) / 2, 25, COLOR::RED, mainMenuWindow);
+	printString(opt2.c_str(), (200 - opt2.size()) / 2, 26, COLOR::RED, mainMenuWindow);
+
+	wrefresh(mainMenuWindow);
+
+	fin.close();
+
+	while(true)
+	{
+		option = getch();
+
+		switch (option)
+		{
+		case '1':
+			return 0;
+			break;
+		case '2':
+			return -1;
+		default:
+			break;
+		}
+	}
+}
+
+void UserInterface::createGameInterface()
+{
+	mainWindow = newwin(50, 150, 0, 0);
+	playerWindow = newwin(40, 50, 0, 150);
+	textWindow = newwin(10, 50, 40, 150);
 }
 
 bool UserInterface::initializeGraphics(int window_width, int window_height) const
@@ -285,4 +334,9 @@ WINDOW * UserInterface::getPlayerWindow() const
 WINDOW * UserInterface::getTextWindow() const
 {
 	return textWindow;
+}
+
+WINDOW * UserInterface::getMainMenuWindo() const
+{
+	return mainMenuWindow;
 }

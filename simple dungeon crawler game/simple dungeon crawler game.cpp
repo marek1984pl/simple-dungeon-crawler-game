@@ -14,6 +14,16 @@ int main()
 
 	RESULT result = RESULT::NONE;
 
+	if (ui.createMainMenu() == -1)
+	{
+		delete engine;
+		delete game;
+
+		return 0;
+	}
+
+	ui.createGameInterface();
+
 	game->createPlayer("Zodgar");
 
 	game->createRandomMonsters(30);
@@ -96,7 +106,6 @@ int main()
 		{
 			delete engine;
 			delete game;
-
 			return 0;
 		}
 		ui.updateInterface(*game);
@@ -110,7 +119,7 @@ int main()
 
 	delete engine;
 	delete game;
-	
+
     return 0;
 }
 
