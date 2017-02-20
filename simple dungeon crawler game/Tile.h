@@ -6,8 +6,13 @@ class Tile
 {
 public:
 	Tile();
+	Tile(const Tile & t);
+	Tile(Tile && t);
 	Tile(TILE_TYPE t);
 	~Tile();
+
+	Tile & operator=(const Tile & t);
+	Tile & operator=(Tile && t);
 
 	bool canInteract() const;
 	bool canCollide() const;

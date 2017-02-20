@@ -27,68 +27,36 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 			file >> tile;
 			switch (tile)
 			{
-			// todo
-			// remove unnecessary code, use setType method from tile or tile constructor to set default collide, interact and occupied
 			case '#':
-				map[i][j].setType(TILE_TYPE::WALL);
-				map[i][j].setCollide(true);
-				map[i][j].setInteract(false);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::WALL));
 				break;
 			case '~':
-				map[i][j].setType(TILE_TYPE::WATER);
-				map[i][j].setCollide(true);
-				map[i][j].setInteract(false);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::WATER));
 				break;
 			case 'T':
-				map[i][j].setType(TILE_TYPE::TREE);
-				map[i][j].setCollide(true);
-				map[i][j].setInteract(false);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::TREE));
 				break;
 			case '@':
-				map[i][j].setType(TILE_TYPE::PLAYER);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(true);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::PLAYER));
 				break;
 			case 'g':
 			case 's':
-				map[i][j].setType(TILE_TYPE::MONSTER);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(true);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::MONSTER));
 				break;
 			case '*':
-				map[i][j].setType(TILE_TYPE::NPC);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(true);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::NPC));
 				break;
 			case '$':
-				map[i][j].setType(TILE_TYPE::TREASURE);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(true);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::TREASURE));
 				break;
 			case '.':
-				map[i][j].setType(TILE_TYPE::EMPTY);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(false);
-				map[i][j].setOccupied(false);
+				map[i][j] = std::move(Tile(TILE_TYPE::EMPTY));
 				break;
 			case '>':
-				map[i][j].setType(TILE_TYPE::LEVEL_DOWN);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(true);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::LEVEL_DOWN));
 				break;
 			case '<':
-				map[i][j].setType(TILE_TYPE::LEVEL_UP);
-				map[i][j].setCollide(false);
-				map[i][j].setInteract(true);
-				map[i][j].setOccupied(true);
+				map[i][j] = std::move(Tile(TILE_TYPE::LEVEL_UP));
 				break;
 			default:
 				break;
