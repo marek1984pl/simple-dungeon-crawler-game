@@ -2,12 +2,12 @@
 
 #include <string>
 
-enum class Item_Type { WEAPON, HELMET, ARMOR, LEGS, SHOULDERS, GLOVES, SHIELD, POTION, GOLD, EMPTY};
+enum class Item_Type { WEAPON, HELMET, ARMOR, LEGS, SHOULDERS, GLOVES, BOOTS, SHIELD, POTION, EMPTY};
 
 class Item
 {
 public:
-	Item();
+	Item(int option = 0);
 	Item(std::string n, Item_Type t, int str, int dex, int sta);
 	~Item();
 
@@ -22,7 +22,7 @@ public:
 	void setStrength(int str);
 	void setDexterity(int dex);
 	void setStamina(int sta);
-	void setName(int n);
+	void setName(std::string n);
 
 private:
 	Item_Type type;

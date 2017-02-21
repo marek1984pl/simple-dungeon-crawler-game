@@ -132,3 +132,24 @@ std::array<Item, 5> & Player::getBackpack()
 {
 	return backpack;
 }
+
+std::map<Item_Type, Item>& Player::getInventory()
+{
+	return inventory;
+}
+
+bool Player::addInventoryItem(Item & item)
+{
+	inventory[item.getType()] = item;
+	return true;
+}
+
+bool Player::removeItemFromInventory(Item_Type t)
+{
+	return false;
+}
+
+Item & Player::getItemFromInventory(Item_Type slot)
+{
+	return inventory[slot];
+}

@@ -33,15 +33,19 @@ void Game::createPlayer(std::string name)
 
 	for (int i = 0; i < 2; i++)
 		player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
+
+	player.addInventoryItem(Item("Iron sword", Item_Type::WEAPON, 0, 0, 0));
 }
 
-void Game::createRandomMonsters(int quantity)
+void Game::createRandomMonsters()
 {
 	int random_type;
 	int pos_x, pos_y;
+	int quantity;
 	
 	for (auto i = 0; i < number_of_levels; i++)
 	{
+		quantity = rand() % 20 + 20;
 		for (auto j = 0; j < quantity; ++j)
 		{
 			pos_x = rand() % 145 + 2;
@@ -78,6 +82,29 @@ void Game::createRandomMonsters(int quantity)
 				break;
 			}
 			monsters[i].back().setCurrentPos(pos_x, pos_y);
+		}
+	}
+}
+
+void Game::createRandomTreasuers()
+{
+	int quantity;
+	int pos_x, pos_y;
+
+	for (auto i = 0; i < number_of_levels; i++)
+	{
+		quantity = rand() % 20 + 20;
+		for (auto j = 0; j < quantity; ++j)
+		{
+			pos_x = rand() % 145 + 2;
+			pos_y = rand() % 45 + 2;
+
+			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true)
+			{
+				pos_x = rand() % 145 + 2;
+				pos_y = rand() % 45 + 2;
+			}
+			levels[i].setMapTile(pos_x, pos_y, Tile(TILE_TYPE::TREASURE));
 		}
 	}
 }

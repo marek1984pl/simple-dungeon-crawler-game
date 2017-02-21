@@ -15,7 +15,8 @@ public:
 
 	void createPlayer(std::string name);
 
-	void createRandomMonsters(int quantity);
+	void createRandomMonsters();
+	void createRandomTreasuers();
 
 	Monster & getMonster(int pos_x, int pos_y);
 	void deleteMonster(Monster & m);

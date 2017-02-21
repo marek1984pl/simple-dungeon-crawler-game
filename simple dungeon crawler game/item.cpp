@@ -2,8 +2,53 @@
 #include "Item.h"
 
 
-Item::Item() : name(""), type(Item_Type::EMPTY), strength(0), dexterity(0), stamina(0)
+Item::Item(int option) : name(""), type(Item_Type::EMPTY), strength(0), dexterity(0), stamina(0)
 {
+	if (option != 0)
+	{
+		int random = rand() % 8;
+		switch (random)
+		{
+		case 0:
+			setName("Sword");
+			setType(Item_Type::WEAPON);
+			break;
+		case 1:
+			setName("Shield");
+			setType(Item_Type::SHIELD);
+			break;
+		case 2:
+			setName("Armor");
+			setType(Item_Type::ARMOR);
+			break;
+		case 3:
+			setName("Helmet");
+			setType(Item_Type::HELMET);
+			break;
+		case 4:
+			setName("Gloves");
+			setType(Item_Type::GLOVES);
+			break;
+		case 5:
+			setName("Shoulders");
+			setType(Item_Type::SHOULDERS);
+			break;
+		case 6:
+			setName("Legs");
+			setType(Item_Type::LEGS);
+			break;
+		case 7:
+			setName("Boots");
+			setType(Item_Type::BOOTS);
+			break;
+		default:
+			break;
+		}
+
+		setStrength(rand() % 3);
+		setDexterity(rand() % 3);
+		setStamina(rand() % 3);
+	}
 }
 
 Item::Item(std::string n, Item_Type t, int str, int dex, int sta)
@@ -64,7 +109,7 @@ void Item::setStamina(int sta)
 	stamina = sta;
 }
 
-void Item::setName(int n)
+void Item::setName(std::string n)
 {
 	name = n;
 }

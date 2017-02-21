@@ -26,6 +26,7 @@ public:
 
 	void updateInterface(Game & g) const;
 
+	void printItemInfo(Item & item, int line_to_print) const;
 	void printInfo(std::string text, int line = 0) const;
 
 	void setColor(COLOR color, WINDOW * window) const;

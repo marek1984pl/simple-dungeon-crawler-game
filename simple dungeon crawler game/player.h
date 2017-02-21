@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <map>
 #include "Actor.h"
 
 class Player : public Actor
@@ -37,11 +38,17 @@ public:
 	bool removeBackpackItem(Item_Type t);
 	std::array<Item, 5> & getBackpack();
 
+	std::map<Item_Type, Item> & getInventory();
+	bool addInventoryItem(Item & item);
+	bool removeItemFromInventory(Item_Type t);
+	Item & getItemFromInventory(Item_Type slot);
+
 private:
 	int gold = 0;
 	int exp = 0;
 	bool is_dead;
 
 	std::array<Item, 5> backpack;
+	std::map<Item_Type, Item> inventory;
 };
 

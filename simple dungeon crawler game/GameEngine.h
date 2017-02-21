@@ -23,7 +23,7 @@ public:
 
 	void pickUpTreasure(Game & g) const;
 	void lootCorpse(Game & game) const;
-	void pickUpPotion(Game & g) const;
+	void randomItemFound(Game & g) const;
 
 	RESULT changeLevel(Game & g, int lvl) const;
 

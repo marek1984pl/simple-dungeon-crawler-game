@@ -177,12 +177,24 @@ void UserInterface::updateInterface(Game & g) const
 
 	std::string tmp = "";
 	int pos = 13;
+
 	for (auto i = g.player.getBackpack().begin(); i != g.player.getBackpack().end(); ++i)
 	{
 		tmp = "Backpack : " + i->getName();
 		printString(tmp.c_str(), 1, pos, COLOR::WHITE, playerWindow);
 		++pos;
 	}
+	
+	printString("STR / DEX / STA", 33, 19, COLOR::YELLOW, playerWindow);
+
+	printItemInfo(g.player.getItemFromInventory(Item_Type::WEAPON), 20);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::SHIELD), 21);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::ARMOR), 22);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::HELMET), 23);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::LEGS), 24);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::SHOULDERS), 25);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::GLOVES), 26);
+	printItemInfo(g.player.getItemFromInventory(Item_Type::BOOTS), 27);
 
 	printString("Dungeon level: ", 1, 1, COLOR::WHITE, textWindow);
 	printString(g.getCurrentLevel() + 1, 16, 1, COLOR::WHITE, textWindow);
@@ -194,6 +206,50 @@ void UserInterface::updateInterface(Game & g) const
 
 	printString("Move number: ", 30, 2, COLOR::WHITE, textWindow);
 	printString(g.getNumberOfMoves(), 44, 2, COLOR::WHITE, textWindow);
+}
+
+void UserInterface::printItemInfo(Item & item, int line_to_print) const
+{
+	std::string new_string;
+
+	if (item.getType() != Item_Type::EMPTY)
+	{
+		switch (item.getType())
+		{
+		case Item_Type::WEAPON:
+			new_string = "Weapon    : ";
+			break;
+		case Item_Type::SHIELD:
+			new_string = "Shield    : ";
+			break;
+		case Item_Type::ARMOR:
+			new_string = "Armor     : ";
+			break;
+		case Item_Type::HELMET:
+			new_string = "Helmet    : ";
+			break;
+		case Item_Type::LEGS:
+			new_string = "Legs      : ";
+			break;
+		case Item_Type::SHOULDERS:
+			new_string = "Shoulders : ";
+			break;
+		case Item_Type::GLOVES:
+			new_string = "Gloves    : ";
+			break;
+		case Item_Type::BOOTS:
+			new_string = "Boots     : ";
+			break;
+		default:
+			break;
+		}
+
+		printString(new_string.c_str(), 1, line_to_print, COLOR::WHITE, playerWindow);
+		new_string = item.getName();
+		printString(new_string.c_str(), 13, line_to_print, COLOR::GREEN, playerWindow);
+		new_string = std::to_string(item.getStrength()) + "     " + std::to_string(item.getDexterity()) + "     " + std::to_string(item.getStamina());
+		printString(new_string.c_str(), 34, line_to_print, COLOR::GREEN, playerWindow);
+	}
 }
 
 void UserInterface::printInfo(std::string text, int line) const

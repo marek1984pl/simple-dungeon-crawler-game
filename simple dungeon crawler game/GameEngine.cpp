@@ -216,7 +216,7 @@ void GameEngine::pickUpTreasure(Game & g) const
 	g.player.addGold(gold_found);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
 
-	pickUpPotion(g);
+	randomItemFound(g);
 }
 
 void GameEngine::lootCorpse(Game & g) const
@@ -227,14 +227,22 @@ void GameEngine::lootCorpse(Game & g) const
 	g.setGameMesage(msg);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
 
-	pickUpPotion(g);
+	randomItemFound(g);
 }
 
-void GameEngine::pickUpPotion(Game & g) const
+void GameEngine::randomItemFound(Game & g) const
 {
-	int potion_chance = rand() % 3;
-	if (potion_chance == 1)
+	int chance = rand() % 6;
+
+	switch (chance)
+	{
+	case 0:
 		g.player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
+		break;
+	case 1:
+		g.player.addInventoryItem(Item(1));
+		break;
+	}
 }
 
 RESULT GameEngine::changeLevel(Game & g, int lvl) const
