@@ -61,6 +61,23 @@ int UserInterface::createMainMenu()
 	}
 }
 
+void UserInterface::createEndScreen(Game & g)
+{
+	mainMenuWindow = newwin(50, 200, 0, 0);
+	setColor(COLOR::DARK_GREEN, mainMenuWindow);
+	box(mainMenuWindow, 0, 0);
+	setColor(COLOR::GREEN, mainMenuWindow);
+
+	printString("GAME OVER!" , 190 / 2, 20, COLOR::RED, mainMenuWindow);
+
+	std::string msg = "You died after " + std::to_string(g.getNumberOfMoves()) + " moves!";
+	printString(msg.c_str(), (200 - msg.size()) / 2, 25, COLOR::YELLOW, mainMenuWindow);
+
+	wrefresh(mainMenuWindow);
+
+	getch();
+}
+
 void UserInterface::createGameInterface()
 {
 	mainWindow = newwin(50, 150, 0, 0);
@@ -157,6 +174,15 @@ void UserInterface::updateInterface(Game & g) const
 
 	printString("Gold: ", 1, 11, COLOR::WHITE, playerWindow);
 	printString(g.player.getGold(), 7, 11, COLOR::YELLOW, playerWindow);
+
+	std::string tmp = "";
+	int pos = 13;
+	for (auto i = g.player.getBackpack().begin(); i != g.player.getBackpack().end(); ++i)
+	{
+		tmp = "Backpack : " + i->getName();
+		printString(tmp.c_str(), 1, pos, COLOR::WHITE, playerWindow);
+		++pos;
+	}
 
 	printString("Dungeon level: ", 1, 1, COLOR::WHITE, textWindow);
 	printString(g.getCurrentLevel() + 1, 16, 1, COLOR::WHITE, textWindow);

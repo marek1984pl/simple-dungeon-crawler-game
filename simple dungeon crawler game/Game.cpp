@@ -4,7 +4,7 @@
 
 Game::Game()
 {	
-	for (int i = 0; i < number_of_levels; ++i)
+	for (auto i = 0; i < number_of_levels; ++i)
 		levels[i].loadLevelFromFile(148, 48, i + 1);
 }
 
@@ -30,6 +30,9 @@ void Game::createPlayer(std::string name)
 	player.setArmor();
 	player.setAttackPower();
 	player.setHealth(player.getMaxHealth());
+
+	for (int i = 0; i < 2; i++)
+		player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
 }
 
 void Game::createRandomMonsters(int quantity)
@@ -37,9 +40,9 @@ void Game::createRandomMonsters(int quantity)
 	int random_type;
 	int pos_x, pos_y;
 	
-	for (int i = 0; i < number_of_levels; i++)
+	for (auto i = 0; i < number_of_levels; i++)
 	{
-		for (int j = 0; j < quantity; ++j)
+		for (auto j = 0; j < quantity; ++j)
 		{
 			pos_x = rand() % 145 + 2;
 			pos_y = rand() % 45 + 2;
@@ -52,22 +55,24 @@ void Game::createRandomMonsters(int quantity)
 
 			random_type = rand() % 5;
 
+			int random_monster_level = rand() % 2 + 1 + i;
+
 			switch (random_type)
 			{
 			case 0:
-				monsters[i].push_back(Monster("Goblin", i * 2, MONSTER_TYPE::GOBLIN));
+				monsters[i].push_back(Monster("Goblin", random_monster_level, MONSTER_TYPE::GOBLIN));
 				break;
 			case 1:
-				monsters[i].push_back(Monster("Wolf", i * 2, MONSTER_TYPE::WOLF));
+				monsters[i].push_back(Monster("Wolf", random_monster_level, MONSTER_TYPE::WOLF));
 				break;
 			case 2:
-				monsters[i].push_back(Monster("Bandit", i * 2, MONSTER_TYPE::BANDIT));
+				monsters[i].push_back(Monster("Bandit", random_monster_level, MONSTER_TYPE::BANDIT));
 				break;
 			case 3:
-				monsters[i].push_back(Monster("Snake", i * 2, MONSTER_TYPE::SNAKE));
+				monsters[i].push_back(Monster("Snake", random_monster_level, MONSTER_TYPE::SNAKE));
 				break;
 			case 4:
-				monsters[i].push_back(Monster("Troll", i * 2, MONSTER_TYPE::TROLL));
+				monsters[i].push_back(Monster("Troll", random_monster_level, MONSTER_TYPE::TROLL));
 				break;
 			default:
 				break;

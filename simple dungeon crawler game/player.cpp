@@ -99,3 +99,36 @@ bool Player::isDead() const
 {
 	return is_dead;
 }
+
+bool Player::addBackpackItem(Item & item)
+{
+	for (auto i = backpack.begin(); i != backpack.end(); ++i)
+	{
+		if (i->getType() == Item_Type::EMPTY)
+		{
+			*i = item;
+			return true;
+		}
+	}
+	return false;
+}
+
+bool Player::removeBackpackItem(Item_Type t)
+{
+	Item empty;
+
+	for (auto i = backpack.rbegin(); i != backpack.rend(); ++i)
+	{
+		if(i->getType() == t)
+		{
+			*i = empty;
+			return true;
+		}
+	}
+	return false;
+}
+
+std::array<Item, 5> & Player::getBackpack()
+{
+	return backpack;
+}

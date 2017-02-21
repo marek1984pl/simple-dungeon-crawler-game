@@ -33,9 +33,15 @@ public:
 	void setDead(bool d);
 	bool isDead() const;
 
+	bool addBackpackItem(Item & item);
+	bool removeBackpackItem(Item_Type t);
+	std::array<Item, 5> & getBackpack();
+
 private:
 	int gold = 0;
 	int exp = 0;
 	bool is_dead;
+
+	std::array<Item, 5> backpack;
 };
 

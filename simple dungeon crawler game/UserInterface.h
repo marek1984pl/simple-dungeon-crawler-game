@@ -15,6 +15,7 @@ public:
 	~UserInterface();
 
 	int createMainMenu();
+	void createEndScreen(Game & g);
 	void createGameInterface();
 
 	bool initializeGraphics(int window_width, int window_height) const;

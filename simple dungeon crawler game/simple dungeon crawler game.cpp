@@ -5,24 +5,22 @@
 
 #include "GameEngine.h"
 #include "UserInterface.h"
+#include <memory>
 
 int main()
 {
-	GameEngine * engine = new GameEngine;
-	Game * game = new Game;
-	UserInterface ui;
+	std::unique_ptr<GameEngine> engine(new GameEngine);
+	std::unique_ptr<Game> game(new Game);
+	std::unique_ptr<UserInterface> ui(new UserInterface);
 
 	RESULT result = RESULT::NONE;
 
-	if (ui.createMainMenu() == -1)
+	if (ui->createMainMenu() == -1)
 	{
-		delete engine;
-		delete game;
-
 		return 0;
 	}
 
-	ui.createGameInterface();
+	ui->createGameInterface();
 
 	game->createPlayer("Zodgar");
 
@@ -35,13 +33,13 @@ int main()
 	
 	char key_pressed;
 
-	ui.clearScreen();
-	ui.updateInterface(*game);
-	ui.updateScreen(*game);
+	ui->clearScreen();
+	ui->updateInterface(*game);
+	ui->updateScreen(*game);
 
 	while (true)
 	{
-		ui.clearScreen();
+		ui->clearScreen();
 		game->setGameMesage("");
 		game->setFightMesage("");
 
@@ -64,16 +62,16 @@ int main()
 				result = engine->MoveActor(game->player, *game, DIR::RIGHT);
 				break;
 			case 'q':
-				result = engine->MoveActor(game->player, *game, DIR::L_UP);
+				result = engine->MoveActor(game->player, *game, DIR::LEFT_UP);
 				break;
 			case 'e':
-				result = engine->MoveActor(game->player, *game, DIR::R_UP);
+				result = engine->MoveActor(game->player, *game, DIR::RIGHT_UP);
 				break;
 			case 'z':
-				result = engine->MoveActor(game->player, *game, DIR::L_DOWN);
+				result = engine->MoveActor(game->player, *game, DIR::LEFT_DOWN);
 				break;
 			case 'c':
-				result = engine->MoveActor(game->player, *game, DIR::R_DOWN);
+				result = engine->MoveActor(game->player, *game, DIR::RIGHT_DOWN);
 				break;
 			default:
 				break;
@@ -93,33 +91,28 @@ int main()
 			for (auto& i : game->monsters[game->getCurrentLevel()])
 				result = engine->MoveActor(i, *game, DIR::RAND);
 
-			ui.printInfo(game->getGameMessage());
-			ui.printInfo(game->getFightMessage(), 2);
+			ui->printInfo(game->getGameMessage());
+			ui->printInfo(game->getFightMessage(), 2);
 		}
 
 		else if (key_pressed == 'p')
 		{
-			engine->useItem(game->player);
+			engine->useHealthPotion(game->player);
 		}
 		
 		else if (key_pressed == 'Q')
 		{
-			delete engine;
-			delete game;
 			return 0;
 		}
-		ui.updateInterface(*game);
-		ui.updateScreen(*game);
+		ui->updateInterface(*game);
+		ui->updateScreen(*game);
 
 		if (game->player.isDead() == true)
 		{
-			//exit(0);
+			ui->createEndScreen(*game);
+			return 0;
 		}
 	}
-
-	delete engine;
-	delete game;
-
     return 0;
 }
 

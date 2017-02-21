@@ -34,6 +34,8 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 	if (typeid(actor) == typeid(Player))
 		actor_is_player = true;
 	
+	std::string msg = "";
+
 	actor.setOldPos(actor.getCurrentPosX(), actor.getCurrentPosY());
 	Tile old_tile = game.levels[game.getCurrentLevel()].getMapTile(actor.getCurrentPosX(), actor.getCurrentPosY());
 
@@ -57,16 +59,16 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 	case DIR::RIGHT:
 		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY());
 		break;
-	case DIR::L_UP:
+	case DIR::LEFT_UP:
 		actor.setNewPos(actor.getCurrentPosX() - 1, actor.getCurrentPosY() - 1);
 		break;
-	case DIR::L_DOWN:
+	case DIR::LEFT_DOWN:
 		actor.setNewPos(actor.getCurrentPosX() - 1, actor.getCurrentPosY() + 1);
 		break;
-	case DIR::R_UP:
+	case DIR::RIGHT_UP:
 		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY() - 1);
 		break;
-	case DIR::R_DOWN:
+	case DIR::RIGHT_DOWN:
 		actor.setNewPos(actor.getCurrentPosX() + 1, actor.getCurrentPosY() + 1);
 		break;
 	default:
@@ -102,8 +104,10 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		case TILE_TYPE::MONSTER:
 			if (actor_is_player == true)
 			{
-				game.setGameMesage("Monster attacked!");
-				if (attack_monster(game, game.getMonster(actor.getNewPosX(), actor.getNewPosY())) == RESULT::MONSTER_DEAD)
+				Monster & temp_monster = game.getMonster(actor.getNewPosX(), actor.getNewPosY());
+				msg = "Monster attacked: " + temp_monster.getName() + " level: " + std::to_string(temp_monster.getLevel());
+				game.setGameMesage(msg);
+				if (attack_monster(game, temp_monster) == RESULT::MONSTER_DEAD)
 				{
 					game.levels[game.getCurrentLevel()].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::CORPSE);
 					return RESULT::MONSTER_DEAD;
@@ -111,7 +115,8 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			}
 			break;
 		case TILE_TYPE::PLAYER:
-			game.setGameMesage("You were attacked by a monster!");
+			msg = "You were attacked by a monster: " + actor.getName() + " level: " + std::to_string(actor.getLevel());
+			game.setGameMesage(msg);
 			if (attack_player(game, actor) == RESULT::PLAYER_DEAD)
 				return RESULT::PLAYER_DEAD;
 			break;
@@ -210,6 +215,8 @@ void GameEngine::pickUpTreasure(Game & g) const
 	g.player.addExp(10);
 	g.player.addGold(gold_found);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
+
+	pickUpPotion(g);
 }
 
 void GameEngine::lootCorpse(Game & g) const
@@ -219,6 +226,15 @@ void GameEngine::lootCorpse(Game & g) const
 	g.player.addGold(gold_found);
 	g.setGameMesage(msg);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
+
+	pickUpPotion(g);
+}
+
+void GameEngine::pickUpPotion(Game & g) const
+{
+	int potion_chance = rand() % 3;
+	if (potion_chance == 1)
+		g.player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
 }
 
 RESULT GameEngine::changeLevel(Game & g, int lvl) const
@@ -236,14 +252,17 @@ RESULT GameEngine::changeLevel(Game & g, int lvl) const
 	}
 }
 
-void GameEngine::useItem(Player & p) const
+void GameEngine::useHealthPotion(Player & p) const
 {
 	if (p.getHealth() < p.getMaxHealth())
 	{
-		int new_health = p.getHealth() + 10;
-		if (new_health > p.getMaxHealth())
-			p.setHealth(p.getMaxHealth());
-		else
-			p.setHealth(p.getHealth() + 10);
+		if (p.removeBackpackItem(Item_Type::POTION) == true)
+		{
+			int new_health = p.getHealth() + 10;
+			if (new_health > p.getMaxHealth())
+				p.setHealth(p.getMaxHealth());
+			else
+				p.setHealth(p.getHealth() + 10);
+		}
 	}
 }
