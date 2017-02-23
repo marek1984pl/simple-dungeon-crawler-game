@@ -27,7 +27,7 @@ public:
 	void updateInterface(Game & g) const;
 
 	void printItemInfo(Item & item, int line_to_print) const;
-	void printInfo(std::string text, int line = 0) const;
+	void printLog(CombatLog c_log) const;
 
 	void setColor(COLOR color, WINDOW * window) const;
 
@@ -37,13 +37,13 @@ public:
 
 	WINDOW * getMainWindow() const;
 	WINDOW * getPlayerWindow() const;
-	WINDOW * getTextWindow() const;
+	WINDOW * getCombatLogWindow() const;
 	WINDOW * getMainMenuWindo() const;
 
 private:
 	WINDOW * mainWindow;
 	WINDOW * playerWindow;
-	WINDOW * textWindow;
+	WINDOW * combatLogWindow;
 	WINDOW * mainMenuWindow;
 };
 

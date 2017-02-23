@@ -83,15 +83,15 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		{
 		case TILE_TYPE::WALL:
 			if (actor_is_player == true)
-				game.setGameMesage("You run into a wall!");
+				game.c_log.addToLog("You run into a wall!");
 			break;
 		case TILE_TYPE::TREE:
 			if (actor_is_player == true)
-				game.setGameMesage("You run into a tree!");
+				game.c_log.addToLog("You run into a tree!");
 			break;
 		case TILE_TYPE::WATER:
 			if (actor_is_player == true)
-				game.setGameMesage("You cannot go into water!");
+				game.c_log.addToLog("You cannot go into water!");
 		default:
 			break;
 		}
@@ -106,7 +106,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			{
 				Monster & temp_monster = game.getMonster(actor.getNewPosX(), actor.getNewPosY());
 				msg = "Monster attacked: " + temp_monster.getName() + " level: " + std::to_string(temp_monster.getLevel());
-				game.setGameMesage(msg);
+				game.c_log.addToLog(msg);
 				if (attack_monster(game, temp_monster) == RESULT::MONSTER_DEAD)
 				{
 					game.levels[game.getCurrentLevel()].setMapTile(actor.getNewPosX(), actor.getNewPosY(), TILE_TYPE::CORPSE);
@@ -116,7 +116,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			break;
 		case TILE_TYPE::PLAYER:
 			msg = "You were attacked by a monster: " + actor.getName() + " level: " + std::to_string(actor.getLevel());
-			game.setGameMesage(msg);
+			game.c_log.addToLog(msg);
 			if (attack_player(game, actor) == RESULT::PLAYER_DEAD)
 				return RESULT::PLAYER_DEAD;
 			break;
@@ -155,7 +155,6 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 {
 	std::string combat_msg = "";
-	std::string game_msg = "";
 
 	int dmg = abs(monster.getArmor() - (rand() % 10 + g.player.getAttackPower()));
 	int current_monster_hp = monster.getHealth() - dmg;
@@ -166,10 +165,9 @@ RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 
 	if (current_monster_hp <= 0)
 	{
-		g.deleteMonster(dynamic_cast<Monster &>(monster));
-		g.setFightMesage(combat_msg);
+		g.c_log.addToLog(combat_msg);
 		combat_msg = monster.getName() + " is dead";
-		g.setGameMesage(combat_msg);
+		g.c_log.addToLog(combat_msg);
 		g.player.addExp(monster.getLevel() * 25);
 
 		if (g.player.getExp() >= g.player.exp_to_lvl_up[g.player.getLevel() + 1])
@@ -178,10 +176,11 @@ RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 			g.player.levelUp();
 			g.player.addExp(exp_to_move);
 		}
+		g.deleteMonster(dynamic_cast<Monster &>(monster));
 		return RESULT::MONSTER_DEAD;
 	}
 
-	g.setFightMesage(combat_msg);
+	g.c_log.addToLog(combat_msg);
 	return RESULT::NONE;
 }
 
@@ -199,11 +198,11 @@ RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 	if (current_player_hp <= 0)
 	{
 		g.player.setDead(true);
-		g.setGameMesage("You died!");
+		g.c_log.addToLog("You died!");
 		return RESULT::PLAYER_DEAD;
 	}
 
-	g.setFightMesage(combat_msg);
+	g.c_log.addToLog(combat_msg);
 	return RESULT::NONE;
 }
 
@@ -211,7 +210,7 @@ void GameEngine::pickUpTreasure(Game & g) const
 {
 	int gold_found =  rand() % 49 + 1;
 	std::string msg = "You found a treasure: " + std::to_string(gold_found) + " gold coins";
-	g.setGameMesage(msg);
+	g.c_log.addToLog(msg);
 	g.player.addExp(10);
 	g.player.addGold(gold_found);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
@@ -224,7 +223,7 @@ void GameEngine::lootCorpse(Game & g) const
 	int gold_found = rand() % 19 + 1;
 	std::string msg = "You looted corpse and found " + std::to_string(gold_found) + " gold coins";
 	g.player.addGold(gold_found);
-	g.setGameMesage(msg);
+	g.c_log.addToLog(msg);
 	g.levels[g.getCurrentLevel()].setMapTile(g.player.getNewPosX(), g.player.getNewPosY(), TILE_TYPE::EMPTY);
 
 	randomItemFound(g);
@@ -233,14 +232,21 @@ void GameEngine::lootCorpse(Game & g) const
 void GameEngine::randomItemFound(Game & g) const
 {
 	int chance = rand() % 6;
+	std::string msg = "";
 
 	switch (chance)
 	{
 	case 0:
 		g.player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
+		msg = "Health potion found!";
+		g.c_log.addToLog(msg);
 		break;
 	case 1:
-		g.player.addInventoryItem(Item(1));
+		Item * rand_item = new Item(1);
+		g.player.addInventoryItem(*rand_item);
+		msg = "Item found :" + rand_item->getName() + " " + std::to_string(rand_item->getStrength()) + " / " + std::to_string(rand_item->getDexterity()) + " / " + std::to_string(rand_item->getStamina());
+		delete rand_item;
+		g.c_log.addToLog(msg);
 		break;
 	}
 }

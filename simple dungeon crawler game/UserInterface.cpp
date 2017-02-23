@@ -11,7 +11,7 @@ UserInterface::~UserInterface()
 {
 	delwin(mainWindow);
 	delwin(playerWindow);
-	delwin(textWindow);
+	delwin(combatLogWindow);
 	delwin(mainMenuWindow);
 	endwin();
 }
@@ -82,7 +82,7 @@ void UserInterface::createGameInterface()
 {
 	mainWindow = newwin(50, 150, 0, 0);
 	playerWindow = newwin(40, 50, 0, 150);
-	textWindow = newwin(10, 50, 40, 150);
+	combatLogWindow = newwin(10, 50, 40, 150);
 }
 
 bool UserInterface::initializeGraphics(int window_width, int window_height) const
@@ -126,22 +126,22 @@ void UserInterface::clearScreen() const
 {
 	wclear(getMainWindow());
 	wclear(getPlayerWindow());
-	wclear(getTextWindow());
+	wclear(getCombatLogWindow());
 
 	setColor(COLOR::WHITE, mainWindow);
 	setColor(COLOR::WHITE, playerWindow);
-	setColor(COLOR::WHITE, textWindow);
+	setColor(COLOR::WHITE, combatLogWindow);
 
 	box(mainWindow, 0, 0);
 	box(playerWindow, 0, 0);
-	box(textWindow, 0, 0);
+	box(combatLogWindow, 0, 0);
 }
 
 void UserInterface::refreshScreen() const
 {
 	wrefresh(mainWindow);
 	wrefresh(playerWindow);
-	wrefresh(textWindow);
+	wrefresh(combatLogWindow);
 }
 
 void UserInterface::updateInterface(Game & g) const
@@ -196,16 +196,16 @@ void UserInterface::updateInterface(Game & g) const
 	printItemInfo(g.player.getItemFromInventory(Item_Type::GLOVES), 26);
 	printItemInfo(g.player.getItemFromInventory(Item_Type::BOOTS), 27);
 
-	printString("Dungeon level: ", 1, 1, COLOR::WHITE, textWindow);
-	printString(g.getCurrentLevel() + 1, 16, 1, COLOR::WHITE, textWindow);
+	printString("Dungeon level: ", 1, 37, COLOR::WHITE, playerWindow);
+	printString(g.getCurrentLevel() + 1, 16, 37, COLOR::WHITE, playerWindow);
 
-	printString("Player X: ", 1, 2, COLOR::YELLOW, textWindow);
-	printString(g.player.getCurrentPosX(), 11, 2, COLOR::YELLOW, textWindow);
-	printString("Player Y: ", 15, 2, COLOR::YELLOW, textWindow);
-	printString(g.player.getCurrentPosY(), 25, 2, COLOR::YELLOW, textWindow);
+	printString("Player X: ", 1, 38, COLOR::YELLOW, playerWindow);
+	printString(g.player.getCurrentPosX(), 11, 38, COLOR::YELLOW, playerWindow);
+	printString("Player Y: ", 15, 38, COLOR::YELLOW, playerWindow);
+	printString(g.player.getCurrentPosY(), 25, 38, COLOR::YELLOW, playerWindow);
 
-	printString("Move number: ", 30, 2, COLOR::WHITE, textWindow);
-	printString(g.getNumberOfMoves(), 44, 2, COLOR::WHITE, textWindow);
+	printString("Move number: ", 30, 38, COLOR::WHITE, playerWindow);
+	printString(g.getNumberOfMoves(), 44, 38, COLOR::WHITE, playerWindow);
 }
 
 void UserInterface::printItemInfo(Item & item, int line_to_print) const
@@ -252,9 +252,13 @@ void UserInterface::printItemInfo(Item & item, int line_to_print) const
 	}
 }
 
-void UserInterface::printInfo(std::string text, int line) const
+void UserInterface::printLog(CombatLog c_log) const
 {
-	printString(text.c_str(), 1, 4 + line, COLOR::WHITE, textWindow);
+	int line = 1;
+	for (auto & i : c_log.getLog())
+	{
+		printString(i.c_str(), 1, line++, COLOR::WHITE, combatLogWindow);
+	}
 }
 
 void UserInterface::setColor(COLOR color, WINDOW * window) const
@@ -413,9 +417,9 @@ WINDOW * UserInterface::getPlayerWindow() const
 	return playerWindow;;
 }
 
-WINDOW * UserInterface::getTextWindow() const
+WINDOW * UserInterface::getCombatLogWindow() const
 {
-	return textWindow;
+	return combatLogWindow;
 }
 
 WINDOW * UserInterface::getMainMenuWindo() const

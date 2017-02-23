@@ -41,8 +41,6 @@ int main()
 	while (true)
 	{
 		ui->clearScreen();
-		game->setGameMesage("");
-		game->setFightMesage("");
 
 		key_pressed = getch();
 
@@ -92,8 +90,7 @@ int main()
 			for (auto& i : game->monsters[game->getCurrentLevel()])
 				result = engine->MoveActor(i, *game, DIR::RAND);
 
-			ui->printInfo(game->getGameMessage());
-			ui->printInfo(game->getFightMessage(), 2);
+			ui->printLog(game->c_log);
 		}
 
 		else if (key_pressed == 'p')

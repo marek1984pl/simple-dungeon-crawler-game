@@ -149,24 +149,3 @@ int Game::getNumberOfLevels() const
 	return number_of_levels;
 }
 
-std::string Game::getGameMessage() const
-{
-	return game_message;
-}
-
-std::string Game::getFightMessage() const
-{
-	return fight_message;
-}
-
-void Game::setGameMesage(std::string msg)
-{
-	game_message = msg;
-}
-
-void Game::setFightMesage(std::string msg)
-{
-	fight_message = msg;
-}
-
-
