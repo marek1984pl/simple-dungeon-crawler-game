@@ -194,6 +194,7 @@ RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 	g.player.setHealth(current_player_hp);
 
 	combat_msg = monster.getName() + " hit you : " + std::to_string(dmg) + "   Monster HP: " + std::to_string(monster.getHealth()) + " / " + std::to_string(monster.getMaxHealth());
+	g.c_log.addToLog(combat_msg);
 
 	if (current_player_hp <= 0)
 	{
@@ -202,7 +203,6 @@ RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 		return RESULT::PLAYER_DEAD;
 	}
 
-	g.c_log.addToLog(combat_msg);
 	return RESULT::NONE;
 }
 
@@ -244,7 +244,7 @@ void GameEngine::randomItemFound(Game & g) const
 	case 1:
 		Item * rand_item = new Item(1);
 		g.player.addInventoryItem(*rand_item);
-		msg = "Item found :" + rand_item->getName() + " " + std::to_string(rand_item->getStrength()) + " / " + std::to_string(rand_item->getDexterity()) + " / " + std::to_string(rand_item->getStamina());
+		msg = "Item found : " + rand_item->getName() + " " + std::to_string(rand_item->getStrength()) + " / " + std::to_string(rand_item->getDexterity()) + " / " + std::to_string(rand_item->getStamina());
 		delete rand_item;
 		g.c_log.addToLog(msg);
 		break;

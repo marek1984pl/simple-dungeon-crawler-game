@@ -108,7 +108,10 @@ int main()
 		if (game->player.isDead() == true)
 		{
 			ui->createEndScreen(*game);
-			return 0;
+			while (getch() == 'Q' || getch() == 'q')
+			{
+				return 0;
+			}
 		}
 	}
     return 0;

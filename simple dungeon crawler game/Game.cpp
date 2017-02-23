@@ -15,26 +15,6 @@ Game::~Game()
 void Game::createPlayer(std::string name)
 {
 	player.setName(name);
-	player.setLevel(1);
-	player.setStrength(3);
-	player.setDexterity(4);
-	player.setStamina(7);
-	player.setExp(0);
-	player.setGold(0);
-
-	player.setCurrentPos(1, 1);
-	player.setOldPos(1, 1);
-	player.setNewPos(1, 1);
-
-	player.setMaxHealth();
-	player.setArmor();
-	player.setAttackPower();
-	player.setHealth(player.getMaxHealth());
-
-	for (int i = 0; i < 2; i++)
-		player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
-
-	player.addInventoryItem(Item("Iron sword", Item_Type::WEAPON, 0, 0, 0));
 }
 
 void Game::createRandomMonsters()

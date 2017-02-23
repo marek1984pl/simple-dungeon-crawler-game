@@ -71,11 +71,25 @@ void UserInterface::createEndScreen(Game & g)
 	printString("GAME OVER!" , 190 / 2, 20, COLOR::RED, mainMenuWindow);
 
 	std::string msg = "You died after " + std::to_string(g.getNumberOfMoves()) + " moves!";
-	printString(msg.c_str(), (200 - msg.size()) / 2, 25, COLOR::YELLOW, mainMenuWindow);
+	printString(msg.c_str(), (200 - msg.size()) / 2, 25, COLOR::WHITE, mainMenuWindow);
+
+	msg = "You was level " + std::to_string(g.player.getLevel());
+	printString(msg.c_str(), (200 - msg.size()) / 2, 26, COLOR::RED, mainMenuWindow);
+
+	msg = "You had " + std::to_string(g.player.getGold()) + " gold coins.";
+	printString(msg.c_str(), (200 - msg.size()) / 2, 27, COLOR::YELLOW, mainMenuWindow);
+
+	int line = 30;
+
+	for (auto & i : g.c_log.getLog())
+	{
+		printString(i.c_str(), 20, line++, COLOR::WHITE, mainMenuWindow);
+	}
+
+	msg = "Press q to exit";
+	printString(msg.c_str(), (200 - msg.size()) / 2, 48, COLOR::MAGENTA, mainMenuWindow);
 
 	wrefresh(mainMenuWindow);
-
-	getch();
 }
 
 void UserInterface::createGameInterface()
@@ -165,12 +179,21 @@ void UserInterface::updateInterface(Game & g) const
 	printString(g.player.getAttackPower(), 16, 5, COLOR::WHITE, playerWindow);
 	printString("Armor        : ", 1, 6, COLOR::WHITE, playerWindow);
 	printString(g.player.getArmor(), 16, 6, COLOR::WHITE, playerWindow);
+
 	printString("Strength     : ", 1, 7, COLOR::WHITE, playerWindow);
 	printString(g.player.getStrength(), 16, 7, COLOR::WHITE, playerWindow);
 	printString("Dexterity    : ", 1, 8, COLOR::WHITE, playerWindow);
 	printString(g.player.getDexterity(), 16, 8, COLOR::WHITE, playerWindow);
 	printString("Stamina      : ", 1, 9, COLOR::WHITE, playerWindow);
 	printString(g.player.getStamina(), 16, 9, COLOR::WHITE, playerWindow);
+
+	printString(g.player.getStrengthFromItems(), 20, 7, COLOR::GREEN, playerWindow);
+	printString(g.player.getDexterityFromItems(), 20, 8, COLOR::GREEN, playerWindow);
+	printString(g.player.getStaminaFromItems(), 20, 9, COLOR::GREEN, playerWindow);
+
+	printString(g.player.getTotalStrength(), 24, 7, COLOR::CYAN, playerWindow);
+	printString(g.player.getTotalDexterity(), 24, 8, COLOR::CYAN, playerWindow);
+	printString(g.player.getTotalStamina(), 24, 9, COLOR::CYAN, playerWindow);
 
 	printString("Gold: ", 1, 11, COLOR::WHITE, playerWindow);
 	printString(g.player.getGold(), 7, 11, COLOR::YELLOW, playerWindow);

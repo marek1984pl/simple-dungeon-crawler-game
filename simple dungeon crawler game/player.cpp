@@ -8,6 +8,30 @@ Player::Player()
 	{
 		exp_to_lvl_up[i] = 50 + i * 50;
 	}
+
+
+	setLevel(1);
+	setStrength(3);
+	setDexterity(4);
+	setStamina(7);
+	setExp(0);
+	setGold(0);
+
+	setCurrentPos(1, 1);
+	setOldPos(1, 1);
+	setNewPos(1, 1);
+
+	refreshStats();
+
+	setMaxHealth();
+	setArmor();
+	setAttackPower();
+	setHealth(getMaxHealth());
+
+	for (int i = 0; i < 2; i++)
+		addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
+
+	addInventoryItem(Item("Iron sword", Item_Type::WEAPON, 0, 0, 0));
 }
 
 Player::~Player()
@@ -58,6 +82,8 @@ void Player::levelUp()
 	setArmor();
 
 	setHealth(max_health);
+
+	refreshStats();
 }
 
 void Player::setHealth(int h)
@@ -72,7 +98,7 @@ int Player::getHealth() const
 
 void Player::setMaxHealth()
 {
-	max_health = getStamina() * 3;
+	max_health = getTotalStamina() * 3;
 }
 
 int Player::getMaxHealth() const
@@ -82,12 +108,42 @@ int Player::getMaxHealth() const
 
 void Player::setAttackPower()
 {
-	attack_power = getStrength() * 2 + getLevel();
+	attack_power = getTotalStrength() * 2 + getLevel();
 }
 
 void Player::setArmor()
 {
-	armor = getDexterity() * 2 + getLevel();
+	armor = getTotalDexterity() * 2 + getLevel();
+}
+
+int Player::getTotalStrength() const
+{
+	return strength_total;
+}
+
+int Player::getTotalDexterity() const
+{
+	return dexterity_total;
+}
+
+int Player::getTotalStamina() const
+{
+	return stamina_total;
+}
+
+int Player::getStrengthFromItems() const
+{
+	return strenght_from_items;
+}
+
+int Player::getDexterityFromItems() const
+{
+	return dexterity_from_items;
+}
+
+int Player::getStaminaFromItems() const
+{
+	return stamina_from_items;
 }
 
 void Player::setDead(bool d)
@@ -140,16 +196,36 @@ std::map<Item_Type, Item>& Player::getInventory()
 
 bool Player::addInventoryItem(Item & item)
 {
-	inventory[item.getType()] = item;
-	return true;
-}
+	if (inventory[item.getType()].calculateItemStats() < item.calculateItemStats())
+		inventory[item.getType()] = item;
 
-bool Player::removeItemFromInventory(Item_Type t)
-{
-	return false;
+	refreshStats();
+	return true;
 }
 
 Item & Player::getItemFromInventory(Item_Type slot)
 {
 	return inventory[slot];
+}
+
+void Player::refreshStats()
+{
+	strenght_from_items = 0;
+	dexterity_from_items = 0;
+	stamina_from_items = 0;
+
+	for (auto& i : inventory)
+	{
+		strenght_from_items += i.second.getStrength();
+		dexterity_from_items += i.second.getDexterity();
+		stamina_from_items += i.second.getStamina();
+	}
+
+	strength_total = strength + strenght_from_items;
+	dexterity_total = dexterity + dexterity_from_items;
+	stamina_total = stamina + stamina_from_items;
+
+	setAttackPower();
+	setArmor();
+	setMaxHealth();
 }

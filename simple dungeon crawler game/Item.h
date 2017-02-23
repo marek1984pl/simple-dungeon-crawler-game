@@ -24,6 +24,8 @@ public:
 	void setStamina(int sta);
 	void setName(std::string n);
 
+	int calculateItemStats() const;
+
 private:
 	Item_Type type;
 

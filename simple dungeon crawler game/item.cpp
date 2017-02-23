@@ -113,3 +113,8 @@ void Item::setName(std::string n)
 {
 	name = n;
 }
+
+int Item::calculateItemStats() const
+{
+	return strength + dexterity + stamina;
+}
