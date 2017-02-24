@@ -4,11 +4,10 @@
 
 Player::Player()
 {
-	for (int i = 2; i < 100; ++i)
+	for (auto i = 2; i < 100; ++i)
 	{
 		exp_to_lvl_up[i] = 50 + i * 50;
 	}
-
 
 	setLevel(1);
 	setStrength(3);
@@ -28,10 +27,11 @@ Player::Player()
 	setAttackPower();
 	setHealth(getMaxHealth());
 
-	for (int i = 0; i < 2; i++)
-		addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
+	for (auto i = 0; i < 2; i++)
+		addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0, Quality::NORMAL));
 
-	addInventoryItem(Item("Iron sword", Item_Type::WEAPON, 0, 0, 0));
+	addInventoryItem(Item("Simple club", Item_Type::WEAPON, 0, 0, 0, Quality::NORMAL));
+	addInventoryItem(Item("Simple pants", Item_Type::LEGS, 0, 0, 0, Quality::NORMAL));
 }
 
 Player::~Player()
@@ -196,7 +196,7 @@ std::map<Item_Type, Item>& Player::getInventory()
 
 bool Player::addInventoryItem(Item & item)
 {
-	if (inventory[item.getType()].calculateItemStats() < item.calculateItemStats())
+	if (inventory[item.getType()].calculateItemStats() <= item.calculateItemStats())
 		inventory[item.getType()] = item;
 
 	refreshStats();

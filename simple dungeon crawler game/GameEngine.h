@@ -2,6 +2,7 @@
 
 #include <ctime>
 #include <string>
+#include <memory>
 
 #include "actor.h"
 #include "Game.h"

@@ -13,6 +13,6 @@ public:
 	void addToLog(std::string info);
 
 private:
-	std::deque<std::string> c_log;
+	std::deque<std::string> combat_log;
 	int log_size;
 };

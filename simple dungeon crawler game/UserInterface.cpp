@@ -68,16 +68,16 @@ void UserInterface::createEndScreen(Game & g)
 	box(mainMenuWindow, 0, 0);
 	setColor(COLOR::GREEN, mainMenuWindow);
 
-	printString("GAME OVER!" , 190 / 2, 20, COLOR::RED, mainMenuWindow);
+	printString("GAME OVER!" , 190 / 2, 15, COLOR::RED, mainMenuWindow);
 
-	std::string msg = "You died after " + std::to_string(g.getNumberOfMoves()) + " moves!";
-	printString(msg.c_str(), (200 - msg.size()) / 2, 25, COLOR::WHITE, mainMenuWindow);
-
-	msg = "You was level " + std::to_string(g.player.getLevel());
-	printString(msg.c_str(), (200 - msg.size()) / 2, 26, COLOR::RED, mainMenuWindow);
+	std::string msg = "You was level " + std::to_string(g.player.getLevel());
+	printString(msg.c_str(), (200 - msg.size()) / 2, 20, COLOR::RED, mainMenuWindow);
 
 	msg = "You had " + std::to_string(g.player.getGold()) + " gold coins.";
-	printString(msg.c_str(), (200 - msg.size()) / 2, 27, COLOR::YELLOW, mainMenuWindow);
+	printString(msg.c_str(), (200 - msg.size()) / 2, 21, COLOR::YELLOW, mainMenuWindow);
+
+	msg = "You died after " + std::to_string(g.getNumberOfMoves()) + " moves!";
+	printString(msg.c_str(), (200 - msg.size()) / 2, 22, COLOR::WHITE, mainMenuWindow);
 
 	int line = 30;
 
@@ -267,11 +267,29 @@ void UserInterface::printItemInfo(Item & item, int line_to_print) const
 			break;
 		}
 
+		COLOR quality_color;
+
+		switch (item.getQuality())
+		{
+		case Quality::NORMAL:
+			quality_color = COLOR::WHITE;
+			break;
+		case Quality::MAGIC:
+			quality_color = COLOR::GREEN;
+			break;
+		case Quality::RARE:
+			quality_color = COLOR::BLUE;
+			break;
+		case Quality::EPIC:
+			quality_color = COLOR::MAGENTA;
+			break;
+		}
+
 		printString(new_string.c_str(), 1, line_to_print, COLOR::WHITE, playerWindow);
 		new_string = item.getName();
-		printString(new_string.c_str(), 13, line_to_print, COLOR::GREEN, playerWindow);
+		printString(new_string.c_str(), 13, line_to_print, quality_color, playerWindow);
 		new_string = std::to_string(item.getStrength()) + "     " + std::to_string(item.getDexterity()) + "     " + std::to_string(item.getStamina());
-		printString(new_string.c_str(), 34, line_to_print, COLOR::GREEN, playerWindow);
+		printString(new_string.c_str(), 34, line_to_print, quality_color, playerWindow);
 	}
 }
 

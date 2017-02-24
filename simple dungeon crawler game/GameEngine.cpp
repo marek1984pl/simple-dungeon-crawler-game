@@ -237,12 +237,12 @@ void GameEngine::randomItemFound(Game & g) const
 	switch (chance)
 	{
 	case 0:
-		g.player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0));
+		g.player.addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0, Quality::NORMAL));
 		msg = "Health potion found!";
 		g.c_log.addToLog(msg);
 		break;
 	case 1:
-		Item * rand_item = new Item(1);
+		Item * rand_item = new Item(g.getCurrentLevel());
 		g.player.addInventoryItem(*rand_item);
 		msg = "Item found : " + rand_item->getName() + " " + std::to_string(rand_item->getStrength()) + " / " + std::to_string(rand_item->getDexterity()) + " / " + std::to_string(rand_item->getStamina());
 		delete rand_item;
