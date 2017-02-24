@@ -24,8 +24,8 @@ int main()
 
 	game->createPlayer("Zodgar");
 
-	game->createRandomMonsters();
-	game->createRandomTreasuers();
+	//game->createRandomMonsters();
+	//game->createRandomTreasuers();
 
 	engine->placeActor(game->player, *game);
 	

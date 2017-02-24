@@ -18,7 +18,7 @@ public:
 	Tile getMapTile(int x, int y) const;
 	void setMapTile(int x, int y, Tile t);
 
-private:
+protected:
 	std::array<std::array<Tile, 148>, 48> map;
 	std::ifstream file;
 };

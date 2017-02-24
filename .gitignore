@@ -240,3 +240,5 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/simple dungeon crawler game/DungeonGenerator.cpp
+/simple dungeon crawler game/DungeonGenerator.h

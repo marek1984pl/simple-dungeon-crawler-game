@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClInclude Include="actor.h" />
     <ClInclude Include="CombatLog.h" />
+    <ClInclude Include="DungeonGenerator.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="item.h" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClCompile Include="actor.cpp" />
     <ClCompile Include="CombatLog.cpp" />
+    <ClCompile Include="DungeonGenerator.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="item.cpp" />
