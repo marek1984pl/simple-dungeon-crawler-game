@@ -4,6 +4,7 @@
 #include "monster.h"
 #include "player.h"
 #include "CombatLog.h"
+#include "DungeonGenerator.h"
 
 #include <array>
 #include <vector>
@@ -33,6 +34,7 @@ public:
 	Player player;
 	std::array<Level, 5> levels;
 	std::array<std::vector<Monster>, 5> monsters;
+	DungeonGenerator * dungeon_generator;
 
 	CombatLog c_log;
 

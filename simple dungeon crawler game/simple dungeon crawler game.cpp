@@ -15,9 +15,9 @@ int main()
 
 	RESULT result = RESULT::NONE;
 
-	if (ui->createMainMenu() == -1)
+	//if (ui->createMainMenu() == -1)
 	{
-		return 0;
+	//	return 0;
 	}
 
 	ui->createGameInterface();

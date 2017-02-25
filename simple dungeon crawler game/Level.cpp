@@ -67,6 +67,11 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 	file.close();
 }
 
+void Level::setMap(std::array<std::array<Tile, 148>, 48> m)
+{
+	map = m;
+}
+
 Tile Level::getMapTile(int x, int y) const
 {
 	return map[y][x];

@@ -4,14 +4,18 @@
 
 Game::Game()
 {	
+	dungeon_generator = new DungeonGenerator(148, 48);
 	
-	
+	dungeon_generator->generateDungeon(500);
+	levels[0].setMap(dungeon_generator->getGeneratedMap());
+
 	//for (auto i = 0; i < number_of_levels; ++i)
 	//	levels[i].loadLevelFromFile(148, 48, i + 1);
 }
 
 Game::~Game()
 {
+	delete dungeon_generator;
 }
 
 void Game::createPlayer(std::string name)
