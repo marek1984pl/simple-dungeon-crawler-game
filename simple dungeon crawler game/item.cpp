@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Item.h"
+#include "DungeonGenerator.h"
 
 
 Item::Item() : name(""), type(Item_Type::EMPTY), strength(0), dexterity(0), stamina(0), quality(Quality::NORMAL)
@@ -18,9 +19,9 @@ Item::Item(std::string n, Item_Type t, int str, int dex, int sta, Quality q)
 
 Item::Item(int game_level, int additional_chance)
 {
-	int item_type = rand() % 8;
-	int random_quality = rand() % 100 + additional_chance;
-	int random_stat = 0;
+	auto item_type = generateRandNumber(0, 7);
+	auto random_quality = generateRandNumber(0, 100) + additional_chance;
+	auto random_stat = 0;
 
 	std::string item_name = "";
 	strength = 0;
@@ -72,52 +73,56 @@ Item::Item(int game_level, int additional_chance)
 	}
 	else if (random_quality >= 50 && random_quality < 80)
 	{
-		random_stat = rand() % 3;
+		random_stat = generateRandNumber(0, 2);
 		switch (random_stat)
 		{
 		case 0:
-			setStrength(rand() % 2 + game_level + 1);
+			setStrength(generateRandNumber(0, 1) + game_level + 1);
 			item_name += " of strength";
 			break;
 		case 1:
-			setDexterity(rand() % 2 + game_level + 1);
+			setDexterity(generateRandNumber(0, 1) + game_level + 1);
 			item_name += " of dexterity";
 			break;
 		case 2:
-			setStamina(rand() % 2 + game_level + 1);
+			setStamina(generateRandNumber(0, 1) + game_level + 1);
 			item_name += " of stamina";
+			break;
+		default:
 			break;
 		}
 		setQuality(Quality::MAGIC);
 	}
 	else if (random_quality >= 80 && random_quality < 95)
 	{
-		random_stat = rand() % 3;
+		random_stat = generateRandNumber(0, 2);
 		switch (random_stat)
 		{
 		case 0:
-			setStrength(rand() % 2 + game_level + 1);
-			setDexterity(rand() % 2 + game_level + 1);
+			setStrength(generateRandNumber(0, 1) + game_level + 1);
+			setDexterity(generateRandNumber(0, 1) + game_level + 1);
 			item_name += " of power";
 			break;
 		case 1:
-			setStrength(rand() % 2 + game_level + 1);
-			setStamina(rand() % 2 + game_level + 1);
+			setStrength(generateRandNumber(0, 1) + game_level + 1);
+			setStamina(generateRandNumber(0, 1) + game_level + 1);
 			item_name += " of endurance";
 			break;
 		case 2:
-			setDexterity(rand() % 2 + game_level + 1);
-			setStamina(rand() % 2 + game_level + 1);
+			setDexterity(generateRandNumber(0, 1) + game_level + 1);
+			setStamina(generateRandNumber(0, 1) + game_level + 1);
 			item_name += " of cunning";
+			break;
+		default:
 			break;
 		}
 		setQuality(Quality::RARE);
 	}
 	else
 	{
-		setStrength(rand() % 2 + game_level + 2);
-		setDexterity(rand() % 2 + game_level + 2);
-		setStamina(rand() % 2 + game_level + 2);
+		setStrength(generateRandNumber(0, 1) + game_level + 2);
+		setDexterity(generateRandNumber(0, 1) + game_level + 2);
+		setStamina(generateRandNumber(0, 1) + game_level + 2);
 
 		item_name += " of might";
 		setQuality(Quality::EPIC);

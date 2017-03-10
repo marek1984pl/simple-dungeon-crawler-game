@@ -6,11 +6,11 @@ Game::Game()
 {	
 	dungeon_generator = new DungeonGenerator(148, 48);
 	
-	dungeon_generator->generateDungeon(500);
-	levels[0].setMap(dungeon_generator->getGeneratedMap());
+	//dungeon_generator->generateDungeon(500);
+	//levels[0].setMap(dungeon_generator->getGeneratedMap());
 
-	//for (auto i = 0; i < number_of_levels; ++i)
-	//	levels[i].loadLevelFromFile(148, 48, i + 1);
+	for (auto i = 0; i < number_of_levels; ++i)
+		levels[i].loadLevelFromFile(148, 48, i + 1);
 }
 
 Game::~Game()
@@ -31,21 +31,21 @@ void Game::createRandomMonsters()
 	
 	for (auto i = 0; i < number_of_levels; i++)
 	{
-		quantity = rand() % 20 + 20;
+		quantity = generateRandNumber(30, 50);
 		for (auto j = 0; j < quantity; ++j)
 		{
-			pos_x = rand() % 145 + 2;
-			pos_y = rand() % 45 + 2;
+			pos_x = generateRandNumber(2, 145);
+			pos_y = generateRandNumber(2, 45);
 
 			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true)
 			{
-				pos_x = rand() % 145 + 2;
-				pos_y = rand() % 45 + 2;
+				pos_x = generateRandNumber(2, 145);
+				pos_y = generateRandNumber(2, 45);
 			}
 
-			random_type = rand() % 5;
+			random_type = generateRandNumber(0, 4);
 
-			int random_monster_level = rand() % 2 + 1 + i;
+			auto random_monster_level = generateRandNumber(0, 1) + i;
 
 			switch (random_type)
 			{
@@ -79,16 +79,16 @@ void Game::createRandomTreasuers()
 
 	for (auto i = 0; i < number_of_levels; i++)
 	{
-		quantity = rand() % 20 + 20;
+		quantity = generateRandNumber(20, 40);
 		for (auto j = 0; j < quantity; ++j)
 		{
-			pos_x = rand() % 145 + 2;
-			pos_y = rand() % 45 + 2;
+			pos_x = generateRandNumber(2, 145);
+			pos_y = generateRandNumber(2, 45);
 
 			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true)
 			{
-				pos_x = rand() % 145 + 2;
-				pos_y = rand() % 45 + 2;
+				pos_x = generateRandNumber(2, 145);
+				pos_y = generateRandNumber(2, 45);
 			}
 			levels[i].setMapTile(pos_x, pos_y, Tile(TILE_TYPE::TREASURE));
 		}

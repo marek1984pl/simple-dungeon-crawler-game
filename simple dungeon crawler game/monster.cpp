@@ -57,7 +57,7 @@ void Monster::setArmor()
 	armor = (getDexterity() + getLevel()) * 2;
 }
 
-bool Monster::operator==(const Monster & m)
+bool Monster::operator==(const Monster & m) const
 {
 	if (this->current_pos_x == m.current_pos_x && this->current_pos_y == m.current_pos_y)
 		return true;

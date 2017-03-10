@@ -19,7 +19,7 @@ UserInterface::~UserInterface()
 int UserInterface::createMainMenu()
 {
 	std::string tmp;
-	int next_line = 0;
+	auto next_line = 0;
 	char option;
 
 	mainMenuWindow = newwin(50, 200, 0, 0);
@@ -52,7 +52,6 @@ int UserInterface::createMainMenu()
 		{
 		case '1':
 			return 0;
-			break;
 		case '2':
 			return -1;
 		default:
@@ -79,7 +78,7 @@ void UserInterface::createEndScreen(Game & g)
 	msg = "You died after " + std::to_string(g.getNumberOfMoves()) + " moves!";
 	printString(msg.c_str(), (200 - msg.size()) / 2, 22, COLOR::WHITE, mainMenuWindow);
 
-	int line = 30;
+	auto line = 30;
 
 	for (auto & i : g.c_log.getLog())
 	{
@@ -199,7 +198,7 @@ void UserInterface::updateInterface(Game & g) const
 	printString(g.player.getGold(), 7, 11, COLOR::YELLOW, playerWindow);
 
 	std::string tmp = "";
-	int pos = 13;
+	auto pos = 13;
 
 	for (auto i = g.player.getBackpack().begin(); i != g.player.getBackpack().end(); ++i)
 	{
@@ -267,7 +266,7 @@ void UserInterface::printItemInfo(Item & item, int line_to_print) const
 			break;
 		}
 
-		COLOR quality_color;
+		COLOR quality_color = COLOR::WHITE;
 
 		switch (item.getQuality())
 		{
@@ -295,7 +294,7 @@ void UserInterface::printItemInfo(Item & item, int line_to_print) const
 
 void UserInterface::printLog(CombatLog c_log) const
 {
-	int line = 1;
+	auto line = 1;
 	for (auto & i : c_log.getLog())
 	{
 		printString(i.c_str(), 1, line++, COLOR::WHITE, combatLogWindow);
@@ -385,7 +384,7 @@ void UserInterface::updateScreen(Game & game) const
 		{
 			current_tile = game.levels[game.getCurrentLevel()].getMapTile(j, i);
 			current_tile_type = current_tile.getType();
-			char monster_type = 'M';
+			auto monster_type = 'M';
 
 			switch (current_tile_type)
 			{

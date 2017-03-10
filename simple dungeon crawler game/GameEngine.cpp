@@ -30,7 +30,7 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 
 RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 {
-	bool actor_is_player = false;
+	auto actor_is_player = false;
 	if (typeid(actor) == typeid(Player))
 		actor_is_player = true;
 	
@@ -41,7 +41,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 
 	if (direction == DIR::RAND)
 	{
-		int rand_dir = rand() % 8;
+		int rand_dir = generateRandNumber(0, 7);
 		direction = static_cast<DIR>(rand_dir);
 	}
 
@@ -132,12 +132,10 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 			if (actor_is_player == true)
 				changeLevel(game, game.getCurrentLevel() + 1);
 			return RESULT::LEVEL_DOWN;
-			break;
 		case TILE_TYPE::LEVEL_UP:
 			if (actor_is_player == true)
 				changeLevel(game, game.getCurrentLevel() - 1);
 			return RESULT::LEVEL_UP;
-			break;
 		default:
 			break;
 		}
@@ -155,9 +153,9 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 {
 	std::string combat_msg = "";
-
-	int dmg = abs(monster.getArmor() - (rand() % 10 + g.player.getAttackPower()));
-	int current_monster_hp = monster.getHealth() - dmg;
+	
+	auto dmg = abs(monster.getArmor() - (generateRandNumber(0, 9) + g.player.getAttackPower()));
+	auto current_monster_hp = monster.getHealth() - dmg;
 
 	monster.setHealth(current_monster_hp);
 
@@ -188,8 +186,8 @@ RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 {
 	std::string combat_msg = "";
 
-	int dmg = abs(g.player.getArmor() - (rand() % 10 + monster.getAttackPower()));
-	int current_player_hp = g.player.getHealth() - dmg;
+	auto dmg = abs(g.player.getArmor() - (generateRandNumber(0, 9) + monster.getAttackPower()));
+	auto current_player_hp = g.player.getHealth() - dmg;
 
 	g.player.setHealth(current_player_hp);
 
@@ -208,7 +206,7 @@ RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 
 void GameEngine::pickUpTreasure(Game & g) const
 {
-	int gold_found =  rand() % 49 + 1;
+	auto gold_found = generateRandNumber(1, 50);
 	std::string msg = "You found a treasure: " + std::to_string(gold_found) + " gold coins";
 	g.c_log.addToLog(msg);
 	g.player.addExp(10);
@@ -220,7 +218,7 @@ void GameEngine::pickUpTreasure(Game & g) const
 
 void GameEngine::lootCorpse(Game & g) const
 {
-	int gold_found = rand() % 19 + 1;
+	auto gold_found = generateRandNumber(1, 20);
 	std::string msg = "You looted corpse and found " + std::to_string(gold_found) + " gold coins";
 	g.player.addGold(gold_found);
 	g.c_log.addToLog(msg);
@@ -231,7 +229,7 @@ void GameEngine::lootCorpse(Game & g) const
 
 void GameEngine::randomItemFound(Game & g) const
 {
-	int chance = rand() % 6;
+	auto chance = generateRandNumber(0, 5);
 	std::string msg = "";
 
 	switch (chance)
@@ -272,7 +270,7 @@ void GameEngine::useHealthPotion(Player & p) const
 	{
 		if (p.removeBackpackItem(Item_Type::POTION) == true)
 		{
-			int new_health = p.getHealth() + 10;
+			auto new_health = p.getHealth() + 10;
 			if (new_health > p.getMaxHealth())
 				p.setHealth(p.getMaxHealth());
 			else

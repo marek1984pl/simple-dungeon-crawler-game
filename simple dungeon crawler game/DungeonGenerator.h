@@ -5,8 +5,8 @@
 
 #include "Tile.h"
 #include "Level.h"
+#include "utilities.h"
 
-#include <random>
 #include <iostream>
 
 enum { NORTH, SOUTH, WEST, EAST };
@@ -23,13 +23,13 @@ public:
 	DungeonGenerator(int width, int height);
 	~DungeonGenerator();
 
-	void generateRooms();
-	void generateDungeon(int numberOfTries);
 	std::array<std::array<Tile, 148>, 48> & getGeneratedMap();
+	
+	void generateRooms();
+	void generateMaze(int width, int height);
+	void generateDungeon(int numberOfTries);
 
-	int generateRand(int min, int max) const;
 	bool checkRoomsIntersection(Room r_A, Room r_B) const;
-	bool valueInRange(int value, int min, int max) const;
 
 private:
 	int width = 148;

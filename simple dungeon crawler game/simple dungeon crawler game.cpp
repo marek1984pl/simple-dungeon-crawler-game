@@ -6,6 +6,7 @@
 #include "GameEngine.h"
 #include "UserInterface.h"
 #include <memory>
+#include <random>
 
 int main()
 {
@@ -24,8 +25,8 @@ int main()
 
 	game->createPlayer("Zodgar");
 
-	//game->createRandomMonsters();
-	//game->createRandomTreasuers();
+	game->createRandomMonsters();
+	game->createRandomTreasuers();
 
 	engine->placeActor(game->player, *game);
 	
