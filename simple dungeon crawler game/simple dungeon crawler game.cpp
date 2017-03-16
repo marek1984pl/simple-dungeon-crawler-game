@@ -10,9 +10,15 @@
 
 int main()
 {
+	auto game_window_size_x = 200;
+	auto game_window_size_y = 50;
+
+	auto game_size_x = game_window_size_x - 50;
+	auto game_size_y = game_window_size_y;
+
 	std::unique_ptr<GameEngine> engine(new GameEngine);
-	std::unique_ptr<Game> game(new Game);
-	std::unique_ptr<UserInterface> ui(new UserInterface);
+	std::unique_ptr<Game> game(new Game(game_size_x, game_size_y));
+	std::unique_ptr<UserInterface> ui(new UserInterface(game_window_size_x, game_window_size_y));
 
 	RESULT result = RESULT::NONE;
 
@@ -23,15 +29,15 @@ int main()
 
 	ui->createGameInterface();
 
-	game->createPlayer("Zodgar");
+	//game->createPlayer("Zodgar");
 
-	game->createRandomMonsters();
-	game->createRandomTreasuers();
+	//game->createRandomMonsters(30, 50);
+	//game->createRandomTreasuers(20, 40);
 
-	engine->placeActor(game->player, *game);
+	//engine->placeActor(game->player, *game);
 	
-	for (auto& i : game->monsters[game->getCurrentLevel()])
-			engine->placeActor(i, *game);
+	//for (auto& i : game->monsters[game->getCurrentLevel()])
+	//	engine->placeActor(i, *game);
 	
 	char key_pressed;
 

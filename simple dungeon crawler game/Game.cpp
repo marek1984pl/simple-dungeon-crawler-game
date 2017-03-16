@@ -2,15 +2,20 @@
 #include "Game.h"
 
 
-Game::Game()
-{	
-	dungeon_generator = new DungeonGenerator(148, 48);
-	
-	//dungeon_generator->generateDungeon(500);
-	//levels[0].setMap(dungeon_generator->getGeneratedMap());
+Game::Game(int game_size_x, int game_size_y)
+{
+	game_size_min_x = 1;
+	game_size_min_y = 1;
+	game_size_max_x = game_size_x - 3;
+	game_size_max_y = game_size_y - 3;
 
-	for (auto i = 0; i < number_of_levels; ++i)
-		levels[i].loadLevelFromFile(148, 48, i + 1);
+	dungeon_generator = new DungeonGenerator(game_size_max_x, game_size_max_y);
+	
+	dungeon_generator->generateDungeon(500);
+	levels[0].setMap(dungeon_generator->getGeneratedMap());
+
+	//for (auto i = 0; i < number_of_levels; ++i)
+	//	levels[i].loadLevelFromFile(game_size_max_x, game_size_max_y, i + 1);
 }
 
 Game::~Game()
@@ -23,7 +28,7 @@ void Game::createPlayer(std::string name)
 	player.setName(name);
 }
 
-void Game::createRandomMonsters()
+void Game::createRandomMonsters(int min, int max)
 {
 	int random_type;
 	int pos_x, pos_y;
@@ -31,17 +36,14 @@ void Game::createRandomMonsters()
 	
 	for (auto i = 0; i < number_of_levels; i++)
 	{
-		quantity = generateRandNumber(30, 50);
+		quantity = generateRandNumber(min, max);
 		for (auto j = 0; j < quantity; ++j)
 		{
-			pos_x = generateRandNumber(2, 145);
-			pos_y = generateRandNumber(2, 45);
-
-			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true)
+			do 
 			{
-				pos_x = generateRandNumber(2, 145);
-				pos_y = generateRandNumber(2, 45);
-			}
+				pos_x = generateRandNumber(game_size_min_x, game_size_max_x);
+				pos_y = generateRandNumber(game_size_min_y, game_size_max_y);
+			} while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true);
 
 			random_type = generateRandNumber(0, 4);
 
@@ -72,24 +74,22 @@ void Game::createRandomMonsters()
 	}
 }
 
-void Game::createRandomTreasuers()
+void Game::createRandomTreasuers(int min, int max)
 {
 	int quantity;
 	int pos_x, pos_y;
 
 	for (auto i = 0; i < number_of_levels; i++)
 	{
-		quantity = generateRandNumber(20, 40);
+		quantity = generateRandNumber(min, max);
 		for (auto j = 0; j < quantity; ++j)
 		{
-			pos_x = generateRandNumber(2, 145);
-			pos_y = generateRandNumber(2, 45);
-
-			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true)
+			do 
 			{
-				pos_x = generateRandNumber(2, 145);
-				pos_y = generateRandNumber(2, 45);
-			}
+				pos_x = generateRandNumber(game_size_min_x, game_size_max_x);
+				pos_y = generateRandNumber(game_size_min_y, game_size_max_y);
+			} while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true);
+
 			levels[i].setMapTile(pos_x, pos_y, Tile(TILE_TYPE::TREASURE));
 		}
 	}

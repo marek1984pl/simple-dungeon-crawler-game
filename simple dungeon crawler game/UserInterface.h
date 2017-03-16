@@ -11,7 +11,7 @@ enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, 
 class UserInterface
 {
 public:
-	UserInterface();
+	UserInterface(int window_width, int window_height);
 	~UserInterface();
 
 	int createMainMenu();
@@ -41,9 +41,23 @@ public:
 	WINDOW * getMainMenuWindo() const;
 
 private:
-	WINDOW * mainWindow;
+	WINDOW * gameWindow;
 	WINDOW * playerWindow;
 	WINDOW * combatLogWindow;
 	WINDOW * mainMenuWindow;
+
+	int main_window_size_x;
+	int main_window_size_y;
+
+	int combat_log_window_size_x;
+	int combat_log_window_size_y;
+
+	int player_window_size_x;
+	int player_window_size_y;
+
+	int game_window_size_min_x;
+	int game_window_size_min_y;
+	int game_window_size_max_x;
+	int game_window_size_max_y;
 };
 

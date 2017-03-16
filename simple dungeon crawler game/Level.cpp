@@ -6,9 +6,17 @@ Level::Level()
 {
 }
 
+Level::Level(int width, int height)
+{
+	game_size_max_x = width;
+	game_size_max_y = height;
+}
+
 Level::Level(int width, int height, int lvl_number)
 {
-	loadLevelFromFile(width, height, lvl_number);
+	game_size_max_x = width;
+	game_size_max_y = height;
+	loadLevelFromFile(game_size_max_x, game_size_max_y, lvl_number);
 }
 
 Level::~Level()
@@ -17,12 +25,16 @@ Level::~Level()
 
 void Level::loadLevelFromFile(int width, int height, int lvl_number)
 {
+	// todo
+	game_size_max_x = width;  // temp solution
+	game_size_max_y = height; // temp solution
+
 	file.open(".\\data\\levels\\level_" + std::to_string(lvl_number) + ".txt");
 
 	char tile;
-	for (auto i = 0; i < height; i++)
+	for (auto i = 0; i <= game_size_max_y; i++) // todo
 	{
-		for (auto j = 0; j < width; j++)
+		for (auto j = 0; j <= game_size_max_x; j++) // todo
 		{			
 			file >> tile;
 			switch (tile)

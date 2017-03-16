@@ -2,14 +2,28 @@
 #include "UserInterface.h"
 
 
-UserInterface::UserInterface()
+UserInterface::UserInterface(int window_width, int window_height)
 {
-	initializeGraphics(200, 50);
+	main_window_size_x = window_width;
+	main_window_size_y = window_height;
+
+	combat_log_window_size_x = 50;
+	combat_log_window_size_y = 10; 
+
+	player_window_size_x = 50;
+	player_window_size_y = 40;
+
+	game_window_size_min_x = 1;
+	game_window_size_min_y = 1;
+	game_window_size_max_x = main_window_size_x - 50;
+	game_window_size_max_y = main_window_size_y;
+
+	initializeGraphics(main_window_size_x, main_window_size_y);
 }
 
 UserInterface::~UserInterface()
 {
-	delwin(mainWindow);
+	delwin(gameWindow);
 	delwin(playerWindow);
 	delwin(combatLogWindow);
 	delwin(mainMenuWindow);
@@ -22,7 +36,7 @@ int UserInterface::createMainMenu()
 	auto next_line = 0;
 	char option;
 
-	mainMenuWindow = newwin(50, 200, 0, 0);
+	mainMenuWindow = newwin(main_window_size_y, main_window_size_x, 0, 0);
 	setColor(COLOR::DARK_GREEN, mainMenuWindow);
 	box(mainMenuWindow, 0, 0);
 	setColor(COLOR::GREEN, mainMenuWindow);
@@ -31,14 +45,14 @@ int UserInterface::createMainMenu()
 	while(!fin.eof())
 	{
 		std::getline(fin, tmp);
-		printString(tmp.c_str(), (200 - tmp.size()) / 2, 7 + next_line++, COLOR::GREEN, mainMenuWindow);
+		printString(tmp.c_str(), (main_window_size_x - tmp.size()) / 2, 7 + next_line++, COLOR::GREEN, mainMenuWindow);
 	}
 
 	std::string opt1 = "1) New game";
 	std::string opt2 = "2) Quit game";
 
-	printString(opt1.c_str(), (200 - opt1.size()) / 2, 25, COLOR::RED, mainMenuWindow);
-	printString(opt2.c_str(), (200 - opt2.size()) / 2, 26, COLOR::RED, mainMenuWindow);
+	printString(opt1.c_str(), (main_window_size_x - opt1.size()) / 2, 25, COLOR::RED, mainMenuWindow);
+	printString(opt2.c_str(), (main_window_size_x - opt2.size()) / 2, 26, COLOR::RED, mainMenuWindow);
 
 	wrefresh(mainMenuWindow);
 
@@ -62,7 +76,7 @@ int UserInterface::createMainMenu()
 
 void UserInterface::createEndScreen(Game & g)
 {
-	mainMenuWindow = newwin(50, 200, 0, 0);
+	mainMenuWindow = newwin(main_window_size_y, main_window_size_x, 0, 0);
 	setColor(COLOR::DARK_GREEN, mainMenuWindow);
 	box(mainMenuWindow, 0, 0);
 	setColor(COLOR::GREEN, mainMenuWindow);
@@ -70,13 +84,13 @@ void UserInterface::createEndScreen(Game & g)
 	printString("GAME OVER!" , 190 / 2, 15, COLOR::RED, mainMenuWindow);
 
 	std::string msg = "You was level " + std::to_string(g.player.getLevel());
-	printString(msg.c_str(), (200 - msg.size()) / 2, 20, COLOR::RED, mainMenuWindow);
+	printString(msg.c_str(), (main_window_size_x - msg.size()) / 2, 20, COLOR::RED, mainMenuWindow);
 
 	msg = "You had " + std::to_string(g.player.getGold()) + " gold coins.";
-	printString(msg.c_str(), (200 - msg.size()) / 2, 21, COLOR::YELLOW, mainMenuWindow);
+	printString(msg.c_str(), (main_window_size_x - msg.size()) / 2, 21, COLOR::YELLOW, mainMenuWindow);
 
 	msg = "You died after " + std::to_string(g.getNumberOfMoves()) + " moves!";
-	printString(msg.c_str(), (200 - msg.size()) / 2, 22, COLOR::WHITE, mainMenuWindow);
+	printString(msg.c_str(), (main_window_size_x - msg.size()) / 2, 22, COLOR::WHITE, mainMenuWindow);
 
 	auto line = 30;
 
@@ -86,16 +100,16 @@ void UserInterface::createEndScreen(Game & g)
 	}
 
 	msg = "Press q to exit";
-	printString(msg.c_str(), (200 - msg.size()) / 2, 48, COLOR::MAGENTA, mainMenuWindow);
+	printString(msg.c_str(), (main_window_size_x - msg.size()) / 2, 48, COLOR::MAGENTA, mainMenuWindow);
 
 	wrefresh(mainMenuWindow);
 }
 
 void UserInterface::createGameInterface()
 {
-	mainWindow = newwin(50, 150, 0, 0);
-	playerWindow = newwin(40, 50, 0, 150);
-	combatLogWindow = newwin(10, 50, 40, 150);
+	gameWindow = newwin(game_window_size_max_y, game_window_size_max_x, 0, 0);
+	playerWindow = newwin(player_window_size_y, player_window_size_x, 0, 150);
+	combatLogWindow = newwin(combat_log_window_size_y, combat_log_window_size_x, 40, 150);
 }
 
 bool UserInterface::initializeGraphics(int window_width, int window_height) const
@@ -141,18 +155,18 @@ void UserInterface::clearScreen() const
 	wclear(getPlayerWindow());
 	wclear(getCombatLogWindow());
 
-	setColor(COLOR::WHITE, mainWindow);
+	setColor(COLOR::WHITE, gameWindow);
 	setColor(COLOR::WHITE, playerWindow);
 	setColor(COLOR::WHITE, combatLogWindow);
 
-	box(mainWindow, 0, 0);
+	box(gameWindow, 0, 0);
 	box(playerWindow, 0, 0);
 	box(combatLogWindow, 0, 0);
 }
 
 void UserInterface::refreshScreen() const
 {
-	wrefresh(mainWindow);
+	wrefresh(gameWindow);
 	wrefresh(playerWindow);
 	wrefresh(combatLogWindow);
 }
@@ -378,9 +392,9 @@ void UserInterface::updateScreen(Game & game) const
 	TILE_TYPE current_tile_type;
 	Tile current_tile;
 
-	for (auto i = 0; i < 48; i++)
+	for (auto i = game_window_size_min_y - 1; i < game_window_size_max_y - 2; i++)
 	{
-		for (auto j = 0; j < 148; j++)
+		for (auto j = game_window_size_min_x - 1; j < game_window_size_max_x - 2; j++)
 		{
 			current_tile = game.levels[game.getCurrentLevel()].getMapTile(j, i);
 			current_tile_type = current_tile.getType();
@@ -389,19 +403,19 @@ void UserInterface::updateScreen(Game & game) const
 			switch (current_tile_type)
 			{
 			case TILE_TYPE::PLAYER:
-				printChar('@', j + 1, i + 1, COLOR::CYAN, mainWindow);
+				printChar('@', j + 1, i + 1, COLOR::CYAN, gameWindow);
 				break;
 			case TILE_TYPE::WALL:
-				printChar('#', j + 1, i + 1, COLOR::GRAY, mainWindow);
+				printChar('#', j + 1, i + 1, COLOR::GRAY, gameWindow);
 				break;
 			case TILE_TYPE::WATER:
-				printChar('~', j + 1, i + 1, COLOR::BLUE, mainWindow);
+				printChar('~', j + 1, i + 1, COLOR::BLUE, gameWindow);
 				break;
 			case TILE_TYPE::TREE:
-				printChar('T', j + 1, i + 1, COLOR::GREEN, mainWindow);
+				printChar('T', j + 1, i + 1, COLOR::GREEN, gameWindow);
 				break;
 			case TILE_TYPE::EMPTY:
-				printChar('.', j + 1, i + 1, COLOR::BLACK, mainWindow);
+				printChar('.', j + 1, i + 1, COLOR::BLACK, gameWindow);
 				break;
 			case TILE_TYPE::MONSTER:
 				switch (game.getMonster(j, i).getMonsterType())
@@ -425,19 +439,19 @@ void UserInterface::updateScreen(Game & game) const
 					monster_type = 'M';
 					break;
 				}
-				printChar(monster_type, j + 1, i + 1, COLOR::RED, mainWindow);
+				printChar(monster_type, j + 1, i + 1, COLOR::RED, gameWindow);
 				break;
 			case TILE_TYPE::TREASURE:
-				printChar('$', j + 1, i + 1, COLOR::YELLOW, mainWindow);
+				printChar('$', j + 1, i + 1, COLOR::YELLOW, gameWindow);
 				break;
 			case TILE_TYPE::CORPSE:
-				printChar('x', j + 1, i + 1, COLOR::WHITE, mainWindow);
+				printChar('x', j + 1, i + 1, COLOR::WHITE, gameWindow);
 				break;
 			case TILE_TYPE::LEVEL_DOWN:
-				printChar('>', j + 1, i + 1, COLOR::MAGENTA, mainWindow);
+				printChar('>', j + 1, i + 1, COLOR::MAGENTA, gameWindow);
 				break;
 			case TILE_TYPE::LEVEL_UP:
-				printChar('<', j + 1, i + 1, COLOR::MAGENTA, mainWindow);
+				printChar('<', j + 1, i + 1, COLOR::MAGENTA, gameWindow);
 				break;
 			default:
 				break;
@@ -449,7 +463,7 @@ void UserInterface::updateScreen(Game & game) const
 
 WINDOW * UserInterface::getMainWindow() const
 {
-	return mainWindow;
+	return gameWindow;
 }
 
 WINDOW * UserInterface::getPlayerWindow() const

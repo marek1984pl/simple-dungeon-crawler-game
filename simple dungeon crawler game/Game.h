@@ -12,13 +12,13 @@
 class Game
 {
 public:
-	Game();
+	Game(int game_size_x, int game_size_y);
 	~Game();
 
 	void createPlayer(std::string name);
 
-	void createRandomMonsters();
-	void createRandomTreasuers();
+	void createRandomMonsters(int min, int max);
+	void createRandomTreasuers(int min, int max);
 
 	Monster & getMonster(int pos_x, int pos_y);
 	void deleteMonster(Monster & m);
@@ -42,5 +42,10 @@ private:
 	int number_of_levels = 5;
 	int current_level = 0;
 	int number_of_moves = 0;
+
+	int game_size_max_x;
+	int game_size_max_y;
+	int game_size_min_x;
+	int game_size_min_y;
 };
 

@@ -10,6 +10,7 @@ class Level
 {
 public:
 	Level();
+	Level(int width, int height);
 	Level(int width, int height, int lvl_number);
 	~Level();
 
@@ -22,5 +23,8 @@ public:
 protected:
 	std::array<std::array<Tile, 148>, 48> map;
 	std::ifstream file;
+
+	int game_size_max_x;
+	int game_size_max_y;
 };
 
