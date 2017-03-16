@@ -29,17 +29,8 @@ void DungeonGenerator::generateDungeon(int numberOfTries)
 	{
 		generateRooms();
 	}
-
-	//for (auto i = 1; i < game_size_max_y; i += 2)
-	//{
-	//	for (auto j = 1; j < game_size_max_x; j += 2)
-	//	{
-	//		if (map[i][j].getType() == TILE_TYPE::EMPTY)
-	//			continue;
-	//		else
-				generateMaze(1, 1);
-	//	}
-	//}
+	
+	generateMaze(1, 1);
 }
 
 std::array<std::array<Tile, 148>, 48> & DungeonGenerator::getGeneratedMap()

@@ -21,8 +21,8 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 	auto number_of_good_moves = 0;
 	int dir;
 
-	//do
-	for (int z = 0; z < 500; ++z)
+	do
+	//for (int z = 0; z < 500; ++z)
 	{
 		for (auto i = 0; i < 4; ++i)
 		{
@@ -80,11 +80,11 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 				break;
 			}
 
-			//map[cell.y][cell.x].setType(TILE_TYPE::EMPTY);
-			setMapTile(cell.x, cell.y, TILE_TYPE::EMPTY);
-			number_of_good_moves = 0;
 		}
-	} //while (!cells.empty());
+		//map[cell.y][cell.x].setType(TILE_TYPE::EMPTY);
+		setMapTile(cell.x, cell.y, TILE_TYPE::EMPTY);
+		number_of_good_moves = 0;
+	} while (!cells.empty());
 }
 
 bool MazeGenerator::canCurve(Cell cell, DIRECTION dir)
@@ -92,7 +92,7 @@ bool MazeGenerator::canCurve(Cell cell, DIRECTION dir)
 	auto new_x = move(dir, cell).x;
 	auto new_y = move(dir, cell).y;
 
-	if (getMapTile(new_x, new_y).getType() == TILE_TYPE::EMPTY || valueInRange(new_x, 1, game_size_max_x) == false || valueInRange(new_y, 1, game_size_max_y) == false)
+	if (getMapTile(new_x, new_y).getType() == TILE_TYPE::EMPTY || valueInRange(new_x, 1, game_size_max_x - 1) == false || valueInRange(new_y, 1, game_size_max_y - 1) == false)
 		return false;
 
 	if (dir == UP)

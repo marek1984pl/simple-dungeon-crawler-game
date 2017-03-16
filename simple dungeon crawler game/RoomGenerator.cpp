@@ -62,8 +62,8 @@ void RoomGenerator::generateRooms()
 
 bool RoomGenerator::checkRoomsIntersection(Room A, Room B) const
 {
-	auto x_overlap = valueInRange(A.x, B.x, B.x + B.width + 1) || valueInRange(B.x, A.x, A.x + A.width + 1);
-	auto y_overlap = valueInRange(A.y, B.y, B.y + B.height + 1) || valueInRange(B.y, A.y, A.y + A.height + 1);
+	auto x_overlap = valueInRange(A.x, B.x, B.x + B.width + 2) || valueInRange(B.x, A.x, A.x + A.width + 2);
+	auto y_overlap = valueInRange(A.y, B.y, B.y + B.height + 2) || valueInRange(B.y, A.y, A.y + A.height + 2);
 
 	return x_overlap && y_overlap;
 }
