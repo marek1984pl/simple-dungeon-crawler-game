@@ -3,7 +3,6 @@
 
 GameEngine::GameEngine()
 {
-	srand(static_cast<int>(time(nullptr)));
 }
 
 GameEngine::~GameEngine()
@@ -12,6 +11,8 @@ GameEngine::~GameEngine()
 
 bool GameEngine::placeActor(Actor & actor, Game & game) const
 {
+	// todo change this to remove typeid
+
 	Tile * temp;
 
 	if (typeid(actor) == typeid(Player))
@@ -30,18 +31,19 @@ bool GameEngine::placeActor(Actor & actor, Game & game) const
 
 RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 {
+	// todo change this to remove typeid
 	auto actor_is_player = false;
 	if (typeid(actor) == typeid(Player))
 		actor_is_player = true;
-	
-	std::string msg = "";
+
+	std::string msg;
 
 	actor.setOldPos(actor.getCurrentPosX(), actor.getCurrentPosY());
-	Tile old_tile = game.levels[game.getCurrentLevel()].getMapTile(actor.getCurrentPosX(), actor.getCurrentPosY());
+	auto old_tile = game.levels[game.getCurrentLevel()].getMapTile(actor.getCurrentPosX(), actor.getCurrentPosY());
 
 	if (direction == DIR::RAND)
 	{
-		int rand_dir = generateRandNumber(0, 7);
+		auto rand_dir = generateRandNumber(0, 7);
 		direction = static_cast<DIR>(rand_dir);
 	}
 
@@ -74,9 +76,9 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 	default:
 		break;
 	}
-	
-	Tile next_tile = game.levels[game.getCurrentLevel()].getMapTile(actor.getNewPosX(), actor.getNewPosY());
-	
+
+	auto next_tile = game.levels[game.getCurrentLevel()].getMapTile(actor.getNewPosX(), actor.getNewPosY());
+
 	if (next_tile.canCollide() == true && next_tile.canInteract() == false)
 	{
 		switch (next_tile.getType())
@@ -97,7 +99,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		}
 		return RESULT::NONE;
 	}
-	else if (next_tile.canCollide() == false && next_tile.canInteract() == true)
+	if (next_tile.canCollide() == false && next_tile.canInteract() == true)
 	{
 		switch (next_tile.getType())
 		{
@@ -141,7 +143,7 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 		}
 		return RESULT::NONE;
 	}
-	else if (next_tile.canCollide() == false && next_tile.canInteract() == false)
+	if (next_tile.canCollide() == false && next_tile.canInteract() == false)
 	{
 		actor.setCurrentPos(actor.getNewPosX(), actor.getNewPosY());
 		game.levels[game.getCurrentLevel()].setMapTile(actor.getNewPosX(), actor.getNewPosY(), old_tile);
@@ -152,8 +154,8 @@ RESULT GameEngine::MoveActor(Actor & actor, Game & game, DIR direction) const
 
 RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 {
-	std::string combat_msg = "";
-	
+	std::string combat_msg;
+
 	auto dmg = abs(monster.getArmor() - (generateRandNumber(0, 9) + g.player.getAttackPower()));
 	auto current_monster_hp = monster.getHealth() - dmg;
 
@@ -170,7 +172,7 @@ RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 
 		if (g.player.getExp() >= g.player.exp_to_lvl_up[g.player.getLevel() + 1])
 		{
-			int exp_to_move = g.player.getExp() - g.player.exp_to_lvl_up[g.player.getLevel() + 1];
+			auto exp_to_move = g.player.getExp() - g.player.exp_to_lvl_up[g.player.getLevel() + 1];
 			g.player.levelUp();
 			g.player.addExp(exp_to_move);
 		}
@@ -184,7 +186,7 @@ RESULT GameEngine::attack_monster(Game & g, Actor & monster) const
 
 RESULT GameEngine::attack_player(Game & g, Actor & monster) const
 {
-	std::string combat_msg = "";
+	std::string combat_msg;
 
 	auto dmg = abs(g.player.getArmor() - (generateRandNumber(0, 9) + monster.getAttackPower()));
 	auto current_player_hp = g.player.getHealth() - dmg;
@@ -230,7 +232,7 @@ void GameEngine::lootCorpse(Game & g) const
 void GameEngine::randomItemFound(Game & g) const
 {
 	auto chance = generateRandNumber(0, 5);
-	std::string msg = "";
+	std::string msg;
 
 	switch (chance)
 	{

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Monster.h"
 
-
 Monster::Monster()
 {
 }
@@ -15,10 +14,10 @@ Monster::Monster(std::string name, int lvl, MONSTER_TYPE t)
 	setDexterity(3);
 	setStamina(5);
 
-	setMaxHealth();
-	setArmor();
-	setAttackPower();
-	setHealth(getMaxHealth());
+	Monster::setMaxHealth();
+	Monster::setArmor();
+	Monster::setAttackPower();
+	Monster::setHealth(Monster::getMaxHealth());
 
 	monster_type = t;
 }
@@ -61,12 +60,10 @@ bool Monster::operator==(const Monster & m) const
 {
 	if (this->current_pos_x == m.current_pos_x && this->current_pos_y == m.current_pos_y)
 		return true;
-	else 
-		return false;
+	return false;
 }
 
 MONSTER_TYPE Monster::getMonsterType() const
 {
 	return monster_type;
 }
-

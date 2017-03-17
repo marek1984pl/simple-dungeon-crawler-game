@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "RoomGenerator.h"
 
-
 RoomGenerator::RoomGenerator()
 {
 }
@@ -67,7 +66,7 @@ bool RoomGenerator::checkRoomsIntersection(Room A, Room B) const
 	return x_overlap && y_overlap;
 }
 
-void RoomGenerator::makeRoomConection()
+void RoomGenerator::makeRoomConections()
 {
 	int room_min_x;
 	int room_min_y;
@@ -76,7 +75,10 @@ void RoomGenerator::makeRoomConection()
 
 	struct pos
 	{
-		pos(int x_, int y_) : x(x_), y(y_) {}
+		pos(int x_, int y_) : x(x_), y(y_)
+		{
+		}
+
 		int x, y;
 	};
 
@@ -120,8 +122,9 @@ void RoomGenerator::makeRoomConection()
 			tile_to_open = generateRandNumber(0, tiles.size() - 1);
 			setMapTile(tiles.at(tile_to_open).x, tiles.at(tile_to_open).y, TILE_TYPE::EMPTY);
 
-			additional_chance_to_open = generateRandNumber(0, 100);
-			if (valueInRange(additional_chance_to_open, 0, 50))
+			additional_chance_to_open = generateRandNumber(2, 5);
+			//if (valueInRange(additional_chance_to_open, 0, 50))
+			for (auto chance = 0; chance < additional_chance_to_open; ++chance)
 			{
 				tile_to_open = generateRandNumber(0, tiles.size() - 1);
 				setMapTile(tiles.at(tile_to_open).x, tiles.at(tile_to_open).y, TILE_TYPE::EMPTY);
@@ -135,10 +138,9 @@ void RoomGenerator::makeRoomConection()
 void RoomGenerator::removeDeadEnds()
 {
 	auto done = false;
-	auto number_of_exits = 0;
+	int number_of_exits;
 
 	while (done == false)
-	//for (auto i = 1; i < 100; ++i)
 	{
 		done = true;
 		for (auto y = 1; y < game_size_max_y; ++y)
@@ -148,7 +150,7 @@ void RoomGenerator::removeDeadEnds()
 				if (getMapTile(x, y).getType() == TILE_TYPE::EMPTY)
 				{
 					number_of_exits = checkNumberOfExits(x, y);
-					
+
 					if (number_of_exits == 1)
 					{
 						setMapTile(x, y, TILE_TYPE::WALL);
@@ -160,7 +162,7 @@ void RoomGenerator::removeDeadEnds()
 	}
 }
 
-int RoomGenerator::checkNumberOfExits(int x, int y)
+int RoomGenerator::checkNumberOfExits(int x, int y) const
 {
 	auto possible_routes = 0;
 

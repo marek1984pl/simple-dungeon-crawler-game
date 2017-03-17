@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "Level.h"
 
-
-Level::Level()
+Level::Level(): game_size_max_x(0), game_size_max_y(0)
 {
 }
 
@@ -26,7 +25,7 @@ Level::~Level()
 void Level::loadLevelFromFile(int width, int height, int lvl_number)
 {
 	// todo
-	game_size_max_x = width;  // temp solution
+	game_size_max_x = width; // temp solution
 	game_size_max_y = height; // temp solution
 
 	file.open(".\\data\\levels\\level_" + std::to_string(lvl_number) + ".txt");
@@ -35,7 +34,7 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 	for (auto i = 0; i <= game_size_max_y; i++) // todo
 	{
 		for (auto j = 0; j <= game_size_max_x; j++) // todo
-		{			
+		{
 			file >> tile;
 			switch (tile)
 			{
@@ -93,4 +92,3 @@ void Level::setMapTile(int x, int y, Tile t)
 {
 	map[y][x] = t;
 }
-

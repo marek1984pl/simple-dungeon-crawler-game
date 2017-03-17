@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Actor.h"
 
-
 Actor::Actor()
 {
 }
@@ -87,7 +86,7 @@ int Actor::getCurrentPosY() const
 }
 
 int Actor::getOldPosX() const
-{	
+{
 	return old_pos_x;
 }
 
@@ -117,4 +116,3 @@ void Actor::setNewPos(int pos_x, int pos_y)
 	new_pos_x = pos_x;
 	new_pos_y = pos_y;
 }
-

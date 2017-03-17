@@ -7,7 +7,7 @@
 DungeonGenerator::DungeonGenerator(int width, int height)
 {
 	// todo
-	game_size_max_x = width;  // temp solution
+	game_size_max_x = width; // temp solution
 	game_size_max_y = height; // temp solution
 
 	for (auto i = 0; i <= game_size_max_y; ++i)
@@ -29,18 +29,19 @@ void DungeonGenerator::generateDungeon(int numberOfTries)
 	{
 		generateRooms();
 	}
-	
+
 	int rand_x;
 	int rand_y;
 
-	do 
+	do
 	{
 		rand_x = generateRandNumber(3, game_size_max_x - 3);
 		rand_y = generateRandNumber(3, game_size_max_y - 3);
-	} while (getMapTile(rand_x, rand_y).getType() == TILE_TYPE::EMPTY);
+	}
+	while (getMapTile(rand_x, rand_y).getType() == TILE_TYPE::EMPTY);
 
 	generateMaze(rand_x, rand_y);
-	makeRoomConection();
+	makeRoomConections();
 	removeDeadEnds();
 }
 
@@ -48,4 +49,3 @@ std::array<std::array<Tile, 148>, 48> & DungeonGenerator::getGeneratedMap()
 {
 	return map;
 }
-

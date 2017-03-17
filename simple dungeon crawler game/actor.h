@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include "Item.h"
 
 class Actor
@@ -67,4 +65,3 @@ protected:
 	int new_pos_x;
 	int new_pos_y;
 };
-

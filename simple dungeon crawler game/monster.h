@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Actor.h"
 
 enum class MONSTER_TYPE { GOBLIN, WOLF, BANDIT, SNAKE, TROLL };
@@ -10,14 +11,14 @@ public:
 	Monster(std::string name, int lvl, MONSTER_TYPE t);
 	~Monster();
 
-	virtual void setHealth(int h) override;
-	virtual int getHealth() const override;
+	void setHealth(int h) override;
+	int getHealth() const override;
 
-	virtual void setMaxHealth() override;
-	virtual int getMaxHealth() const override;
+	void setMaxHealth() override;
+	int getMaxHealth() const override;
 
-	virtual void setAttackPower() override;
-	virtual void setArmor() override;
+	void setAttackPower() override;
+	void setArmor() override;
 
 	bool operator==(const Monster & m) const;
 
@@ -26,4 +27,3 @@ public:
 private:
 	MONSTER_TYPE monster_type;
 };
-

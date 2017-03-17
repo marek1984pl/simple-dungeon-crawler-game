@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
 
-
 Player::Player()
 {
 	for (auto i = 2; i < 100; ++i)
@@ -22,10 +21,10 @@ Player::Player()
 
 	refreshStats();
 
-	setMaxHealth();
-	setArmor();
-	setAttackPower();
-	setHealth(getMaxHealth());
+	Player::setMaxHealth();
+	Player::setArmor();
+	Player::setAttackPower();
+	Player::setHealth(Player::getMaxHealth());
 
 	for (auto i = 0; i < 2; i++)
 		addBackpackItem(Item("Health potion", Item_Type::POTION, 0, 0, 0, Quality::NORMAL));

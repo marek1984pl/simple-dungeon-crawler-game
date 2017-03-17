@@ -2,8 +2,7 @@
 #include "Item.h"
 #include "DungeonGenerator.h"
 
-
-Item::Item() : name(""), type(Item_Type::EMPTY), strength(0), dexterity(0), stamina(0), quality(Quality::NORMAL)
+Item::Item() : type(Item_Type::EMPTY), name(""), quality(Quality::NORMAL), strength(0), dexterity(0), stamina(0)
 {
 }
 
@@ -21,7 +20,7 @@ Item::Item(int game_level, int additional_chance)
 {
 	auto item_type = generateRandNumber(0, 7);
 	auto random_quality = generateRandNumber(0, 100) + additional_chance;
-	auto random_stat = 0;
+	int random_stat;
 
 	std::string item_name = "";
 	strength = 0;

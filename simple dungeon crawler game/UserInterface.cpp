@@ -1,14 +1,13 @@
 #include "stdafx.h"
 #include "UserInterface.h"
 
-
 UserInterface::UserInterface(int window_width, int window_height)
 {
 	main_window_size_x = window_width;
 	main_window_size_y = window_height;
 
 	combat_log_window_size_x = 50;
-	combat_log_window_size_y = 10; 
+	combat_log_window_size_y = 10;
 
 	player_window_size_x = 50;
 	player_window_size_y = 40;
@@ -42,7 +41,7 @@ int UserInterface::createMainMenu()
 	setColor(COLOR::GREEN, mainMenuWindow);
 
 	std::ifstream fin(".\\data\\logo.txt");
-	while(!fin.eof())
+	while (!fin.eof())
 	{
 		std::getline(fin, tmp);
 		printString(tmp.c_str(), (main_window_size_x - tmp.size()) / 2, 7 + next_line++, COLOR::GREEN, mainMenuWindow);
@@ -58,7 +57,7 @@ int UserInterface::createMainMenu()
 
 	fin.close();
 
-	while(true)
+	while (true)
 	{
 		option = getch();
 
@@ -81,7 +80,7 @@ void UserInterface::createEndScreen(Game & g)
 	box(mainMenuWindow, 0, 0);
 	setColor(COLOR::GREEN, mainMenuWindow);
 
-	printString("GAME OVER!" , 190 / 2, 15, COLOR::RED, mainMenuWindow);
+	printString("GAME OVER!", 190 / 2, 15, COLOR::RED, mainMenuWindow);
 
 	std::string msg = "You was level " + std::to_string(g.player.getLevel());
 	printString(msg.c_str(), (main_window_size_x - msg.size()) / 2, 20, COLOR::RED, mainMenuWindow);
@@ -220,7 +219,7 @@ void UserInterface::updateInterface(Game & g) const
 		printString(tmp.c_str(), 1, pos, COLOR::WHITE, playerWindow);
 		++pos;
 	}
-	
+
 	printString("STR / DEX / STA", 33, 19, COLOR::YELLOW, playerWindow);
 
 	printItemInfo(g.player.getItemFromInventory(Item_Type::WEAPON), 20);
@@ -315,7 +314,7 @@ void UserInterface::printLog(CombatLog c_log) const
 	}
 }
 
-void UserInterface::setColor(COLOR color, WINDOW * window) const
+void UserInterface::setColor(COLOR color, WINDOW* window) const
 {
 	switch (color)
 	{
@@ -398,7 +397,7 @@ void UserInterface::updateScreen(Game & game) const
 		{
 			current_tile = game.levels[game.getCurrentLevel()].getMapTile(j, i);
 			current_tile_type = current_tile.getType();
-			auto monster_type = 'M';
+			char monster_type;
 
 			switch (current_tile_type)
 			{

@@ -1,8 +1,7 @@
 #include "stdafx.h"
 #include "Tile.h"
 
-
-Tile::Tile() : can_collide(false), can_interact(false), tile_type(TILE_TYPE::EMPTY), occupied(false)
+Tile::Tile() : tile_type(TILE_TYPE::EMPTY), can_interact(false), can_collide(false), occupied(false)
 {
 }
 
@@ -14,7 +13,7 @@ Tile::Tile(const Tile & t)
 	occupied = t.occupied;
 }
 
-Tile::Tile(Tile && t)
+Tile::Tile(Tile&& t) noexcept
 {
 	tile_type = t.tile_type;
 	can_interact = t.can_interact;
@@ -72,7 +71,7 @@ Tile & Tile::operator=(const Tile & t)
 	return *this;
 }
 
-Tile & Tile::operator=(Tile && t)
+Tile & Tile::operator=(Tile && t) noexcept
 {
 	if (this == &t)
 		return *this;

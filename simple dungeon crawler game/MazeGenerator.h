@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stack>
+
 #include "Level.h"
 #include "utilities.h"
 #include "Tile.h"
@@ -12,8 +13,14 @@ class MazeGenerator : public virtual Level
 protected:
 	struct Cell
 	{
-		Cell() : x(0), y(0) {}
-		Cell(int x_, int y_) : x(x_), y(y_){}
+		Cell() : x(0), y(0)
+		{
+			
+		}
+		Cell(int x_, int y_) : x(x_), y(y_)
+		{
+			
+		}
 
 		int x, y;
 	};
@@ -28,4 +35,3 @@ public:
 	bool canMove(Cell cell, DIRECTION dir);
 	Cell move(DIRECTION dir, Cell cell);
 };
-

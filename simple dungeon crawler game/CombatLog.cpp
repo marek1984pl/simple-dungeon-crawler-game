@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CombatLog.h"
 
-
 CombatLog::CombatLog(int size) : log_size(size)
 {
 }

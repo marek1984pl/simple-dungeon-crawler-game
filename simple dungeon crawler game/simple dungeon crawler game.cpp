@@ -5,8 +5,8 @@
 
 #include "GameEngine.h"
 #include "UserInterface.h"
+
 #include <memory>
-#include <random>
 
 int main()
 {
@@ -22,23 +22,23 @@ int main()
 
 	RESULT result = RESULT::NONE;
 
-	//if (ui->createMainMenu() == -1)
+	if (ui->createMainMenu() == -1)
 	{
-	//	return 0;
+		return 0;
 	}
 
 	ui->createGameInterface();
 
-	//game->createPlayer("Zodgar");
+	game->createPlayer("Zodgar");
 
-	//game->createRandomMonsters(30, 50);
-	//game->createRandomTreasuers(20, 40);
+	game->createRandomMonsters(30, 50);
+	game->createRandomTreasures(20, 40);
 
-	//engine->placeActor(game->player, *game);
-	//
-	//for (auto& i : game->monsters[game->getCurrentLevel()])
-	//	engine->placeActor(i, *game);
-	
+	engine->placeActor(game->player, *game);
+
+	for (auto & i : game->monsters[game->getCurrentLevel()])
+		engine->placeActor(i, *game);
+
 	char key_pressed;
 
 	ui->clearScreen();
@@ -104,7 +104,7 @@ int main()
 		{
 			engine->useHealthPotion(game->player);
 		}
-		
+
 		else if (key_pressed == 'Q')
 		{
 			return 0;
@@ -121,6 +121,4 @@ int main()
 			}
 		}
 	}
-    return 0;
 }
-

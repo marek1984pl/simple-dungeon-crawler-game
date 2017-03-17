@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <memory>
 
 enum class Item_Type { WEAPON, HELMET, ARMOR, LEGS, SHOULDERS, GLOVES, BOOTS, SHIELD, POTION, EMPTY};
 enum class Quality { NORMAL, MAGIC, RARE, EPIC };
@@ -41,4 +40,3 @@ private:
 	int dexterity;
 	int stamina;
 };
-

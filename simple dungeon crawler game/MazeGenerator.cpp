@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "MazeGenerator.h"
 
-
 MazeGenerator::MazeGenerator()
 {
 }
@@ -53,10 +52,11 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 			do
 			{
 				// maze twisting factor
-				if (generateRandNumber(0, 100) < 30) 
+				if (generateRandNumber(0, 100) < 30)
 					dir = generateRandNumber(0, 3);
-			} while (canMove(cell, static_cast<DIRECTION>(dir)) == false);
-			
+			}
+			while (canMove(cell, static_cast<DIRECTION>(dir)) == false);
+
 			switch (dir)
 			{
 			case 0: // up
@@ -75,12 +75,15 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 				cell.x = cell.x + 1;
 				cell.y = cell.y;
 				break;
+			default: 
+				break;
+				;
 			}
-
 		}
 		setMapTile(cell.x, cell.y, TILE_TYPE::EMPTY);
 		number_of_good_moves = 0;
-	} while (!cells.empty());
+	}
+	while (!cells.empty());
 }
 
 bool MazeGenerator::canMove(Cell cell, DIRECTION dir)
@@ -109,7 +112,7 @@ bool MazeGenerator::canMove(Cell cell, DIRECTION dir)
 	{
 		if (map[new_y - 1][new_x - 1].getType() != TILE_TYPE::EMPTY && map[new_y + 1][new_x - 1].getType() != TILE_TYPE::EMPTY &&
 			map[new_y - 1][new_x].getType() != TILE_TYPE::EMPTY && map[new_y + 1][new_x].getType() != TILE_TYPE::EMPTY &&
-			map[new_y][new_x -1].getType() != TILE_TYPE::EMPTY)
+			map[new_y][new_x - 1].getType() != TILE_TYPE::EMPTY)
 			return true;
 	}
 	if (dir == RIGHT)

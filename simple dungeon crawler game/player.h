@@ -2,6 +2,7 @@
 
 #include <array>
 #include <map>
+
 #include "Actor.h"
 
 class Player : public Actor
@@ -20,14 +21,14 @@ public:
 
 	void levelUp();
 
-	virtual void setHealth(int h) override;
-	virtual int getHealth() const override;
+	void setHealth(int h) override;
+	int getHealth() const override;
 
-	virtual void setMaxHealth() override;
-	virtual int getMaxHealth() const override;
+	void setMaxHealth() override;
+	int getMaxHealth() const override;
 
-	virtual void setAttackPower() override;
-	virtual void setArmor() override;
+	void setAttackPower() override;
+	void setArmor() override;
 
 	int getTotalStrength() const;
 	int getTotalDexterity() const;
@@ -68,4 +69,3 @@ private:
 	std::array<Item, 5> backpack;
 	std::map<Item_Type, Item> inventory;
 };
-

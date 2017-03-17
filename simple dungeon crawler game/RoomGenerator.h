@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+
 #include "utilities.h"
 #include "Tile.h"
 #include "Level.h"
@@ -24,8 +25,7 @@ public:
 
 	bool checkRoomsIntersection(Room r_A, Room r_B) const;
 
-	void makeRoomConection();
+	void makeRoomConections();
 	void removeDeadEnds();
-	int checkNumberOfExits(int x, int y);
+	int checkNumberOfExits(int x, int y) const;
 };
-

@@ -18,10 +18,10 @@ public:
 	void createPlayer(std::string name);
 
 	void createRandomMonsters(int min, int max);
-	void createRandomTreasuers(int min, int max);
+	void createRandomTreasures(int min, int max);
 
 	Monster & getMonster(int pos_x, int pos_y);
-	void deleteMonster(Monster & m);
+	void deleteMonster(Monster& m);
 
 	void nextMove();
 	int getNumberOfMoves() const;
@@ -34,7 +34,7 @@ public:
 	Player player;
 	std::array<Level, 5> levels;
 	std::array<std::vector<Monster>, 5> monsters;
-	DungeonGenerator * dungeon_generator;
+	DungeonGenerator* dungeon_generator;
 
 	CombatLog c_log;
 
@@ -48,4 +48,3 @@ private:
 	int game_size_min_x;
 	int game_size_min_y;
 };
-

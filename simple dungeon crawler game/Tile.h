@@ -7,12 +7,12 @@ class Tile
 public:
 	Tile();
 	Tile(const Tile & t);
-	Tile(Tile && t);
+	Tile(Tile && t) noexcept;
 	Tile(TILE_TYPE t);
 	~Tile();
 
 	Tile & operator=(const Tile & t);
-	Tile & operator=(Tile && t);
+	Tile & operator=(Tile && t) noexcept;
 
 	bool canInteract() const;
 	bool canCollide() const;
@@ -30,4 +30,3 @@ private:
 	bool can_collide;
 	bool occupied;
 };
-

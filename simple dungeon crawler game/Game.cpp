@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 
-
 Game::Game(int game_size_x, int game_size_y)
 {
 	game_size_min_x = 1;
@@ -10,12 +9,23 @@ Game::Game(int game_size_x, int game_size_y)
 	game_size_max_y = game_size_y - 3;
 
 	dungeon_generator = new DungeonGenerator(game_size_max_x, game_size_max_y);
-	
+
 	dungeon_generator->generateDungeon(500);
 	levels[0].setMap(dungeon_generator->getGeneratedMap());
 
 	//for (auto i = 0; i < number_of_levels; ++i)
 	//	levels[i].loadLevelFromFile(game_size_max_x, game_size_max_y, i + 1);
+
+	int pos_x, pos_y;
+
+	do
+	{
+		pos_x = generateRandNumber(1, 5);
+		pos_y = generateRandNumber(1, 5);
+	}
+	while (levels[0].getMapTile(pos_x, pos_y).getOccupied() == true);
+
+	player.setCurrentPos(pos_x, pos_y);
 }
 
 Game::~Game()
@@ -33,17 +43,18 @@ void Game::createRandomMonsters(int min, int max)
 	int random_type;
 	int pos_x, pos_y;
 	int quantity;
-	
+
 	for (auto i = 0; i < number_of_levels; i++)
 	{
 		quantity = generateRandNumber(min, max);
 		for (auto j = 0; j < quantity; ++j)
 		{
-			do 
+			do
 			{
 				pos_x = generateRandNumber(game_size_min_x, game_size_max_x);
 				pos_y = generateRandNumber(game_size_min_y, game_size_max_y);
-			} while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true);
+			}
+			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true);
 
 			random_type = generateRandNumber(0, 4);
 
@@ -74,7 +85,7 @@ void Game::createRandomMonsters(int min, int max)
 	}
 }
 
-void Game::createRandomTreasuers(int min, int max)
+void Game::createRandomTreasures(int min, int max)
 {
 	int quantity;
 	int pos_x, pos_y;
@@ -84,11 +95,12 @@ void Game::createRandomTreasuers(int min, int max)
 		quantity = generateRandNumber(min, max);
 		for (auto j = 0; j < quantity; ++j)
 		{
-			do 
+			do
 			{
 				pos_x = generateRandNumber(game_size_min_x, game_size_max_x);
 				pos_y = generateRandNumber(game_size_min_y, game_size_max_y);
-			} while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true);
+			}
+			while (levels[i].getMapTile(pos_x, pos_y).getOccupied() == true);
 
 			levels[i].setMapTile(pos_x, pos_y, Tile(TILE_TYPE::TREASURE));
 		}
@@ -134,4 +146,3 @@ int Game::getNumberOfLevels() const
 {
 	return number_of_levels;
 }
-

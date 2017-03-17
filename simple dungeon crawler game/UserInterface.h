@@ -1,9 +1,7 @@
 #pragma once
 
 #include <curses.h>
-#include <fstream>
-#include <string>
-#include <iostream>
+
 #include "Game.h"
 
 enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, DARK_RED, DARK_GREEN, DARK_YELLOW, DARK_BLUE, DARK_MAGENTA, DARK_CYAN, DARK_GRAY };
@@ -60,4 +58,3 @@ private:
 	int game_window_size_max_x;
 	int game_window_size_max_y;
 };
-

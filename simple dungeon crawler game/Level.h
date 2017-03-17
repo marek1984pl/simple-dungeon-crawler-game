@@ -1,7 +1,7 @@
 #pragma once
 
 #include <fstream>
-#include "string"
+#include <string>
 #include <array>
 
 #include "Tile.h"
@@ -27,4 +27,3 @@ protected:
 	int game_size_max_x;
 	int game_size_max_y;
 };
-
