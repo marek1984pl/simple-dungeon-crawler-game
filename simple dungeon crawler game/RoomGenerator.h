@@ -23,5 +23,9 @@ public:
 	void generateRooms();
 
 	bool checkRoomsIntersection(Room r_A, Room r_B) const;
+
+	void makeRoomConection();
+	void removeDeadEnds();
+	int checkNumberOfExits(int x, int y);
 };
 

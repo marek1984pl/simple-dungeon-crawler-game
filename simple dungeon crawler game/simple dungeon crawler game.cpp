@@ -29,15 +29,15 @@ int main()
 
 	ui->createGameInterface();
 
-	game->createPlayer("Zodgar");
+	//game->createPlayer("Zodgar");
 
-	game->createRandomMonsters(30, 50);
-	game->createRandomTreasuers(20, 40);
+	//game->createRandomMonsters(30, 50);
+	//game->createRandomTreasuers(20, 40);
 
-	engine->placeActor(game->player, *game);
-	
-	for (auto& i : game->monsters[game->getCurrentLevel()])
-		engine->placeActor(i, *game);
+	//engine->placeActor(game->player, *game);
+	//
+	//for (auto& i : game->monsters[game->getCurrentLevel()])
+	//	engine->placeActor(i, *game);
 	
 	char key_pressed;
 

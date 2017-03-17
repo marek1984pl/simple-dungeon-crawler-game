@@ -25,7 +25,7 @@ public:
 	~MazeGenerator();
 
 	void generateMaze(int start_x, int start_y);
-	bool canCurve(Cell cell, DIRECTION dir);
+	bool canMove(Cell cell, DIRECTION dir);
 	Cell move(DIRECTION dir, Cell cell);
 };
 

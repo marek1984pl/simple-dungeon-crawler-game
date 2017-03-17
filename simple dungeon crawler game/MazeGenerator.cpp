@@ -19,26 +19,25 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 
 	Cell cell(start_x, start_y);
 	auto number_of_good_moves = 0;
-	int dir;
+	auto dir = 1;
 
 	do
-	//for (int z = 0; z < 500; ++z)
 	{
 		for (auto i = 0; i < 4; ++i)
 		{
-			if (canCurve(cell, static_cast<DIRECTION>(i)) == true)
+			if (canMove(cell, static_cast<DIRECTION>(i)) == true)
 				number_of_good_moves++;
 		}
 
 		if (number_of_good_moves == 1)
 		{
-			if (canCurve(cell, UP))
+			if (canMove(cell, UP))
 				cell.y = cell.y - 1;
-			else if (canCurve(cell, DOWN))
+			else if (canMove(cell, DOWN))
 				cell.y = cell.y + 1;
-			else if (canCurve(cell, LEFT))
+			else if (canMove(cell, LEFT))
 				cell.x = cell.x - 1;
-			else if (canCurve(cell, RIGHT))
+			else if (canMove(cell, RIGHT))
 				cell.x = cell.x + 1;
 		}
 		else if (number_of_good_moves == 0)
@@ -53,12 +52,10 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 
 			do
 			{
-				dir = generateRandNumber(0, 3);
-			} while (canCurve(cell, static_cast<DIRECTION>(dir)) == false);
-
-
-			// TODO
-			//
+				// maze twisting factor
+				if (generateRandNumber(0, 100) < 30) 
+					dir = generateRandNumber(0, 3);
+			} while (canMove(cell, static_cast<DIRECTION>(dir)) == false);
 			
 			switch (dir)
 			{
@@ -81,13 +78,12 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 			}
 
 		}
-		//map[cell.y][cell.x].setType(TILE_TYPE::EMPTY);
 		setMapTile(cell.x, cell.y, TILE_TYPE::EMPTY);
 		number_of_good_moves = 0;
 	} while (!cells.empty());
 }
 
-bool MazeGenerator::canCurve(Cell cell, DIRECTION dir)
+bool MazeGenerator::canMove(Cell cell, DIRECTION dir)
 {
 	auto new_x = move(dir, cell).x;
 	auto new_y = move(dir, cell).y;
