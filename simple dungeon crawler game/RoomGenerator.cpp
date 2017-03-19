@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RoomGenerator.h"
+#include <memory>
 
 RoomGenerator::RoomGenerator()
 {
@@ -15,7 +16,7 @@ void RoomGenerator::generateRooms()
 	auto room_width = generateRandNumber(7, 12);
 	auto room_height = generateRandNumber(3, 6);
 
-	auto * r = new Room;
+	std::unique_ptr<Room> r(new Room);
 	// todo change min and max room coords to avoid blind rooms when opening them to corridors
 	r->x = generateRandNumber(2, game_size_max_x - room_width - 1);
 	r->y = generateRandNumber(2, game_size_max_y - room_height - 1);
@@ -55,7 +56,6 @@ void RoomGenerator::generateRooms()
 			}
 		}
 	}
-	delete r;
 }
 
 bool RoomGenerator::checkRoomsIntersection(const Room A, const Room B) const

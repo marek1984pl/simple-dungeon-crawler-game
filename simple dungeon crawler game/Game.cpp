@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
+#include <memory>
 
 Game::Game(const int game_size_x, const int game_size_y)
 {
@@ -8,7 +9,7 @@ Game::Game(const int game_size_x, const int game_size_y)
 	game_size_max_x = game_size_x - 3;
 	game_size_max_y = game_size_y - 3;
 
-	dungeon_generator = new DungeonGenerator(game_size_max_x, game_size_max_y);
+	std::unique_ptr<DungeonGenerator> dungeon_generator(new DungeonGenerator(game_size_max_x, game_size_max_y));
 
 	dungeon_generator->generateDungeon(500);
 	levels[0].setMap(dungeon_generator->getGeneratedMap());
@@ -30,7 +31,6 @@ Game::Game(const int game_size_x, const int game_size_y)
 
 Game::~Game()
 {
-	delete dungeon_generator;
 }
 
 void Game::createPlayer(const std::string name)

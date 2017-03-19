@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameEngine.h"
+#include <memory>
 
 GameEngine::GameEngine()
 {
@@ -228,10 +229,9 @@ void GameEngine::randomItemFound(Game & g) const
 		g.c_log.addToLog(msg);
 		break;
 	case 1:
-		Item * rand_item = new Item(g.getCurrentLevel());
+		std::unique_ptr<Item> rand_item(new Item(g.getCurrentLevel()));
 		g.player.addInventoryItem(*rand_item);
 		msg = "Item found : " + rand_item->getName() + " " + std::to_string(rand_item->getStrength()) + " / " + std::to_string(rand_item->getDexterity()) + " / " + std::to_string(rand_item->getStamina());
-		delete rand_item;
 		g.c_log.addToLog(msg);
 		break;
 	}
