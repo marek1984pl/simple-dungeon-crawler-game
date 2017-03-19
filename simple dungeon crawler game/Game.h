@@ -12,21 +12,21 @@
 class Game
 {
 public:
-	Game(int game_size_x, int game_size_y);
+	Game(const int game_size_x, const int game_size_y);
 	~Game();
 
-	void createPlayer(std::string name);
+	void createPlayer(const std::string name);
 
-	void createRandomMonsters(int min, int max);
-	void createRandomTreasures(int min, int max);
+	void createRandomMonsters(const int min, const int max);
+	void createRandomTreasures(const int min, const int max);
 
-	Monster & getMonster(int pos_x, int pos_y);
+	Monster & getMonster(const int pos_x, const int pos_y);
 	void deleteMonster(Monster& m);
 
 	void nextMove();
 	int getNumberOfMoves() const;
 
-	void setCurrentLevel(int lvl);
+	void setCurrentLevel(const int lvl);
 	int getCurrentLevel() const;
 
 	int getNumberOfLevels() const;

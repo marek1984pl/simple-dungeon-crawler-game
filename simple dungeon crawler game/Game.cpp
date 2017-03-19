@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Game.h"
 
-Game::Game(int game_size_x, int game_size_y)
+Game::Game(const int game_size_x, const int game_size_y)
 {
 	game_size_min_x = 1;
 	game_size_min_y = 1;
@@ -18,10 +18,10 @@ Game::Game(int game_size_x, int game_size_y)
 
 	int pos_x, pos_y;
 
-	do
+	do // todo change this to prevent app not starting because there is no possibility to place player on empty cell
 	{
-		pos_x = generateRandNumber(1, 5);
-		pos_y = generateRandNumber(1, 5);
+		pos_x = generateRandNumber(1, 10);
+		pos_y = generateRandNumber(1, 10);
 	}
 	while (levels[0].getMapTile(pos_x, pos_y).getOccupied() == true);
 
@@ -33,12 +33,12 @@ Game::~Game()
 	delete dungeon_generator;
 }
 
-void Game::createPlayer(std::string name)
+void Game::createPlayer(const std::string name)
 {
 	player.setName(name);
 }
 
-void Game::createRandomMonsters(int min, int max)
+void Game::createRandomMonsters(const int min, const int max)
 {
 	int random_type;
 	int pos_x, pos_y;
@@ -85,7 +85,7 @@ void Game::createRandomMonsters(int min, int max)
 	}
 }
 
-void Game::createRandomTreasures(int min, int max)
+void Game::createRandomTreasures(const int min, const int max)
 {
 	int quantity;
 	int pos_x, pos_y;
@@ -107,7 +107,7 @@ void Game::createRandomTreasures(int min, int max)
 	}
 }
 
-Monster & Game::getMonster(int pos_x, int pos_y)
+Monster & Game::getMonster(const int pos_x, const int pos_y)
 {
 	for (auto & i : monsters[getCurrentLevel()])
 	{
@@ -132,7 +132,7 @@ int Game::getNumberOfMoves() const
 	return number_of_moves;
 }
 
-void Game::setCurrentLevel(int lvl)
+void Game::setCurrentLevel(const int lvl)
 {
 	current_level = lvl;
 }

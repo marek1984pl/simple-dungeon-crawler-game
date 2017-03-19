@@ -6,7 +6,7 @@ Item::Item() : type(Item_Type::EMPTY), name(""), quality(Quality::NORMAL), stren
 {
 }
 
-Item::Item(std::string n, Item_Type t, int str, int dex, int sta, Quality q)
+Item::Item(const std::string n, const Item_Type t, const int str, const int dex, const int sta, const Quality q)
 {
 	name = n;
 	type = t;
@@ -16,7 +16,7 @@ Item::Item(std::string n, Item_Type t, int str, int dex, int sta, Quality q)
 	quality = q;
 }
 
-Item::Item(int game_level, int additional_chance)
+Item::Item(const int game_level, const int additional_chance)
 {
 	auto item_type = generateRandNumber(0, 7);
 	auto random_quality = generateRandNumber(0, 100) + additional_chance;
@@ -164,32 +164,32 @@ Quality Item::getQuality() const
 	return quality;
 }
 
-void Item::setType(Item_Type t)
+void Item::setType(const Item_Type t)
 {
 	type = t;
 }
 
-void Item::setStrength(int str)
+void Item::setStrength(const int str)
 {
 	strength = str;
 }
 
-void Item::setDexterity(int dex)
+void Item::setDexterity(const int dex)
 {
 	dexterity = dex;
 }
 
-void Item::setStamina(int sta)
+void Item::setStamina(const int sta)
 {
 	stamina = sta;
 }
 
-void Item::setName(std::string n)
+void Item::setName(const std::string n)
 {
 	name = n;
 }
 
-void Item::setQuality(Quality q)
+void Item::setQuality(const Quality q)
 {
 	quality = q;
 }

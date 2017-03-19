@@ -9,10 +9,10 @@
 class DungeonGenerator : public RoomGenerator, public MazeGenerator
 {
 public:
-	DungeonGenerator(int width, int height);
+	DungeonGenerator(const int width, const int height);
 	~DungeonGenerator();
 
-	std::array<std::array<Tile, 148>, 48>& getGeneratedMap();
+	std::array<std::array<Tile, 148>, 48> & getGeneratedMap();
 
-	void generateDungeon(int numberOfTries);
+	void generateDungeon(const int numberOfTries);
 };

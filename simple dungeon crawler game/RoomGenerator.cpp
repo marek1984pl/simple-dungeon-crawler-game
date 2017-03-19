@@ -58,7 +58,7 @@ void RoomGenerator::generateRooms()
 	delete r;
 }
 
-bool RoomGenerator::checkRoomsIntersection(Room A, Room B) const
+bool RoomGenerator::checkRoomsIntersection(const Room A, const Room B) const
 {
 	auto x_overlap = valueInRange(A.x, B.x, B.x + B.width + 2) || valueInRange(B.x, A.x, A.x + A.width + 2);
 	auto y_overlap = valueInRange(A.y, B.y, B.y + B.height + 2) || valueInRange(B.y, A.y, A.y + A.height + 2);
@@ -162,7 +162,7 @@ void RoomGenerator::removeDeadEnds()
 	}
 }
 
-int RoomGenerator::checkNumberOfExits(int x, int y) const
+int RoomGenerator::checkNumberOfExits(const int x, const int y) const
 {
 	auto possible_routes = 0;
 

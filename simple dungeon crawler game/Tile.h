@@ -8,7 +8,7 @@ public:
 	Tile();
 	Tile(const Tile & t);
 	Tile(Tile && t) noexcept;
-	Tile(TILE_TYPE t);
+	Tile(const TILE_TYPE t, const char symbol = '?');
 	~Tile();
 
 	Tile & operator=(const Tile & t);
@@ -19,14 +19,19 @@ public:
 	TILE_TYPE getType() const;;
 	bool getOccupied() const;
 
-	void setCollide(bool s);
-	void setInteract(bool s);
-	void setType(TILE_TYPE t);
-	void setOccupied(bool oc);
+	void setCollide(const bool s);
+	void setInteract(const bool s);
+	void setType(const TILE_TYPE t);
+	void setOccupied(const bool oc);
+
+	char getTileSymbol() const;
+	void setTileSymbol(const char symbol);
 
 private:
 	TILE_TYPE tile_type;
 	bool can_interact;
 	bool can_collide;
 	bool occupied;
+
+	char tile_symbol;
 };

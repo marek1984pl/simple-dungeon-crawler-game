@@ -8,10 +8,10 @@ class Monster : public Actor
 {
 public:
 	Monster();
-	Monster(std::string name, int lvl, MONSTER_TYPE t);
+	Monster(const std::string name, const int lvl, const MONSTER_TYPE t);
 	~Monster();
 
-	void setHealth(int h) override;
+	void setHealth(const int h) override;
 	int getHealth() const override;
 
 	void setMaxHealth() override;

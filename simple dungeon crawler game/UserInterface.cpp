@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "UserInterface.h"
 
-UserInterface::UserInterface(int window_width, int window_height)
+UserInterface::UserInterface(const int window_width, const int window_height)
 {
 	main_window_size_x = window_width;
 	main_window_size_y = window_height;
@@ -73,7 +73,7 @@ int UserInterface::createMainMenu()
 	}
 }
 
-void UserInterface::createEndScreen(Game & g)
+void UserInterface::createEndScreen(const Game & g)
 {
 	mainMenuWindow = newwin(main_window_size_y, main_window_size_x, 0, 0);
 	setColor(COLOR::DARK_GREEN, mainMenuWindow);
@@ -111,7 +111,7 @@ void UserInterface::createGameInterface()
 	combatLogWindow = newwin(combat_log_window_size_y, combat_log_window_size_x, 40, 150);
 }
 
-bool UserInterface::initializeGraphics(int window_width, int window_height) const
+bool UserInterface::initializeGraphics(const int window_width, const int window_height) const
 {
 	initscr();
 	raw();
@@ -243,7 +243,7 @@ void UserInterface::updateInterface(Game & g) const
 	printString(g.getNumberOfMoves(), 44, 38, COLOR::WHITE, playerWindow);
 }
 
-void UserInterface::printItemInfo(Item & item, int line_to_print) const
+void UserInterface::printItemInfo(const Item & item, const int line_to_print) const
 {
 	std::string new_string;
 
@@ -305,7 +305,7 @@ void UserInterface::printItemInfo(Item & item, int line_to_print) const
 	}
 }
 
-void UserInterface::printLog(CombatLog c_log) const
+void UserInterface::printLog(const CombatLog c_log) const
 {
 	auto line = 1;
 	for (auto & i : c_log.getLog())
@@ -314,7 +314,7 @@ void UserInterface::printLog(CombatLog c_log) const
 	}
 }
 
-void UserInterface::setColor(COLOR color, WINDOW* window) const
+void UserInterface::setColor(const COLOR color, WINDOW * window) const
 {
 	switch (color)
 	{
@@ -368,19 +368,19 @@ void UserInterface::setColor(COLOR color, WINDOW* window) const
 	}
 }
 
-void UserInterface::printChar(char char_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const
+void UserInterface::printChar(const char char_to_print, const int pos_x, const int pos_y, const COLOR color, WINDOW * window) const
 {
 	setColor(color, window);
 	mvwprintw(window, pos_y, pos_x, "%c", char_to_print);
 }
 
-void UserInterface::printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const
+void UserInterface::printString(const char * string_to_print, const int pos_x, const int pos_y, const COLOR color, WINDOW * window) const
 {
 	setColor(color, window);
 	mvwprintw(window, pos_y, pos_x, "%s", string_to_print);
 }
 
-void UserInterface::printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const
+void UserInterface::printString(const int string_to_print, const int pos_x, const int pos_y, const COLOR color, WINDOW * window) const
 {
 	setColor(color, window);
 	mvwprintw(window, pos_y, pos_x, "%d", string_to_print);
@@ -397,15 +397,19 @@ void UserInterface::updateScreen(Game & game) const
 		{
 			current_tile = game.levels[game.getCurrentLevel()].getMapTile(j, i);
 			current_tile_type = current_tile.getType();
-			char monster_type;
+
+			// todo change symbols to tileSymbols
 
 			switch (current_tile_type)
 			{
 			case TILE_TYPE::PLAYER:
-				printChar('@', j + 1, i + 1, COLOR::CYAN, gameWindow);
+				printChar(game.player.getActorTile().getTileSymbol(), j + 1, i + 1, COLOR::CYAN, gameWindow);
+				break;
+			case TILE_TYPE::MONSTER:
+				printChar(game.getMonster(j, i).getActorTile().getTileSymbol(), j + 1, i + 1, COLOR::RED, gameWindow);
 				break;
 			case TILE_TYPE::WALL:
-				printChar('#', j + 1, i + 1, COLOR::GRAY, gameWindow);
+				printChar(game.levels.at(game.getCurrentLevel()).getMapTile(j, i).getTileSymbol(), j + 1, i + 1, COLOR::GRAY, gameWindow);
 				break;
 			case TILE_TYPE::WATER:
 				printChar('~', j + 1, i + 1, COLOR::BLUE, gameWindow);
@@ -416,34 +420,10 @@ void UserInterface::updateScreen(Game & game) const
 			case TILE_TYPE::EMPTY:
 				printChar('.', j + 1, i + 1, COLOR::BLACK, gameWindow);
 				break;
-			case TILE_TYPE::MONSTER:
-				switch (game.getMonster(j, i).getMonsterType())
-				{
-				case MONSTER_TYPE::GOBLIN:
-					monster_type = 'G';
-					break;
-				case MONSTER_TYPE::WOLF:
-					monster_type = 'W';
-					break;
-				case MONSTER_TYPE::BANDIT:
-					monster_type = 'B';
-					break;
-				case MONSTER_TYPE::SNAKE:
-					monster_type = 'S';
-					break;
-				case MONSTER_TYPE::TROLL:
-					monster_type = 'R';
-					break;
-				default:
-					monster_type = 'M';
-					break;
-				}
-				printChar(monster_type, j + 1, i + 1, COLOR::RED, gameWindow);
-				break;
 			case TILE_TYPE::TREASURE:
 				printChar('$', j + 1, i + 1, COLOR::YELLOW, gameWindow);
 				break;
-			case TILE_TYPE::CORPSE:
+			case TILE_TYPE::CORPSE: 
 				printChar('x', j + 1, i + 1, COLOR::WHITE, gameWindow);
 				break;
 			case TILE_TYPE::LEVEL_DOWN:

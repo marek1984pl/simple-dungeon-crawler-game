@@ -10,7 +10,7 @@ MazeGenerator::~MazeGenerator()
 {
 }
 
-void MazeGenerator::generateMaze(int start_x, int start_y)
+void MazeGenerator::generateMaze(const int start_x, const int start_y)
 {
 	// Implementation of the "growing tree" algorithm from here:
 	// http://www.astrolog.org/labyrnth/algrithm.htm.
@@ -86,7 +86,7 @@ void MazeGenerator::generateMaze(int start_x, int start_y)
 	while (!cells.empty());
 }
 
-bool MazeGenerator::canMove(Cell cell, DIRECTION dir)
+bool MazeGenerator::canMove(const Cell cell, const DIRECTION dir)
 {
 	auto new_x = move(dir, cell).x;
 	auto new_y = move(dir, cell).y;
@@ -126,7 +126,7 @@ bool MazeGenerator::canMove(Cell cell, DIRECTION dir)
 	return false;
 }
 
-MazeGenerator::Cell MazeGenerator::move(DIRECTION dir, Cell cell)
+MazeGenerator::Cell MazeGenerator::move(const DIRECTION dir, const Cell cell) const
 {
 	Cell new_cell;
 

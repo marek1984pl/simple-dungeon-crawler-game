@@ -5,13 +5,13 @@ Level::Level(): game_size_max_x(0), game_size_max_y(0)
 {
 }
 
-Level::Level(int width, int height)
+Level::Level(const int width, const int height)
 {
 	game_size_max_x = width;
 	game_size_max_y = height;
 }
 
-Level::Level(int width, int height, int lvl_number)
+Level::Level(const int width, const int height, const int lvl_number)
 {
 	game_size_max_x = width;
 	game_size_max_y = height;
@@ -22,7 +22,7 @@ Level::~Level()
 {
 }
 
-void Level::loadLevelFromFile(int width, int height, int lvl_number)
+void Level::loadLevelFromFile(const int width, const int height, const int lvl_number)
 {
 	// todo
 	game_size_max_x = width; // temp solution
@@ -39,35 +39,35 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 			switch (tile)
 			{
 			case '#':
-				map[i][j] = std::move(Tile(TILE_TYPE::WALL));
+				map[i][j] = Tile(TILE_TYPE::WALL);
 				break;
 			case '~':
-				map[i][j] = std::move(Tile(TILE_TYPE::WATER));
+				map[i][j] = Tile(TILE_TYPE::WATER);
 				break;
 			case 'T':
-				map[i][j] = std::move(Tile(TILE_TYPE::TREE));
+				map[i][j] = Tile(TILE_TYPE::TREE);
 				break;
 			case '@':
-				map[i][j] = std::move(Tile(TILE_TYPE::PLAYER));
+				map[i][j] = Tile(TILE_TYPE::PLAYER);
 				break;
 			case 'g':
 			case 's':
-				map[i][j] = std::move(Tile(TILE_TYPE::MONSTER));
+				map[i][j] = Tile(TILE_TYPE::MONSTER);
 				break;
 			case '*':
-				map[i][j] = std::move(Tile(TILE_TYPE::NPC));
+				map[i][j] = Tile(TILE_TYPE::NPC);
 				break;
 			case '$':
-				map[i][j] = std::move(Tile(TILE_TYPE::TREASURE));
+				map[i][j] = Tile(TILE_TYPE::TREASURE);
 				break;
 			case '.':
-				map[i][j] = std::move(Tile(TILE_TYPE::EMPTY));
+				map[i][j] = Tile(TILE_TYPE::EMPTY);
 				break;
 			case '>':
-				map[i][j] = std::move(Tile(TILE_TYPE::LEVEL_DOWN));
+				map[i][j] = Tile(TILE_TYPE::LEVEL_DOWN);
 				break;
 			case '<':
-				map[i][j] = std::move(Tile(TILE_TYPE::LEVEL_UP));
+				map[i][j] = Tile(TILE_TYPE::LEVEL_UP);
 				break;
 			default:
 				break;
@@ -78,17 +78,17 @@ void Level::loadLevelFromFile(int width, int height, int lvl_number)
 	file.close();
 }
 
-void Level::setMap(std::array<std::array<Tile, 148>, 48> m)
+void Level::setMap(std::array<std::array<Tile, 148>, 48> & m)
 {
 	map = m;
 }
 
-Tile Level::getMapTile(int x, int y) const
+Tile Level::getMapTile(const int x, const int y) const
 {
 	return map[y][x];
 }
 
-void Level::setMapTile(int x, int y, Tile t)
+void Level::setMapTile(const int x, const int y, const Tile t)
 {
 	map[y][x] = t;
 }

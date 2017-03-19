@@ -5,7 +5,7 @@ Monster::Monster()
 {
 }
 
-Monster::Monster(std::string name, int lvl, MONSTER_TYPE t)
+Monster::Monster(const std::string name, const int lvl, const MONSTER_TYPE t)
 {
 	setName(name);
 	setLevel(lvl);
@@ -20,13 +20,34 @@ Monster::Monster(std::string name, int lvl, MONSTER_TYPE t)
 	Monster::setHealth(Monster::getMaxHealth());
 
 	monster_type = t;
+
+	switch (monster_type)
+	{
+	case MONSTER_TYPE::GOBLIN: 
+		setActorTile(TILE_TYPE::MONSTER, 'G');
+		break;
+	case MONSTER_TYPE::WOLF:
+		setActorTile(TILE_TYPE::MONSTER, 'W');
+		break;
+	case MONSTER_TYPE::BANDIT:
+		setActorTile(TILE_TYPE::MONSTER, 'B');
+		break;
+	case MONSTER_TYPE::SNAKE:
+		setActorTile(TILE_TYPE::MONSTER, 'S');
+		break;
+	case MONSTER_TYPE::TROLL: 
+		setActorTile(TILE_TYPE::MONSTER, 'R');
+		break;
+	default:
+		setActorTile(TILE_TYPE::MONSTER);
+	}
 }
 
 Monster::~Monster()
 {
 }
 
-void Monster::setHealth(int h)
+void Monster::setHealth(const int h)
 {
 	health = h;
 }

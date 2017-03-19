@@ -4,7 +4,7 @@
 // Alghorithm based on article from:
 // http://journal.stuffwithstuff.com/2014/12/21/rooms-and-mazes/
 
-DungeonGenerator::DungeonGenerator(int width, int height)
+DungeonGenerator::DungeonGenerator(const int width, const int height)
 {
 	// todo
 	game_size_max_x = width; // temp solution
@@ -14,7 +14,7 @@ DungeonGenerator::DungeonGenerator(int width, int height)
 	{
 		for (auto j = 0; j <= game_size_max_x; ++j)
 		{
-			map[i][j] = std::move(Tile(TILE_TYPE::WALL));
+			map[i][j] = Tile(TILE_TYPE::WALL);
 		}
 	}
 }
@@ -23,7 +23,7 @@ DungeonGenerator::~DungeonGenerator()
 {
 }
 
-void DungeonGenerator::generateDungeon(int numberOfTries)
+void DungeonGenerator::generateDungeon(const int numberOfTries)
 {
 	for (auto i = 0; i < numberOfTries; ++i)
 	{

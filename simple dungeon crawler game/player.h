@@ -14,14 +14,14 @@ public:
 	int getGold() const;
 	int getExp() const;
 
-	void setGold(int g);
-	void addGold(int g);
-	void setExp(int xp);
-	void addExp(int xp);
+	void setGold(const int g);
+	void addGold(const int g);
+	void setExp(const int xp);
+	void addExp(const int xp);
 
 	void levelUp();
 
-	void setHealth(int h) override;
+	void setHealth(const int h) override;
 	int getHealth() const override;
 
 	void setMaxHealth() override;
@@ -40,16 +40,16 @@ public:
 
 	std::array<int, 100> exp_to_lvl_up;
 
-	void setDead(bool d);
+	void setDead(const bool d);
 	bool isDead() const;
 
-	bool addBackpackItem(Item & item);
-	bool removeBackpackItem(Item_Type t);
+	bool addBackpackItem(const Item & item);
+	bool removeBackpackItem(const Item_Type t);
 	std::array<Item, 5> & getBackpack();
 
 	std::map<Item_Type, Item> & getInventory();
-	bool addInventoryItem(Item & item);
-	Item & getItemFromInventory(Item_Type slot);
+	bool addInventoryItem(const Item & item);
+	Item & getItemFromInventory(const Item_Type slot);
 
 	void refreshStats();
 

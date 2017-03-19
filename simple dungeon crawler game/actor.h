@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Item.h"
+#include "Tile.h"
 
 class Actor
 {
@@ -11,10 +12,10 @@ public:
 	std::string getName() const;
 	int getLevel() const;
 
-	void setName(std::string n);
-	void setLevel(int lvl);
+	void setName(const std::string n);
+	void setLevel(const int lvl);
 
-	virtual void setHealth(int h) = 0;
+	virtual void setHealth(const int h) = 0;
 	virtual void setMaxHealth() = 0;
 	virtual int getHealth() const = 0;
 	virtual int getMaxHealth() const = 0;
@@ -27,9 +28,9 @@ public:
 
 	virtual void setAttackPower() = 0;
 	virtual void setArmor() = 0;
-	void setStrength(int str);
-	void setDexterity(int dex);
-	void setStamina(int sta);
+	void setStrength(const int str);
+	void setDexterity(const int dex);
+	void setStamina(const int sta);
 
 	int getOldPosX() const;
 	int getOldPosY() const;
@@ -40,9 +41,12 @@ public:
 	int getNewPosX() const;
 	int getNewPosY() const;
 
-	void setOldPos(int pos_x, int pos_y);
-	void setCurrentPos(int pos_x, int pos_y);
-	void setNewPos(int pos_x, int pos_y);
+	void setOldPos(const int pos_x, const int pos_y);
+	void setCurrentPos(const int pos_x, const int pos_y);
+	void setNewPos(const int pos_x, const int pos_y);
+
+	Tile getActorTile() const;
+	void setActorTile(const Tile & tile, const char symbol = '?');
 
 protected:
 	std::string name;
@@ -64,4 +68,6 @@ protected:
 
 	int new_pos_x;
 	int new_pos_y;
+
+	Tile actor_tile;
 };

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CombatLog.h"
 
-CombatLog::CombatLog(int size) : log_size(size)
+CombatLog::CombatLog(const int size) : log_size(size)
 {
 }
 
@@ -14,7 +14,7 @@ std::deque<std::string> CombatLog::getLog() const
 	return combat_log;
 }
 
-void CombatLog::addToLog(std::string info)
+void CombatLog::addToLog(const std::string & info)
 {
 	if (combat_log.size() < 8)
 		combat_log.push_back(info);

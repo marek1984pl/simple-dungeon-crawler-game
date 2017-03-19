@@ -9,14 +9,14 @@ enum class COLOR { BLACK, GRAY, RED, GREEN, YELLOW, BLUE, MAGENTA, CYAN, WHITE, 
 class UserInterface
 {
 public:
-	UserInterface(int window_width, int window_height);
+	UserInterface(const int window_width, const int window_height);
 	~UserInterface();
 
 	int createMainMenu();
-	void createEndScreen(Game & g);
+	void createEndScreen(const Game & g);
 	void createGameInterface();
 
-	bool initializeGraphics(int window_width, int window_height) const;
+	bool initializeGraphics(const int window_width, const int window_height) const;
 
 	void clearScreen() const;
 	void updateScreen(Game & game) const;
@@ -24,14 +24,14 @@ public:
 
 	void updateInterface(Game & g) const;
 
-	void printItemInfo(Item & item, int line_to_print) const;
-	void printLog(CombatLog c_log) const;
+	void printItemInfo(const Item & item, const int line_to_print) const;
+	void printLog(const CombatLog c_log) const;
 
-	void setColor(COLOR color, WINDOW * window) const;
+	void setColor(const COLOR color, WINDOW * window) const;
 
-	void printChar(char char_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
-	void printString(const char * string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
-	void printString(int string_to_print, int pos_x, int pos_y, COLOR color, WINDOW * window) const;
+	void printChar(const char char_to_print, const int pos_x, const int pos_y, const COLOR color, WINDOW * window) const;
+	void printString(const char * string_to_print, const int pos_x, const int pos_y, const COLOR color, WINDOW * window) const;
+	void printString(const int string_to_print, const int pos_x, const int pos_y, const COLOR color, WINDOW * window) const;
 
 	WINDOW * getMainWindow() const;
 	WINDOW * getPlayerWindow() const;

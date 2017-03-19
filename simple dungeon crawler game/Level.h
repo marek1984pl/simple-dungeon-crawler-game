@@ -10,18 +10,18 @@ class Level
 {
 public:
 	Level();
-	Level(int width, int height);
-	Level(int width, int height, int lvl_number);
+	Level(const int width, const int height);
+	Level(const int width, const int height, const int lvl_number);
 	~Level();
 
-	void loadLevelFromFile(int width, int height, int lvl_number);
-	void setMap(std::array<std::array<Tile, 148>, 48> m);
+	void loadLevelFromFile(const int width, const int height, const int lvl_number);
+	void setMap(std::array<std::array<Tile, 148>, 48> & m);
 
-	Tile getMapTile(int x, int y) const;
-	void setMapTile(int x, int y, Tile t);
+	Tile getMapTile(const int x, const int y) const;
+	void setMapTile(const int x, const int y, Tile t);
 
 protected:
-	std::array<std::array<Tile, 148>, 48> map;
+	std::array<std::array<Tile, 148>, 48> map; // todo move this from stack to heap
 	std::ifstream file;
 
 	int game_size_max_x;

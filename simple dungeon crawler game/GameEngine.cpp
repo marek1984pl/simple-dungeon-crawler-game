@@ -11,21 +11,7 @@ GameEngine::~GameEngine()
 
 bool GameEngine::placeActor(Actor & actor, Game & game) const
 {
-	// todo change this to remove typeid
-
-	Tile * temp;
-
-	if (typeid(actor) == typeid(Player))
-		temp = new Tile(TILE_TYPE::PLAYER);
-	else if (typeid(actor) == typeid(Monster))
-		temp = new Tile(TILE_TYPE::MONSTER);
-	else
-		temp = new Tile(TILE_TYPE::NPC);
-
-	game.levels[game.getCurrentLevel()].setMapTile(actor.getCurrentPosX(), actor.getCurrentPosY(), *temp);
-
-	delete temp;
-
+	game.levels[game.getCurrentLevel()].setMapTile(actor.getCurrentPosX(), actor.getCurrentPosY(), actor.getActorTile());
 	return true;
 }
 

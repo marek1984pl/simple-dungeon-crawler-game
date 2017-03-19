@@ -17,7 +17,7 @@ protected:
 		{
 			
 		}
-		Cell(int x_, int y_) : x(x_), y(y_)
+		Cell(const int x_, const int y_) : x(x_), y(y_)
 		{
 			
 		}
@@ -31,7 +31,7 @@ public:
 	MazeGenerator();
 	~MazeGenerator();
 
-	void generateMaze(int start_x, int start_y);
-	bool canMove(Cell cell, DIRECTION dir);
-	Cell move(DIRECTION dir, Cell cell);
+	void generateMaze(const int start_x, const int start_y);
+	bool canMove(const Cell cell, const DIRECTION dir);
+	Cell move(const DIRECTION dir, const Cell cell) const;
 };

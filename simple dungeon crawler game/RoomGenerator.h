@@ -23,9 +23,10 @@ public:
 
 	void generateRooms();
 
-	bool checkRoomsIntersection(Room r_A, Room r_B) const;
+	bool checkRoomsIntersection(const Room r_A, const Room r_B) const;
 
 	void makeRoomConections();
 	void removeDeadEnds();
-	int checkNumberOfExits(int x, int y) const;
+	int checkNumberOfExits(const int x, const int y) const;
+	// todo add room decorator function e.g. trees in room, water etc.
 };

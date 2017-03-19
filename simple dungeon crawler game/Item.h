@@ -9,8 +9,8 @@ class Item
 {
 public:
 	Item();
-	Item(std::string n, Item_Type t, int str, int dex, int sta, Quality q);
-	Item(int game_level, int additional_chance = 0);
+	Item(const std::string n, const Item_Type t, const int str, const int dex, const int sta, const Quality q);
+	Item(const int game_level, const int additional_chance = 0);
 	~Item();
 
 	Item_Type getType() const;
@@ -21,12 +21,12 @@ public:
 	std::string getName() const;
 	Quality getQuality() const;
 
-	void setType(Item_Type t);
-	void setStrength(int str);
-	void setDexterity(int dex);
-	void setStamina(int sta);
-	void setName(std::string n);
-	void setQuality(Quality q);
+	void setType(const Item_Type t);
+	void setStrength(const int str);
+	void setDexterity(const int dex);
+	void setStamina(const int sta);
+	void setName(const std::string n);
+	void setQuality(const Quality q);
 
 	int calculateItemStats() const;
 

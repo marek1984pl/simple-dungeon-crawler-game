@@ -15,6 +15,8 @@ Player::Player()
 	setExp(0);
 	setGold(0);
 
+	setActorTile(TILE_TYPE::PLAYER);
+
 	setCurrentPos(1, 1);
 	setOldPos(1, 1);
 	setNewPos(1, 1);
@@ -47,22 +49,22 @@ int Player::getExp() const
 	return exp;
 }
 
-void Player::setGold(int g)
+void Player::setGold(const int g)
 {
 	gold = g;
 }
 
-void Player::addGold(int g)
+void Player::addGold(const int g)
 {
 	gold += g;
 }
 
-void Player::setExp(int xp)
+void Player::setExp(const int xp)
 {
 	exp = xp;
 }
 
-void Player::addExp(int xp)
+void Player::addExp(const int xp)
 {
 	exp += xp;
 }
@@ -85,7 +87,7 @@ void Player::levelUp()
 	refreshStats();
 }
 
-void Player::setHealth(int h)
+void Player::setHealth(const int h)
 {
 	health = h;
 }
@@ -145,7 +147,7 @@ int Player::getStaminaFromItems() const
 	return stamina_from_items;
 }
 
-void Player::setDead(bool d)
+void Player::setDead(const bool d)
 {
 	is_dead = d;
 }
@@ -155,7 +157,7 @@ bool Player::isDead() const
 	return is_dead;
 }
 
-bool Player::addBackpackItem(Item & item)
+bool Player::addBackpackItem(const Item & item)
 {
 	for (auto i = backpack.begin(); i != backpack.end(); ++i)
 	{
@@ -168,7 +170,7 @@ bool Player::addBackpackItem(Item & item)
 	return false;
 }
 
-bool Player::removeBackpackItem(Item_Type t)
+bool Player::removeBackpackItem(const Item_Type t)
 {
 	Item empty;
 
@@ -193,7 +195,7 @@ std::map<Item_Type, Item>& Player::getInventory()
 	return inventory;
 }
 
-bool Player::addInventoryItem(Item & item)
+bool Player::addInventoryItem(const Item & item)
 {
 	if (inventory[item.getType()].calculateItemStats() <= item.calculateItemStats())
 		inventory[item.getType()] = item;
@@ -202,7 +204,7 @@ bool Player::addInventoryItem(Item & item)
 	return true;
 }
 
-Item & Player::getItemFromInventory(Item_Type slot)
+Item & Player::getItemFromInventory(const Item_Type slot)
 {
 	return inventory[slot];
 }

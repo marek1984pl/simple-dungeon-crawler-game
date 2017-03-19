@@ -5,11 +5,11 @@
 class CombatLog
 {
 public:
-	CombatLog(int size = 8);
+	CombatLog(const int size = 8);
 	~CombatLog();
 
 	std::deque<std::string> getLog() const;
-	void addToLog(std::string info);
+	void addToLog(const std::string & info);
 
 private:
 	std::deque<std::string> combat_log;
